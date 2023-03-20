@@ -28,9 +28,11 @@ toggleDropdown(
     document.querySelector('.dropdown-notification')
 );
 
-
 // Show/hide the mobile menu
 toggleDropdown(
     document.querySelector('.btn-menu-mobile'),
     document.querySelector('.menu-mobile')
 );
+
+
+

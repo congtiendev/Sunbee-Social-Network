@@ -57,8 +57,10 @@ module.exports = {
         'source-serif-pro': ['Source Serif Pro', 'sans-serif'],
         'pt-serif': ['PT Serif', 'sans-serif'],
         'inter': ['Inter', 'sans-serif'],
+        'quick-sand': ['Quick Sand', 'sans-serif'],
       }
     },
   },
-  plugins: [require("tw-elements/dist/plugin")],
+  plugins: [require("tw-elements/dist/plugin"
+  ), require("daisyui")],
 }
