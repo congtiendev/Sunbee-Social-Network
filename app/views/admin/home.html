@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trang chủ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Dongle:wght@300;400;700&family=Inconsolata:wght@300;400&family=Inter&family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Lobster&family=Luxurious+Roman&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mouse+Memoirs&family=Neonderthaw&family=Nunito:wght@200;300&family=Open+Sans:wght@300&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,600;1,800;1,900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../../../resources/css/tailwind.css" />
+  <link rel="stylesheet" href="../../../resources/css/base.css" />
+</head>
+
+<body>
+  <div id="wrapper" class="bg-indigo-800 font-montserrat">
+    <div class="flex gap-5 max-w-screen-2xl min-w-[320px] h-full lg:p-5 mx-auto">
+      <aside class="sidebar overflow-y-auto w-[85px] hidden__scrollbar hidden lg:block md:py-2">
+        <!-- menu pc -->
+        <nav class="w-full sidebar__pc">
+          <ul class="flex flex-col items-center justify-center h-full gap-5 p-4 rounded-xl glassmorphism">
+            <li>
+              <div class="w-16 h-auto mx-auto logo">
+                <img data-tilt data-tilt-scale="1.1" src="../../../resources/images/logo.png" alt="logo"
+                  class="w-full logo-img" />
+              </div>
+            </li>
+            <li class="flex items-center rounded-xl">
+              <img data-tilt data-tilt-scale="1.1" class="w-9 h-9 menu-btn"
+                src="../../../resources/images/home-icon.png" alt="" />
+            </li>
+            <li class="flex items-center">
+              <img data-tilt data-tilt-scale="1.1" class="w-7 h-7" src="../../../resources/images/trending-icon.png"
+                alt="" />
+            </li>
+
+            <li class="flex items-center">
+              <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="../../../resources/images/post-icon.png"
+                alt="" />
+            </li>
+            <li class="flex items-center">
+              <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="../../../resources/images/account-icon.png"
+                alt="" />
+            </li>
+            <li class="flex items-center">
+              <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="../../../resources/images/user-icon.png"
+                alt="" />
+            </li>
+            <li class="flex items-center">
+              <img data-tilt data-tilt-scale="1.1" class="w-8 h-8" src="../../../resources/images/contact-icon.png"
+                alt="" />
+            </li>
+            <li class="flex items-center">
+              <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="../../../resources/images/statistical-icon.png"
+                alt="" />
+            </li>
+            <li class="flex items-center">
+              <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="../../../resources/images/ads-icon.png"
+                alt="" />
+            </li>
+            <li class="flex items-center">
+              <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="../../../resources/images/setting-icon.png"
+                alt="" />
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <article class="flex flex-col w-full gap-2 lg:rounded-3xl">
+        <header class="flex items-center justify-between w-full p-2 border-b-2 sm:px-5 sm:py-3 rounded-xl">
+          <!-- -------------------btn menu mobile--------------------------- -->
+          <div class="relative btn-menu-mobile lg:hidden">
+            <img data-tilt data-tilt-scale="1.1" src="../../../resources/images/menu-mobile-icon.png" alt=""
+              class="w-6 h-6" />
+            <!-- ----------------------------list-menu mobile--------------------------- -->
+            <nav
+              class="z-50 menu-mobile max-h-[400px] overflow-y-auto hidden__scrollbar hidden animate-down w-[190px] rounded-xl p-5 absolute border claymorphism-white">
+              <div class="w-20 h-auto mx-auto mb-3 logo">
+                <img src="../../../resources/images/logo.png" alt="logo" class="w-full logo-img" />
+              </div>
+              <ul class="flex flex-col gap-4 z-1000">
+                <li class="flex items-center gap-3">
+                  <img class="w-7 h-7" src="../../../resources/images/home-icon.png" alt="" />
+                  <a href="#" class="text-xs font-semibold text-gray-900 whitespace-nowrap">Trang chủ</a>
+                </li>
+                <li class="flex items-center gap-3">
+                  <img class="h-6 w-7" src="../../../resources/images/trending-icon.png" alt="" />
+                  <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Xu hướng</a>
+                </li>
+
+                <li class="flex items-center gap-3">
+                  <img class="w-7 h-7" src="../../../resources/images/post-icon.png" alt="" />
+                  <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Bài đăng</a>
+                </li>
+                <li class="flex items-center gap-3">
+                  <img class="w-7 h-7" src="../../../resources/images/account-icon.png" alt="" />
+                  <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Tài khoản</a>
+                </li>
+                <li class="flex items-center gap-3">
+                  <img class="w-7 h-7" src="../../../resources/images/user-icon.png" alt="" />
+                  <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Người dùng</a>
+                </li>
+                <li class="flex items-center gap-3">
+                  <img class="w-7 h-7" src="../../../resources/images/contact-icon.png" alt="" />
+
+                  <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Phản hồi</a>
+                </li>
+                <li class="flex items-center gap-3">
+                  <img class="w-7 h-7" src="../../../resources/images/statistical-icon.png" alt="" />
+
+                  <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Thống kê</a>
+                </li>
+                <li class="flex items-center gap-3">
+                  <img class="w-7 h-7" src="../../../resources/images/ads-icon.png" alt="" />
+                  <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Quảng cáo</a>
+                </li>
+                <li class="flex items-center gap-3">
+                  <img class="w-7 h-7" src="../../../resources/images/setting-icon.png" alt="" />
+                  <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Cài đặt</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <section class="hidden search__box sm:block">
+            <form action="" method="post" class="search__form">
+              <div class="flex items-center gap-2 form-group">
+                <input type="text" name="search" value="" placeholder="Tìm kiếm..." required
+                  class="px-2 py-1 bg-white rounded-md outline-none" />
+                <button type="submit" class="search__btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="p-1 text-gray-200 bg-indigo-500 rounded-lg w-9 h-9 glass__shadow">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607
+                        10.607z" />
+                  </svg>
+                </button>
+              </div>
+            </form>
+          </section>
+          <section class="opiton__header">
+            <ul class="flex items-center gap-3">
+              <li class="relative message">
+                <button type="button" class="btn-messages">
+                  <img src="../../../resources/images/chat-btn.png" alt="" class="w-7" />
+                </button>
+                <span
+                  class="absolute top-0 right-0 inline-block w-4 h-4 text-xs font-medium text-center text-white transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-none rounded-full">
+                  9
+                </span>
+                <!-- --------------message dropdown------------------- -->
+                <div style="max-height: 400px"
+                  class="absolute right-0 z-50 hidden w-64 px-3 pt-3 overflow-y-auto border rounded-lg claymorphism-white dropdown-messages">
+                  <h2 class="mb-4 text-xs font-semibold text-gray-700 sm:text-sm">
+                    Tin nhắn
+                  </h2>
+                  <div class="flex flex-col gap-2 mb-2 list__message">
+                    <!-- -------------------messages-------------------- -->
+                    <div class="relative flex gap-3 p-1 rounded-md list__message-item hover:bg-gray-100">
+                      <!-- -------------btn delete message---------------- -->
+                      <div class="absolute top-0 right-0">
+                        <div class="relative" data-te-dropdown-position="dropstart">
+                          <button class="rounded-full motion-reduce:transition-none" type="button"
+                            data-te-dropdown-toggle-ref aria-expanded="false" data-te-ripple-init>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                              stroke="currentColor" class="w-6 h-6 p-1 text-gray-400 rounded-full hover:bg-gray-200">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75
+                                    0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0
+                                    011.5 0z" />
+                            </svg>
+                          </button>
+                          <ul
+                            class="options__notification-box absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-md border-none bg-gray-200 bg-clip-padding text-left text-xs shadow-lg [&[data-te-dropdown-show]]:block"
+                            data-te-dropdown-menu-ref>
+                            <li>
+                              <a class="flex items-center w-full gap-2 px-4 py-2 text-xs font-normal border whitespace-nowrap text-neutral-700 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent claymorphism-white hover:bg-gray-200"
+                                href="#" data-te-dropdown-item-ref>Xóa cuộc trò chuyện
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                  stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26
+                                          9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16
+                                          19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0
+                                          01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0
+                                          00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0
+                                          0a48.11 48.11 0 013.478-.397m7.5
+                                          0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0
+                                          00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5
+                                          0a48.667 48.667 0 00-7.5 0" />
+                                </svg>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <img class="object-cover rounded-full avatar-notification min-w-10 max-w-10 min-h-10 max-h-10"
+                        src="../../../resources/images/default-avatar.jpg" alt="" />
+                      <div class="message__content">
+                        <a href="{{ route('detail-user/' . $notification->user_id) }}"
+                          class="text-sm font-normal text-gray-700">
+                          Lê Văn A
+                        </a>
+                        <div class="flex items-center gap-1">
+                          <p class="message max-w-[120px] truncate text-xs text-gray-700">
+                            Alo bạn, mình có thể hỏi một câu hỏi không?
+                          </p>
+                          <span class="text-xs text-gray-400">3 phút</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- ---------------------end message--------------------------------- -->
+                    <a href="#" class="pt-2 text-xs font-medium text-center text-indigo-500 border-t">Xem tất cả tin
+                      nhắn</a>
+                  </div>
+                </div>
+              </li>
+              <!-- ----------------------------btn notification------------------------ -->
+              <li class="relative notification">
+                <div href="#" class="btn-notification">
+                  <img src="../../../resources/images/bell-icon.png" alt="" class="w-10" />
+                </div>
+                <span
+                  class="absolute inline-block w-4 h-4 text-xs font-medium text-center text-white transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-none rounded-full top-1 right-2">
+                  9
+                </span>
+                <!-- ----------------------List notification ------------------------>
+                <div style="max-height: 400px"
+                  class="absolute right-0 z-50 hidden w-64 p-3 overflow-y-auto bg-white border rounded-lg shadow-lg dropdown-notification">
+                  <h2 class="mb-4 text-xs font-semibold text-gray-700 sm:text-sm">
+                    Thông báo
+                  </h2>
+                  <div class="flex flex-col gap-3 list__notification">
+                    <div
+                      class="relative flex justify-between gap-3 p-1 rounded-md cursor-pointer list__notification-item hover:bg-gray-100">
+                      <div class="absolute top-0 right-0 flex justify-center options__notification-btn">
+                        <div class="relative" data-te-dropdown-position="dropstart">
+                          <button class="rounded-full motion-reduce:transition-none" type="button"
+                            data-te-dropdown-toggle-ref aria-expanded="false" data-te-ripple-init>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                              stroke="currentColor" class="w-6 h-6 p-1 text-gray-400 rounded-full hover:bg-gray-200">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75
+                                        12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0
+                                        11-1.5 0 .75.75 0 011.5 0z" />
+                            </svg>
+                          </button>
+                          <ul
+                            class="options__notification-box absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-md border-none bg-gray-200 bg-clip-padding text-left text-xs shadow-lg [&[data-te-dropdown-show]]:block"
+                            data-te-dropdown-menu-ref>
+                            <li>
+                              <a class="flex items-center w-full gap-2 px-4 py-2 text-xs font-normal border claymorphism-white hover:bg-gray-200 whitespace-nowrap text-neutral-700 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent"
+                                href="#" data-te-dropdown-item-ref>Xóa thông báo
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                  stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26
+                                              9m9.968-3.21c.342.052.682.107
+                                              1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0
+                                              01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772
+                                              5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12
+                                              .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0
+                                              013.478-.397m7.5
+                                              0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0
+                                              00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5
+                                              0a48.667 48.667 0 00-7.5 0" />
+                                </svg>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <img class="object-cover rounded-full min-w-10 max-w-10 min-h-10 max-h-10 avatar-notification"
+                        src="../../../resources/images/default-avatar.jpg" alt="" />
+                      <div class="notification__content">
+                        <a href="{{ route('detail-user/' . $notification->user_id) }}"
+                          class="text-sm font-semibold text-gray-700">
+                          Lê Văn A
+                        </a>
+                        <p class="text-xs text-gray-700">
+                          Lê Văn A đã thích bài viết của bạn
+                        </p>
+                        <p class="text-xs text-gray-400">9 giờ trước</p>
+                      </div>
+                      <!-- ------------------------------------------------------ -->
+                    </div>
+                    <!-- ------------------------------------------------------ -->
+                  </div>
+                </div>
+              </li>
+              <!-- -----------------btn account header----------------- -->
+              <li class="relative account">
+                <div class="w-7 btn-account">
+                  <img src="../../../resources/images/default-avatar.jpg" alt=""
+                    class="w-full rounded-full avatar__account" />
+                </div>
+                <div
+                  class="absolute right-0 z-50 hidden p-4 mt-2 bg-white border rounded-lg shadow-lg dropdown-account">
+                  <ul class="flex flex-col gap-2 list-option">
+                    <li class="flex items-center gap-3 mb-2">
+                      <div class="w-7 account-btn">
+                        <img src="../../../resources/images/default-avatar.jpg" alt="" class="w-full rounded-full" />
+                      </div>
+                      <a href="#" class="text-sm font-semibold text-gray-600">Lê Công Tiến</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="p-1 text-gray-500 bg-gray-200 rounded-full w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0
+                                      00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966
+                                      0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3
+                                      3 0 016 0z" />
+                      </svg>
+                      <a href="#" class="text-xs font-normal text-gray-500 sm:text-sm whitespace-nowrap">Trang cá
+                        nhân</a>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-4 h-4 text-gray-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                      </svg>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="p-1 text-gray-500 bg-gray-200 rounded-full w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0
+                                          00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0
+                                          002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                      </svg>
+                      <a href="#" class="text-xs font-normal text-gray-500 sm:text-sm whitespace-nowrap">Đăng xuất</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </header>
+        <main class="w-full h-full p-2 overflow-y-auto rounded-2xl hidden__scrollbar">
+          <!-- ------------------------wrapper title & fill  -->
+          <div class="flex items-center justify-between mb-1 title__list-user">
+            <!-- ----------------------Title account------------------------ -->
+            <h2 class="flex items-center gap-2 pb-1 text-sm font-semibold sm:gap-3 sm:text-lg">
+              <img class="w-6 h-6" src="../../../resources/images/list-icon.png" alt="" />
+              Số liệu thống kê
+            </h2>
+          </div>
+          <section class="mt-3">
+            <div class="container mx-auto">
+              <div class="flex flex-wrap -mx-3">
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none md:w-1/3 lg:w-1/4 xl:w-1/5">
+                  <div class="relative flex flex-col min-w-0 break-words bg-white shadow-xs rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                      <div class="flex flex-row -mx-3">
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                          <div>
+                            <h5 class="flex items-center gap-1 mb-1 text-2xl font-bold text-indigo-500">55.000<span
+                                class="text-xs font-semibold text-green-500">+ 109</span>
+                            </h5>
+                            <p class="font-sans text-sm font-semibold uppercase ">
+                              Người dùng
+                            </p>
+                            <a href="#" class="text-xs font-medium text-blue-500 wh">Chi tiết</a>
+                          </div>
+                        </div>
+                        <div class="px-3 text-right basis-1/3">
+                          <div
+                            class="inline-block text-center rounded-full w-14 h-14 rounded-circle bg-gradient-to-tl from-blue-500 to-violet-500">
+                            <img src="../../../resources/images/user-icon.jpg" alt="">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ---------------------------------------------------- -->
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none md:w-1/3 lg:w-1/4 xl:w-1/5">
+                  <div class="relative flex flex-col min-w-0 break-words bg-white shadow-xs rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                      <div class="flex flex-row -mx-3">
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                          <div>
+                            <h5 class="flex items-center gap-1 mb-1 text-2xl font-bold text-cyan-600">500<span
+                                class="text-xs font-semibold text-green-500">+ 109</span></h5>
+                            <p class="font-sans text-sm font-semibold uppercase whitespace-nowrap">
+                              Bài đăng
+                            </p>
+                            <a href="#" class="text-xs font-medium text-blue-500">Chi tiết</a>
+                          </div>
+                        </div>
+                        <div class="px-3 text-right basis-1/3">
+                          <div
+                            class="inline-block text-center rounded-full w-14 h-14 rounded-circle bg-gradient-to-tl from-cyan-500 to-violet-500">
+                            <img src="../../../resources/images/lock-account.png" alt="">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ---------------------------------------------------- -->
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none md:w-1/3 lg:w-1/4 xl:w-1/5">
+                  <div class="relative flex flex-col min-w-0 break-words bg-white shadow-xs rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                      <div class="flex flex-row -mx-3">
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                          <div>
+                            <h5 class="mb-1 text-2xl font-bold text-green-500">500</h5>
+                            <p class="font-sans text-sm font-semibold uppercase whitespace-nowrap">
+                              Đang hoạt động
+                            </p>
+                            <a href="#" class="text-xs font-medium text-blue-500">Chi tiết</a>
+                          </div>
+                        </div>
+                        <div class="px-3 text-right basis-1/3">
+                          <div
+                            class="inline-block text-center rounded-full w-14 h-14 rounded-circle bg-gradient-to-tl from-green-500 to-green-700">
+                            <img src="../../../resources/images/user-active.png" alt="">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ---------------------------------------------------- -->
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none md:w-1/3 lg:w-1/4 xl:w-1/5">
+                  <div class="relative flex flex-col min-w-0 break-words bg-white shadow-xs rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                      <div class="flex flex-row -mx-3">
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                          <div>
+                            <h5 class="flex items-center gap-1 mb-1 text-2xl font-bold text-red-600">500<span
+                                class="text-xs font-semibold text-red-500">+ 109</span>
+                            </h5>
+                            <p class="font-sans text-sm font-semibold uppercase whitespace-nowrap">
+                              Báo cáo
+                            </p>
+                            <a href="#" class="text-xs font-medium text-blue-500">Chi tiết</a>
+                          </div>
+                        </div>
+                        <div class="px-3 text-right basis-1/3">
+                          <div
+                            class="flex items-center justify-center text-center rounded-full w-14 h-14 rounded-circle bg-gradient-to-tl from-red-500 to-violet-500">
+                            <img class="w-10 h-10" src="../../../resources/images/contact-icon.png" alt="">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- -------------------------------chart------------------ -->
+
+          <section class="container mx-auto">
+            <div class="flex chart-box">
+              <div class="min-w-0 p-4 mb-5 bg-white rounded-lg shadow-xs">
+                <h4 class="mb-4 font-semibold text-gray-800">Lines</h4>
+                <canvas id="line"></canvas>
+                <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600">
+                  <!-- Chart legend -->
+                  <div class="flex items-center">
+                    <span class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"></span>
+                    <span>Organic</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                    <span>Paid</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid gap-6 mb-8 md:grid-cols-2">
+              <!-- Doughnut/Pie chart -->
+              <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs">
+                <h4 class="mb-4 font-semibold text-gray-800">
+                  Thống kê giới tính
+                </h4>
+                <canvas id="pie"></canvas>
+                <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600">
+                  <!-- Chart legend -->
+                  <div class="flex items-center">
+                    <span class="inline-block w-3 h-3 mr-1 bg-blue-600 rounded-full"></span>
+                    <span>Nam</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"></span>
+                    <span>Nữ</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                    <span>Khác</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Lines chart -->
+
+              <!-- Bars chart -->
+              <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs">
+                <h4 class="mb-4 font-semibold text-gray-800">Bars</h4>
+                <canvas id="bars"></canvas>
+                <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600">
+                  <!-- Chart legend -->
+                  <div class="flex items-center">
+                    <span class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"></span>
+                    <span>Shoes</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                    <span>Bags</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </article>
+    </div>
+  </div>
+</body>
+<script src="../../../node_modules/tw-elements/dist/js/index.min.js"></script>
+<script src="../../../node_modules/vanilla-tilt/dist/vanilla-tilt.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
+<script src="../../../resources/js/charts-lines.js" defer></script>
+<script src="../../../resources/js/charts-pie.js" defer></script>
+<script src="../../../resources/js/charts-bars.js" defer></script>
+<script src="../../../resources/js/app.js"></script>
+
+</html>
