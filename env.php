@@ -2,12 +2,12 @@
 	
 	use JetBrains\PhpStorm\NoReturn;
 	
-	const DBNAME = "sunbee";
+	const DBNAME = "sunbee-social-network";
 	const DBUSER = "root";
 	const DBPASS = "";
 	const DBCHARSET = "utf8";
 	const DBHOST = "127.0.0.1";
-	const BASE_URL = "http://localhost:88/sunbee";
+	const BASE_URL = "http://localhost:88/sunbee/";
 
 	function route($name): string
 	{

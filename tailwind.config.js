@@ -6,7 +6,8 @@ module.exports = {
     "./node_modules/tw-elements/dist/js/**/*.js",
     "./app/views/**/**/**/*.{html,js,php,blade.php}",
     "./app/views/**/**/*.{html,js,php,blade.php}",
-    "./app/views/**/*.{html,js,php,blade.php}", './node_modules/tw-elements/dist/js/**/*.js'],
+    "./app/views/**/*.{html,js,php,blade.php}",
+  ],
   theme: {
     extend: {
       keyframes: {

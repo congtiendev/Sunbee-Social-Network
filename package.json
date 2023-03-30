@@ -16,6 +16,7 @@
   "dependencies": {
     "aos": "^2.3.4",
     "daisyui": "^2.51.4",
+    "sweetalert": "^2.1.2",
     "tw-elements": "^1.0.0-alpha13",
     "vanilla-tilt": "^1.8.0"
   }
