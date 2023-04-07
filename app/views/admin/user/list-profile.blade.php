@@ -49,10 +49,10 @@
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-700 uppercase whitespace-nowrap">
                         <th class="px-4 py-3">ID</th>
                         <th class="px-4 py-3">Tên</th>
-                        <th class="px-4 py-3">Email</th>
-                        <th class="px-4 py-3">SĐT</th>
-                        <th class="px-4 py-3">Ngày tạo</th>
-                        <th class="px-4 py-3">Vai trò</th>
+                        <th class="px-4 py-3">Giới tính</th>
+                        <th class="px-4 py-3">Ngày sinh</th>
+                        <th class="px-4 py-3">Địa chỉ</th>
+                        <th class="px-4 py-3">Tiểu sử</th>
                         <th class="px-4 py-3">Thao tác</th>
                     </tr>
                 </thead>
@@ -63,7 +63,7 @@
                             <td class="px-4 py-3 text-xs sm:text-sm whitespace-nowrap">
                                 <p class="font-semibold whitespace-nowrap">#{{ $user->id }}</p>
                             </td>
-                            <td class="px-4 py-3">
+                            <td class="py-3">
                                 <div class="flex items-center">
                                     <div class="hidden mr-3 rounded-full w-9 h-9 md:block">
                                         <img class="object-cover w-full h-full rounded-full"
@@ -80,18 +80,19 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-4 py-3 text-xs text-gray-700 sm:text-sm email whitespace-nowrap">
-                                {{ $user->email }}
+                            <td class="px-4 py-3 text-xs font-medium text-gray-700 sm:text-sm email whitespace-nowrap">
+                                {{ ($user->gender == 0 ? 'Nữ' : $user->gender == 1) ? 'Nam' : 'Khác' }}
                             </td>
-                            <td class="px-4 py-3 text-xs text-gray-700 sm:text-sm">{{ $user->phone_number }}</td>
-                            <td class="px-4 py-3 text-xs text-gray-700 sm:text-sm whitespace-nowrap">
-                                {{ $user->created_at }}
+                            <td class="px-4 py-3 text-xs font-medium text-gray-700 sm:text-sm">
+                                {{ date('d/m/Y', strtotime($user->birthday)) }}
                             </td>
-                            <td class="px-4 py-3 text-xs text-white sm:text-sm whitespace-nowrap">
-                                <span
-                                    class="px-2 py-1 font-medium leading-tight text-green-100 bg-indigo-500 rounded-full whitespace-nowrap">
-                                    {{ $user->role == 1 ? 'Admin' : 'Người dùng' }}
-                                </span>
+                            <td
+                                class="px-4 py-3 overflow-hidden text-xs text-gray-700 truncate sm:text-sm whitespace-nowrap">
+                                {{ $user->address }}
+                            </td>
+                            <td
+                                class="px-4 py-3 overflow-hidden text-xs text-gray-700 truncate sm:text-sm whitespace-nowrap">
+                                {{ $user->bio }}
                             </td>
                             <td class="py-3 ">
                                 <!-- -----------------------Action mobile------------------------- -->
@@ -122,7 +123,7 @@
                                                 </li>
                                                 <li class="mb-2">
                                                     <a class="flex items-center w-full gap-2 bg-transparent whitespace-nowrap hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent"
-                                                        href="{{ route('update-account/' . $user->id) }}"
+                                                        href="{{ route('update-profile/' . $user->id) }}"
                                                         data-te-dropdown-item-ref>Chỉnh sửa
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                             fill="currentColor" class="w-3 h-3 text-gray-400">
@@ -156,7 +157,7 @@
                                                 src="{{ BASE_URL }}resources/images/detail-btn.png"
                                                 alt="" />
                                         </a>
-                                        <a href="{{ route('update-account/' . $user->id) }}" class="flex items-center">
+                                        <a href="{{ route('update-profile/' . $user->id) }}" class="flex items-center">
                                             <img class="min-w-5 min-h-5 max-w-5 max-h-5"
                                                 src="{{ BASE_URL }}resources/images/edit-btn.png" alt="" />
                                         </a>

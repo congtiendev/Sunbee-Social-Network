@@ -24,5 +24,17 @@
  </div>
 </body>
 <?php echo $this->runChild('admin.layouts.scripts'); ?>
+<?php if(isset($errors) && !empty($errors)): ?>
+ <script>
+ $(document).ready(function() {
+ swal({
+ title: "Lỗi!",
+ text: "Vui lòng kiểm tra lại thông tin!",
+ icon: "error",
+ button: "OK",
+ });
+ });
+ </script>
+<?php endif; ?>
 
 </html>

@@ -35,8 +35,8 @@ toggleDropdown(
 );
 
 //================================Confirm delete account====================================
-$(document).ready(function(){
-    $('.delete-account').on('click', function(e){
+$(document).ready(function () {
+    $('.delete-account').on('click', function (e) {
         e.preventDefault();
         const user_id = $(this).data('id'); // Lấy ID người dùng từ thuộc tính data-user-id của nút xóa tương ứng
         swal({
@@ -45,13 +45,13 @@ $(document).ready(function(){
             icon: 'warning',
             buttons: ['Hủy', 'Xóa'],
             dangerMode: true,
-        }).then(function(isConfirm){
+        }).then(function (isConfirm) {
             if (isConfirm) {
                 swal({
                     title: 'Đã xóa tài khoản',
                     icon: 'success',
                     timer: 1500,
-                }).then(function(){
+                }).then(function () {
                     window.location.href = 'http://localhost:88/sunbee/delete-account/' + user_id;
                 });
             } else {
@@ -60,5 +60,7 @@ $(document).ready(function(){
         });
     });
 });
+
+//================================Show notification when create new account====================================
 
 

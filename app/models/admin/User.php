@@ -8,9 +8,25 @@ class User extends BaseModel
 {
 	protected string $table = 'users';
 
-	public function getAllUser()
+	public function countAllRows()
 	{
-		$sql = "SELECT * FROM $this->table";
+		$sql = "SELECT COUNT(*) FROM $this->table";
+		$this->setQuery($sql);
+		return $this->loadRow();
+	}
+	public function getAllUser($column = null, $order = null, $limit = null, $offset = null)
+	{
+		$sql = "SELECT * FROM $this->table WHERE 1";
+
+		if ($column !== null && $order !== null) {
+			$sql .= " ORDER BY $column $order";
+		}
+		if ($limit !== null) {
+			$sql .= " LIMIT $limit";
+			if ($offset !== null) {
+				$sql .= " OFFSET $offset";
+			}
+		}
 		$this->setQuery($sql);
 		return $this->loadAllRows();
 	}
@@ -21,8 +37,15 @@ class User extends BaseModel
 		$this->setQuery($sql);
 		return $this->loadRow(array($id));
 	}
+	public function getUserBy($column, $value)
+	{
+		$sql = "SELECT * FROM $this->table WHERE $column = ?";
+		$this->setQuery($sql);
+		return $this->loadRow(array($value));
+	}
 
-	public function saveCreateUser($first_name, $last_name, $username, $email, $phone_number, $role, $password)
+
+	public function saveCreateAccount($first_name, $last_name, $username, $email, $phone_number, $role, $password)
 	{
 		$sql = "INSERT INTO $this->table (first_name,last_name,username,email,phone_number,role,password) VALUES (?,?,?,?,?,?,?)";
 		$this->setQuery($sql);
@@ -66,12 +89,11 @@ class User extends BaseModel
 		$email,
 		$phone_number,
 		$role,
-		$password,
 		$id
 	) {
-		$sql = "UPDATE $this->table SET first_name = ?,last_name = ?,username = ?,email = ?,phone_number = ?,role = ?,password = ? WHERE id = ?";
+		$sql = "UPDATE $this->table SET first_name = ?,last_name = ?,username = ?,email = ?,phone_number = ?,role = ? WHERE id = ?";
 		$this->setQuery($sql);
-		return $this->execute(array($first_name, $last_name, $username, $email, $phone_number, $role, $password, $id));
+		return $this->execute(array($first_name, $last_name, $username, $email, $phone_number, $role, $id));
 	}
 
 	public function deleteUser($id)
@@ -81,6 +103,32 @@ class User extends BaseModel
 		return $this->execute(array($id));
 	}
 
+	public function changePassword($password, $id)
+	{
+		$sql = "UPDATE $this->table SET password = ? WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute(array($password, $id));
+	}
 
+	public function changeStatus($status, $id)
+	{
+		$sql = "UPDATE $this->table SET status = ? WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute(array($status, $id));
+	}
+
+	public function changeRole($role, $id)
+	{
+		$sql = "UPDATE $this->table SET role = ? WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute(array($role, $id));
+	}
+
+	public function saveUpdateProfile($first_name, $last_name, $gender, $birthday, $address, $bio, $avatar, $id)
+	{
+		$sql = "UPDATE $this->table SET first_name = ?, last_name = ?,gender = ?,birthday = ?,address = ?,bio = ?,avatar = ? WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute(array($first_name, $last_name, $gender, $birthday, $address, $bio, $avatar, $id));
+	}
 
 }

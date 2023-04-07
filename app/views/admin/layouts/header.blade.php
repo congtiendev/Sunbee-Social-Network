@@ -1,59 +1,63 @@
   <header class="flex items-center justify-between w-full p-2 border-b-2 sm:px-5 sm:py-3 rounded-xl">
       <!-- -------------------btn menu mobile--------------------------- -->
       <div class="relative btn-menu-mobile lg:hidden">
-          <img data-tilt data-tilt-scale="1.1" src="{{BASE_URL}}resources/images/menu-mobile-icon.png" alt=""
-              class="w-6 h-6" />
+          <img data-tilt data-tilt-scale="1.1" src="{{ BASE_URL }}resources/images/menu-mobile-icon.png"
+              alt="" class="w-6 h-6" />
           <!-- ----------------------------list-menu mobile--------------------------- -->
           <nav
               class="z-50 menu-mobile max-h-[400px] overflow-y-auto hidden__scrollbar hidden animate-down w-[190px] rounded-xl p-5 absolute border claymorphism-white">
               <div class="w-20 h-auto mx-auto mb-3 logo">
-                  <img src="{{BASE_URL}}resources/images/logo.png" alt="logo" class="w-full logo-img" />
+                  <img src="{{ BASE_URL }}resources/images/logo.png" alt="logo" class="w-full logo-img" />
               </div>
               <ul class="flex flex-col gap-4 z-1000">
                   <li class="flex items-center gap-3">
-                      <img class="w-7 h-7" src="{{BASE_URL}}resources/images/home-icon.png" alt="" />
-                      <a href="#" class="text-xs font-semibold text-gray-900 whitespace-nowrap">Trang chủ</a>
+                      <img class="w-7 h-7" src="{{ BASE_URL }}resources/images/home-icon.png" alt="" />
+                      <a href="{{ route('/') }}" class="text-xs font-semibold text-gray-900 whitespace-nowrap">Trang
+                          chủ</a>
                   </li>
                   <li class="flex items-center gap-3">
-                      <img class="h-6 w-7" src="{{BASE_URL}}resources/images/trending-icon.png" alt="" />
+                      <img class="h-6 w-7" src="{{ BASE_URL }}resources/images/trending-icon.png" alt="" />
                       <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Xu
                           hướng</a>
                   </li>
 
                   <li class="flex items-center gap-3">
-                      <img class="w-7 h-7" src="{{BASE_URL}}resources/images/post-icon.png" alt="" />
+                      <img class="w-7 h-7" src="{{ BASE_URL }}resources/images/post-icon.png" alt="" />
                       <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Bài
                           đăng</a>
                   </li>
                   <li class="flex items-center gap-3">
-                      <img class="w-7 h-7" src="{{BASE_URL}}resources/images/account-icon.png" alt="" />
-                      <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Tài
+                      <img class="w-7 h-7" src="{{ BASE_URL }}resources/images/account-icon.png" alt="" />
+                      <a href="{{ route('list-account') }}"
+                          class="text-xs font-medium text-gray-700 whitespace-nowrap">Tài
                           khoản</a>
                   </li>
                   <li class="flex items-center gap-3">
-                      <img class="w-7 h-7" src="{{BASE_URL}}resources/images/user-icon.png" alt="" />
-                      <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Người
+                      <img class="w-7 h-7" src="{{ BASE_URL }}resources/images/user-icon.png" alt="" />
+                      <a href="{{ route('list-profile') }}"
+                          class="text-xs font-medium text-gray-700 whitespace-nowrap">Người
                           dùng</a>
                   </li>
                   <li class="flex items-center gap-3">
-                      <img class="w-7 h-7" src="{{BASE_URL}}resources/images/contact-icon.png" alt="" />
+                      <img class="w-7 h-7" src="{{ BASE_URL }}resources/images/contact-icon.png" alt="" />
 
                       <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Phản
                           hồi</a>
                   </li>
                   <li class="flex items-center gap-3">
-                      <img class="w-7 h-7" src="{{BASE_URL}}resources/images/statistical-icon.png" alt="" />
+                      <img class="w-7 h-7" src="{{ BASE_URL }}resources/images/statistical-icon.png"
+                          alt="" />
 
                       <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Thống
                           kê</a>
                   </li>
                   <li class="flex items-center gap-3">
-                      <img class="w-7 h-7" src="{{BASE_URL}}resources/images/ads-icon.png" alt="" />
+                      <img class="w-7 h-7" src="{{ BASE_URL }}resources/images/ads-icon.png" alt="" />
                       <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Quảng
                           cáo</a>
                   </li>
                   <li class="flex items-center gap-3">
-                      <img class="w-7 h-7" src="{{BASE_URL}}resources/images/setting-icon.png" alt="" />
+                      <img class="w-7 h-7" src="{{ BASE_URL }}resources/images/setting-icon.png" alt="" />
                       <a href="#" class="text-xs font-medium text-gray-700 whitespace-nowrap">Cài
                           đặt</a>
                   </li>
@@ -81,7 +85,7 @@
           <ul class="flex items-center gap-3">
               <li class="relative message">
                   <button type="button" class="btn-messages">
-                      <img src="{{BASE_URL}}resources/images/chat-btn.png" alt="" class="w-7" />
+                      <img src="{{ BASE_URL }}resources/images/chat-btn.png" alt="" class="w-7" />
                   </button>
                   <span
                       class="absolute top-0 right-0 inline-block w-4 h-4 text-xs font-medium text-center text-white transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-none rounded-full">
@@ -136,7 +140,7 @@
                                   </div>
                               </div>
                               <img class="object-cover rounded-full avatar-notification min-w-10 max-w-10 min-h-10 max-h-10"
-                                  src="{{BASE_URL}}resources/images/default-avatar.jpg" alt="" />
+                                  src="{{ BASE_URL }}resources/images/default-avatar.jpg" alt="" />
                               <div class="message__content">
                                   <a href="#" class="text-sm font-normal text-gray-700">
                                       Lê Văn A
@@ -159,7 +163,7 @@
               <!-- ----------------------------btn notification------------------------ -->
               <li class="relative notification">
                   <div href="#" class="btn-notification">
-                      <img src="{{BASE_URL}}resources/images/bell-icon.png" alt="" class="w-10" />
+                      <img src="{{ BASE_URL }}resources/images/bell-icon.png" alt="" class="w-10" />
                   </div>
                   <span
                       class="absolute inline-block w-4 h-4 text-xs font-medium text-center text-white transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-none rounded-full top-1 right-2">
@@ -213,7 +217,7 @@
                                   </div>
                               </div>
                               <img class="object-cover rounded-full min-w-10 max-w-10 min-h-10 max-h-10 avatar-notification"
-                                  src="{{BASE_URL}}resources/images/default-avatar.jpg" alt="" />
+                                  src="{{ BASE_URL }}resources/images/default-avatar.jpg" alt="" />
                               <div class="notification__content">
                                   <a href="#" class="text-sm font-semibold text-gray-700">
                                       Lê Văn A
@@ -232,7 +236,7 @@
               <!-- -----------------btn account header----------------- -->
               <li class="relative account">
                   <div class="w-7 btn-account">
-                      <img src="{{BASE_URL}}resources/images/default-avatar.jpg" alt=""
+                      <img src="{{ BASE_URL }}resources/images/default-avatar.jpg" alt=""
                           class="w-full rounded-full avatar__account" />
                   </div>
                   <div
@@ -240,7 +244,7 @@
                       <ul class="flex flex-col gap-2 list-option">
                           <li class="flex items-center gap-3 mb-2">
                               <div class="w-7 account-btn">
-                                  <img src="{{BASE_URL}}resources/images/default-avatar.jpg" alt=""
+                                  <img src="{{ BASE_URL }}resources/images/default-avatar.jpg" alt=""
                                       class="w-full rounded-full" />
                               </div>
                               <a href="#" class="text-sm font-semibold text-gray-600">Lê Công

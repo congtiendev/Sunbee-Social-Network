@@ -2,14 +2,14 @@
 @section('content')
     <main class="w-full h-full overflow-y-auto rounded-2xl hidden__scrollbar">
         <section class="flex w-full h-screen gap-1">
-            <article class="w-full h-full bg-white shadow-xs px-4 py-3 sm:px-5 sm:py-3">
-                <section class="setting-user-info w-full h-full">
-                    <form action="{{ route('save-create-account') }}" method="post" class="w-full h-full"
+            <article class="w-full h-full px-4 py-3 bg-white shadow-xs sm:px-5 sm:py-3">
+                <section class="w-full h-full setting-user-info">
+                    <form id="create-account" action="{{ route('save-create-account') }}" method="post" class="w-full h-full"
                         enctype="multipart/form-data">
                         @csrf
-                        <h1 class="text-xl my-4 font-semibold text-gray-700">Tạo mới
+                        <h1 class="my-4 text-xl font-semibold text-gray-700">Tạo mới
                             tài khoản</h1>
-                        <div class="form-control grid grid-cols-1 sm:grid-cols-2  gap-5">
+                        <div class="grid grid-cols-1 gap-5 form-control sm:grid-cols-2">
                             <div class="form-group">
                                 <label class="block text-sm font-medium text-gray-500 ">Họ...
                                 </label>
@@ -25,7 +25,7 @@
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         value="{{ $_POST['first_name'] ?? '' }}">
                                 </div>
-                                <span class="text-xs text-red-500 mt-2">
+                                <span class="mt-2 text-xs text-red-500">
                                     @if (!empty($errors['first_name']))
                                         {{ $errors['first_name'] }}
                                     @endif
@@ -47,7 +47,7 @@
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         value="{{ $_POST['last_name'] ?? '' }}">
                                 </div>
-                                <span class="text-xs text-red-500 mt-2">
+                                <span class="mt-2 text-xs text-red-500">
                                     @if (!empty($errors['last_name']))
                                         {{ $errors['last_name'] }}
                                     @endif
@@ -70,14 +70,14 @@
                                         value="{{ $_POST['username'] ?? '' }}">
 
                                 </div>
-                                <span class="text-xs text-red-500 mt-2">
+                                <span class="mt-2 text-xs text-red-500">
                                     @if (!empty($errors['username']))
                                         {{ $errors['username'] }}
                                     @endif
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="block text-sm text-gray-500 font-medium ">Email
+                                <label for="email" class="block text-sm font-medium text-gray-500 ">Email
                                 </label>
                                 <div class="relative flex items-center mt-2">
                                     <span class="absolute">
@@ -91,7 +91,7 @@
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         value="{{ $_POST['email'] ?? '' }}">
                                 </div>
-                                <span class="text-xs text-red-500 mt-2">
+                                <span class="mt-2 text-xs text-red-500">
                                     @if (!empty($errors['email']))
                                         {{ $errors['email'] }}
                                     @endif
@@ -116,14 +116,14 @@
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         value="{{ $_POST['phone_number'] ?? '' }}">
                                 </div>
-                                <span class="text-xs text-red-500 mt-2">
+                                <span class="mt-2 text-xs text-red-500">
                                     @if (!empty($errors['phone_number']))
                                         {{ $errors['phone_number'] }}
                                     @endif
                                 </span>
                             </div>
                             <div class="form-group">
-                                <label for="role" class="block text-sm text-gray-500 font-medium ">Vai trò
+                                <label for="role" class="block text-sm font-medium text-gray-500 ">Vai trò
                                 </label>
                                 <div class="relative flex items-center mt-2">
                                     <span class="absolute">
@@ -135,7 +135,7 @@
 
                                     </span>
                                     <select name="role"
-                                        class="block w-full py-3 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40">
+                                        class="block w-full py-3 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40">
                                         <option value="">Chọn vai trò</option>
                                         <option value="0"
                                             {{ isset($_POST['role']) && $_POST['role'] == 0 ? 'selected' : '' }}>Người dùng
@@ -145,7 +145,7 @@
                                             Admin</option>
                                     </select>
                                 </div>
-                                <span class="text-xs text-red-500 mt-2">
+                                <span class="mt-2 text-xs text-red-500">
                                     @if (!empty($errors['role']))
                                         {{ $errors['role'] }}
                                     @endif
@@ -168,7 +168,7 @@
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                         value="{{ $_POST['password'] ?? '' }}">
                                 </div>
-                                <span class="text-xs text-red-500 mt-2">
+                                <span class="mt-2 text-xs text-red-500">
                                     @if (!empty($errors['password']))
                                         {{ $errors['password'] }}
                                     @endif
@@ -191,18 +191,18 @@
                                     <input type="password" placeholder="Nhập lại mật khẩu..." name="confirm_password"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40">
                                 </div>
-                                <span class="text-xs text-red-500 mt-2">
+                                <span class="mt-2 text-xs text-red-500">
                                     @if (!empty($errors['confirm_password']))
                                         {{ $errors['confirm_password'] }}
                                     @endif
                                 </span>
                             </div>
                         </div>
-                        <div class="btn-group flex justify-center mt-5">
+                        <div class="flex justify-center mt-5 btn-group">
                             <button type="reset"
-                                class="btn btn-error text-white bg-red-500 btn-md px-5 py-2 rounded-lg">Hủy</button>
+                                class="px-5 py-2 text-white bg-red-500 rounded-lg btn btn-error btn-md">Hủy</button>
                             <button type="submit" name="btn-save"
-                                class="btn btn-primary bg-indigo-500 btn-md px-5 py-2 rounded-lg">Lưu</button>
+                                class="px-5 py-2 bg-indigo-500 rounded-lg btn btn-primary btn-md">Lưu</button>
                         </div>
                     </form>
                 </section>

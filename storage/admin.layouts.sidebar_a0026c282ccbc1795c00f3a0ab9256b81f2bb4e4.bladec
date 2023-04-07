@@ -3,68 +3,66 @@
  <nav class="w-full sidebar__pc">
  <ul class="flex flex-col items-center justify-center h-full gap-5 p-4 rounded-xl glassmorphism">
  <li>
- <a href="<?php echo \htmlentities(route('dashboard')??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <a href="<?php echo \htmlentities(route('')??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <div class="w-16 h-auto mx-auto logo">
- <img data-tilt data-tilt-scale="1.1" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/logo.png" alt="logo"
- class="w-full logo-img" />
+ <img data-tilt data-tilt-scale="1.1" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/logo.png"
+ alt="logo" class="w-full logo-img" />
  </div>
  </a>
  </li>
  <li class="flex items-center rounded-xl">
- <a href="<?php echo \htmlentities(route('dashboard')??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <a href="<?php echo \htmlentities(route('')??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <img data-tilt data-tilt-scale="1.1" class="w-9 h-9 menu-btn"
- src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/home-icon.png"
- alt="" />
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/home-icon.png" alt="" />
  </a>
  </li>
  <li class="flex items-center">
  <a href="<?php echo \htmlentities(route('trending')??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <img data-tilt data-tilt-scale="1.1" class="w-7 h-7" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/trending-icon.png"
- alt="" />
+ <img data-tilt data-tilt-scale="1.1" class="w-7 h-7"
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/trending-icon.png" alt="" />
  </a>
  </li>
 
  <li class="flex items-center">
  <a href="<?php echo \htmlentities(route('list-posts')??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/post-icon.png"
- alt="" />
+ <img data-tilt data-tilt-scale="1.1" class="w-9 h-9"
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/post-icon.png" alt="" />
  </a>
  </li>
  <li class="flex items-center">
- <a href="<?php echo \htmlentities(route('list-accounts')??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/account-icon.png"
- alt="" />
+ <a href="<?php echo \htmlentities(route('list-account')??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <img data-tilt data-tilt-scale="1.1" class="w-9 h-9"
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/account-icon.png" alt="" />
  </a>
  </li>
  <li class="flex items-center">
- <a href="<?php echo \htmlentities(route('list-users')??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/user-icon.png"
- alt="" />
+ <a href="<?php echo \htmlentities(route('list-profile')??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <img data-tilt data-tilt-scale="1.1" class="w-9 h-9"
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/user-icon.png" alt="" />
  </a>
  </li>
  <li class="flex items-center">
  <a href="<?php echo \htmlentities(route('list-contacts')??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <img data-tilt data-tilt-scale="1.1" class="w-8 h-8" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/contact-icon.png"
- alt="" />
+ <img data-tilt data-tilt-scale="1.1" class="w-8 h-8"
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/contact-icon.png" alt="" />
  </a>
  </li>
  <li class="flex items-center">
  <a href="<?php echo \htmlentities(route('statistical')??'', ENT_QUOTES, 'UTF-8', false); ?>">
  <img data-tilt data-tilt-scale="1.1" class="w-9 h-9"
- src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/statistical-icon.png"
- alt="" />
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/statistical-icon.png" alt="" />
  </a>
  </li>
  <li class="flex items-center">
  <a href="<?php echo \htmlentities(route('list-ads')??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/ads-icon.png"
- alt="" />
+ <img data-tilt data-tilt-scale="1.1" class="w-9 h-9"
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/ads-icon.png" alt="" />
  </a>
  </li>
  <li class="flex items-center">
  <a href="<?php echo \htmlentities(route('setting-admin')??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <img data-tilt data-tilt-scale="1.1" class="w-9 h-9" src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/setting-icon.png"
- alt="" />
+ <img data-tilt data-tilt-scale="1.1" class="w-9 h-9"
+ src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/setting-icon.png" alt="" />
  </a>
  </li>
  </ul>
