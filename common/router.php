@@ -23,7 +23,10 @@ $router->post('save-update-profile/{id}', [App\Controllers\Admin\UserController:
 // -------------------------------Sort Account--------------------------------//
 $router->post('sort-account', [App\Controllers\Admin\UserController::class, 'handleSortAccount']);
 $router->get('list-account/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListUser']);
-// ---------------------------------------------------------------------------//
+// --------------------------------Change password-------------------------------------------//
+$router->get('change-password/{id}', [App\Controllers\Admin\UserController::class, 'renderChangePassword']);
+$router->post('save-change-password/{id}', [App\Controllers\Admin\UserController::class, 'handleChangePassword']);
+
 $router->get('back', function () {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		header("Location: " . $_SERVER['HTTP_REFERER']);

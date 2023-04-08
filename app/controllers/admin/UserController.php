@@ -21,7 +21,7 @@ class UserController extends BaseController
 	public function renderListUser($column = null, $order = null)
 	{
 		$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-		$limit = 3;
+		$limit = 10;
 		$offset = ($page - 1) * $limit;
 		$totalUsers = count($this->user->getAllUser()); //Đếm tổng số bản ghi
 		$totalPages = round(intval($totalUsers / $limit)); //Tổng số trang
@@ -47,17 +47,17 @@ class UserController extends BaseController
 		}
 	}
 
-	public function renderCreateAccount(array $errors = [])
+	public function renderCreateAccount()
 	{
 		$title = "Tạo mới tài khoản";
-		$this->render("admin.user.create-account", compact('title', 'errors'));
+		$this->render("admin.user.create-account", compact('title'));
 	}
 
-	public function renderUpdateAccount(int $id, array $errors = [])
+	public function renderUpdateAccount(int $id)
 	{
 		$title = "Cập nhật tài khoản";
 		$user = $this->user->getUserById($id);
-		$this->render("admin.user.update-account", compact('title', 'errors', 'user'));
+		$this->render("admin.user.update-account", compact('title', 'user'));
 	}
 
 	public function handleCreateAccount()
@@ -76,6 +76,12 @@ class UserController extends BaseController
 			'confirm_password' => filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING) ?: '',
 		];
 		$errors = [];
+		$_SESSION['valid_data'] = $data; //Lưu dữ liệu đã nhập vào session để hiển thị lại khi có lỗi
+		//Xóa khoảng trắng ở đầu và cuối chuỗi
+		foreach ($data as $key => $value) {
+			$data[$key] = trim($value);
+			$_SESSION['valid_data'][$key] = trim($value);
+		}
 		if (empty($data['first_name'])) {
 			$errors['first_name'] = 'Vui lòng nhập tên';
 		} elseif (strlen($data['first_name']) > 50) {
@@ -98,7 +104,7 @@ class UserController extends BaseController
 			$errors['username'] = 'Username không được quá 20 ký tự';
 		} elseif (strlen($data['username']) < 5) {
 			$errors['username'] = 'Username không được ít hơn 5 ký tự';
-		} elseif ($this->user->checkExistsUsername($data['username'])) {
+		} elseif ($this->user->checkExistsUsername(trim($data['username']))) {
 			$errors['username'] = 'Username đã tồn tại';
 		}
 
@@ -108,7 +114,7 @@ class UserController extends BaseController
 			$errors['email'] = 'Email không được quá 50 ký tự';
 		} elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
 			$errors['email'] = 'Email không đúng định dạng';
-		} elseif ($this->user->checkExistsEmail($data['email'])) {
+		} elseif ($this->user->checkExistsEmail(trim($data['email']))) {
 			$errors['email'] = 'Email đã tồn tại';
 		}
 
@@ -120,12 +126,8 @@ class UserController extends BaseController
 			$errors['phone_number'] = 'Số điện thoại không được ít hơn 10 ký tự';
 		} elseif (!preg_match('/^[0-9]*$/', $data['phone_number'])) {
 			$errors['phone_number'] = 'Số điện thoại không được chứa ký tự đặc biệt';
-		} elseif ($this->user->checkExistsPhoneNumber($data['phone_number'])) {
+		} elseif ($this->user->checkExistsPhoneNumber(trim($data['phone_number']))) {
 			$errors['phone_number'] = 'Số điện thoại đã tồn tại';
-		}
-
-		if ($data['role'] === '') {
-			$errors['role'] = 'Vui lòng chọn quyền';
 		}
 
 		if (empty($data['password'])) {
@@ -143,18 +145,21 @@ class UserController extends BaseController
 		}
 
 		if (empty($errors)) {
-			$this->user->saveCreateAccount(
+			$result = $this->user->saveCreateAccount(
 				$data['first_name'],
 				$data['last_name'],
 				$data['username'],
 				$data['email'],
 				$data['phone_number'],
 				$data['role'],
-				$data['password']
+				password_hash($data['password'], PASSWORD_DEFAULT)
 			);
-			redirect('success', 'Tạo mới tài khoản thành công', 'list-account');
+			if ($result) {
+				unset($_SESSION['valid_data']);
+				redirect('success', 'Tạo mới tài khoản thành công', 'list-account');
+			}
 		} else {
-			$this->renderCreateAccount($errors);
+			redirect('errors', $errors, 'create-account');
 		}
 	}
 
@@ -172,6 +177,13 @@ class UserController extends BaseController
 			'role' => filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING) ?: '',
 		];
 		$errors = [];
+		$_SESSION['valid_data'] = $data; //Lưu dữ liệu đã nhập vào session để hiển thị lại khi có lỗi
+		//Xóa khoảng trắng ở đầu và cuối chuỗi
+		foreach ($data as $key => $value) {
+			$data[$key] = trim($value);
+			$_SESSION['valid_data'][$key] = trim($value);
+		}
+
 		if (empty($data['first_name'])) {
 			$errors['first_name'] = 'Vui lòng nhập tên';
 		} elseif (strlen($data['first_name']) > 50) {
@@ -194,8 +206,10 @@ class UserController extends BaseController
 			$errors['username'] = 'Username không được quá 20 ký tự';
 		} elseif (strlen($data['username']) < 5) {
 			$errors['username'] = 'Username không được ít hơn 5 ký tự';
-		} elseif ($this->user->checkExistsUsername($data['username'], $id)) {
+		} elseif ($this->user->checkExistsUsername(trim($data['username']), $id)) {
 			$errors['username'] = 'Username đã tồn tại';
+		} else {
+			$validData['username'] = $_SESSION['valid_data']['username'];
 		}
 
 		if (empty($data['email'])) {
@@ -204,7 +218,7 @@ class UserController extends BaseController
 			$errors['email'] = 'Email không được quá 50 ký tự';
 		} elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
 			$errors['email'] = 'Email không đúng định dạng';
-		} elseif ($this->user->checkExistsEmail($data['email'], $id)) {
+		} elseif ($this->user->checkExistsEmail(trim($data['email']), $id)) {
 			$errors['email'] = 'Email đã tồn tại';
 		}
 
@@ -216,25 +230,23 @@ class UserController extends BaseController
 			$errors['phone_number'] = 'Số điện thoại không được ít hơn 10 ký tự';
 		} elseif (!preg_match('/^[0-9]*$/', $data['phone_number'])) {
 			$errors['phone_number'] = 'Số điện thoại không được chứa ký tự đặc biệt';
-		} elseif ($this->user->checkExistsPhoneNumber($data['phone_number'], $id)) {
+		} elseif ($this->user->checkExistsPhoneNumber(trim($data['phone_number']), $id)) {
 			$errors['phone_number'] = 'Số điện thoại đã tồn tại';
 		}
 
-		if ($data['role'] === '') {
-			$errors['role'] = 'Vui lòng chọn quyền';
-		}
 		if (count($errors) > 0) {
-			$this->renderUpdateAccount($id, $errors);
+			redirect('errors', $errors, 'update-account/' . $id);
 		} else {
 			$this->user->saveUpdateAccount(
-				$data['first_name'],
-				$data['last_name'],
-				$data['username'],
-				$data['email'],
-				$data['phone_number'],
-				$data['role'],
+				trim($data['first_name']),
+				trim($data['last_name']),
+				trim($data['username']),
+				trim($data['email']),
+				trim($data['phone_number']),
+				trim($data['role']),
 				$id
 			);
+			unset($_SESSION['valid_data']);
 			redirect('success', 'Cập nhật tài khoản thành công', 'list-account');
 		}
 	}
@@ -266,7 +278,64 @@ class UserController extends BaseController
 			return redirect('', 'Danh sách tài khoản', 'list-account');
 		}
 	}
+	// --------------------------------------Change password---------------------------------------//
+	public function renderChangePassword(int $id, array $errors = [])
+	{
+		$title = "Đổi mật khẩu";
+		$user = $this->user->getUserById($id);
+		$this->render("admin.user.change-password", compact('title', 'errors', 'user'));
+	}
 
+	public function handleChangePassword($id)
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			return redirect('errors', 'Không thể thực hiện thao tác này', 'back');
+		}
+		$data = [
+			'password' => filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING) ?: '',
+			'new_password' => filter_input(INPUT_POST, 'new_password', FILTER_SANITIZE_STRING) ?: '',
+			'confirm_password' => filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING) ?: '',
+		];
+
+		$_SESSION['valid_data'] = $data; //Lưu dữ liệu đã nhập vào session để hiển thị lại khi có lỗi
+		//Xóa khoảng trắng ở đầu và cuối chuỗi
+		foreach ($data as $key => $value) {
+			$data[$key] = trim($value);
+			$_SESSION['valid_data'][$key] = trim($value);
+		}
+		if (empty($data['password'])) {
+			$errors['password'] = 'Mật khẩu không được để trống';
+		} elseif (!password_verify($data['password'], $this->user->getUserById($id)->password)) {
+			$errors['password'] = 'Mật khẩu không đúng';
+		} else {
+			$password_valid = true;
+		}
+		if (empty(trim($data['new_password']))) {
+			$errors['new_password'] = 'Vui lòng nhập mật khẩu mới của bạn !';
+		} elseif (strlen(trim($data['new_password'])) < 6) {
+			$errors['new_password'] = 'Mật khẩu phải có ít nhất 6 ký tự';
+		} elseif (strlen(trim($data['new_password'])) > 20) {
+			$errors['new_password'] = 'Mật khẩu không được quá 20 ký tự';
+		} else if (password_verify($data['new_password'], $this->user->getUserById($id)->password) && $password_valid) {
+			$errors['new_password'] = 'Mật khẩu mới không được trùng với mật khẩu cũ';
+		}
+
+		if (empty($data['confirm_password'])) {
+			$errors['confirm_password'] = 'Vui lòng nhập lại mật khẩu mới của bạn !';
+		} elseif ($data['new_password'] !== $data['confirm_password']) {
+			$errors['confirm_password'] = 'Mật khẩu nhập lại không khớp';
+		}
+		if (empty($errors)) {
+			$result = $this->user->changePassword(password_hash($data['new_password'], PASSWORD_DEFAULT), $id);
+			if ($result) {
+				unset($_SESSION['valid_data']);
+				redirect('success', 'Đổi mật khẩu thành công', 'update-account/' . $id);
+			}
+		} else {
+			redirect('errors', $errors, 'change-password/' . $id);
+		}
+
+	}
 
 	// --------------------------------------Profile---------------------------------------//
 	public function renderUpdateProfile(int $id, array $errors = [])
@@ -289,6 +358,9 @@ class UserController extends BaseController
 			'address' => filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING) ?: '',
 			'bio' => filter_input(INPUT_POST, 'bio', FILTER_SANITIZE_STRING) ?: '',
 		];
+		foreach ($data as $key => $value) {
+			$data[$key] = trim($value);
+		}
 		$avatar = $_FILES['avatar']['name'];
 		$avatar_name = $_FILES['avatar']['tmp_name'];
 		if ($avatar_name) {
@@ -301,4 +373,6 @@ class UserController extends BaseController
 		$this->user->saveUpdateProfile($data['first_name'], $data['last_name'], $data['gender'], $data['birthday'], $data['address'], $data['bio'], $avatar_name, $id);
 		redirect('success', 'Cập nhật thông tin cá nhân thành công', 'list-profile');
 	}
+
+
 }

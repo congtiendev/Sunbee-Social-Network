@@ -25,8 +25,30 @@ function redirect($key, $msg, $route)
 			unset($_SESSION['success']);
 			break;
 	}
+
 	if ($key != "") {
 		header('location:' . BASE_URL . $route . "?msg=" . $key);
+	} else {
+		header('location:' . BASE_URL . $route);
+	}
+	die;
+}
+
+function __redirect($key, $data, $msg, $route)
+{
+	$_SESSION[$key] = $msg;
+	$_SESSION['valid_data'] = $data;
+	switch ($key) {
+		case 'success':
+			unset($_SESSION['errors']);
+			break;
+		case 'errors':
+			unset($_SESSION['success']);
+			break;
+	}
+
+	if ($key != "") {
+		header('location:' . BASE_URL . $route . "?data=" . $data . "?msg=" . $key);
 	} else {
 		header('location:' . BASE_URL . $route);
 	}

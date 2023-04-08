@@ -23,11 +23,11 @@
                                     </span>
                                     <input type="text" placeholder="First Name..." name="first_name"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ $_POST['first_name'] ?? '' }}">
+                                        value="{{ isset($_SESSION['valid_data']['first_name']) ? $_SESSION['valid_data']['first_name'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
-                                    @if (!empty($errors['first_name']))
-                                        {{ $errors['first_name'] }}
+                                    @if (isset($_SESSION['errors']['first_name']) && isset($_GET['msg']))
+                                        {{ $_SESSION['errors']['first_name'] }}
                                     @endif
                                 </span>
                             </div>
@@ -45,11 +45,11 @@
                                     </span>
                                     <input type="text" placeholder="Tên..." name="last_name"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ $_POST['last_name'] ?? '' }}">
+                                        value="{{ isset($_SESSION['valid_data']['last_name']) ? $_SESSION['valid_data']['last_name'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
-                                    @if (!empty($errors['last_name']))
-                                        {{ $errors['last_name'] }}
+                                    @if (isset($_SESSION['errors']['last_name']) && isset($_GET['msg']))
+                                        {{ $_SESSION['errors']['last_name'] }}
                                     @endif
                                 </span>
                             </div>
@@ -67,12 +67,12 @@
                                     </span>
                                     <input type="text" placeholder="Username..." name="username"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ $_POST['username'] ?? '' }}">
+                                        value="{{ isset($_SESSION['valid_data']['username']) ? $_SESSION['valid_data']['username'] : null }}">
 
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
-                                    @if (!empty($errors['username']))
-                                        {{ $errors['username'] }}
+                                    @if (isset($_SESSION['errors']['username']) && isset($_GET['msg']))
+                                        {{ $_SESSION['errors']['username'] }}
                                     @endif
                                 </span>
                             </div>
@@ -89,11 +89,11 @@
                                     </span>
                                     <input type="email" placeholder="Email..." name="email"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ $_POST['email'] ?? '' }}">
+                                        value="{{ isset($_SESSION['valid_data']['email']) ? $_SESSION['valid_data']['email'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
-                                    @if (!empty($errors['email']))
-                                        {{ $errors['email'] }}
+                                    @if (isset($_SESSION['errors']['email']) && isset($_GET['msg']))
+                                        {{ $_SESSION['errors']['email'] }}
                                     @endif
                                 </span>
                             </div>
@@ -114,11 +114,11 @@
                                     <input type="number" min="0" placeholder="Số điện thoại..."
                                         name="phone_number"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ $_POST['phone_number'] ?? '' }}">
+                                        value="{{ isset($_SESSION['valid_data']['phone_number']) ? $_SESSION['valid_data']['phone_number'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
-                                    @if (!empty($errors['phone_number']))
-                                        {{ $errors['phone_number'] }}
+                                    @if (isset($_SESSION['errors']['phone_number']) && isset($_GET['msg']))
+                                        {{ $_SESSION['errors']['phone_number'] }}
                                     @endif
                                 </span>
                             </div>
@@ -136,18 +136,17 @@
                                     </span>
                                     <select name="role"
                                         class="block w-full py-3 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40">
-                                        <option value="">Chọn vai trò</option>
-                                        <option value="0"
-                                            {{ isset($_POST['role']) && $_POST['role'] == 0 ? 'selected' : '' }}>Người dùng
+                                        <option value="0">
+                                            Người dùng
                                         </option>
-                                        <option value="1"
-                                            {{ isset($_POST['role']) && $_POST['role'] == 1 ? 'selected' : '' }}>
-                                            Admin</option>
+                                        <option value="1">
+                                            Admin
+                                        </option>
                                     </select>
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
-                                    @if (!empty($errors['role']))
-                                        {{ $errors['role'] }}
+                                    @if (isset($_SESSION['errors']['role']) && isset($_GET['msg']))
+                                        {{ $_SESSION['errors']['role'] }}
                                     @endif
                                 </span>
                             </div>
@@ -166,11 +165,11 @@
                                     </span>
                                     <input type="password" placeholder="Mật khẩu..." name="password"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ $_POST['password'] ?? '' }}">
+                                        value="{{ isset($_SESSION['valid_data']['password']) ? $_SESSION['valid_data']['password'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
-                                    @if (!empty($errors['password']))
-                                        {{ $errors['password'] }}
+                                    @if (isset($_SESSION['errors']['password']) && isset($_GET['msg']))
+                                        {{ $_SESSION['errors']['password'] }}
                                     @endif
                                 </span>
                             </div>
@@ -189,11 +188,12 @@
 
                                     </span>
                                     <input type="password" placeholder="Nhập lại mật khẩu..." name="confirm_password"
-                                        class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40">
+                                        class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                        value="{{ isset($_SESSION['valid_data']['confirm_password']) ? $_SESSION['valid_data']['confirm_password'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
-                                    @if (!empty($errors['confirm_password']))
-                                        {{ $errors['confirm_password'] }}
+                                    @if (isset($_SESSION['errors']['confirm_password']) && isset($_GET['msg']))
+                                        {{ $_SESSION['errors']['confirm_password'] }}
                                     @endif
                                 </span>
                             </div>

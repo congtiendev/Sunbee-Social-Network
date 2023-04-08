@@ -5,7 +5,7 @@
               <aside class="hidden h-full bg-white shadow-xs md:block whitespace-nowrap" aria-label="Sidebar">
                   <div class="overflow-y-auto bg-white shadow-xs">
                       <ul class="flex flex-col gap-1 p-3 list-sidebar">
-                          <li class="flex items-center gap-1 p-2 rounded-md">
+                          <li class="flex items-center gap-1 p-2 bg-gray-100 rounded-md">
                               <a href="{{ route('update-profile/' . $user->id) }}" class="flex items-center gap-2">
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                       stroke-width="1.5" stroke="currentColor"
@@ -17,7 +17,7 @@
                                       nhân</span>
                               </a>
                           </li>
-                          <li class="flex items-center gap-1 p-2 bg-gray-100 rounded-md">
+                          <li class="flex items-center gap-1 p-2  rounded-md">
                               <a href="{{ route('update-account/' . $user->id) }}" class="flex items-center gap-2">
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                       stroke-width="1.5" stroke="currentColor"
