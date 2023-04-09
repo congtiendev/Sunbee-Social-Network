@@ -6,23 +6,29 @@ use Phroute\Phroute\RouteCollector;
 $url = $_GET['url'] ?? '/';
 $router = new RouteCollector();
 $router->get('404', [App\Controllers\ErrorController::class, 'render404']);
-$router->get('/', [App\Controllers\Admin\UserController::class, 'renderListUser']);
+$router->get('/', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
+
 // -------------------------------CRUD Account--------------------------------//
-$router->get('list-account', [App\Controllers\Admin\UserController::class, 'renderListUser']);
+$router->get('list-account', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
 $router->get('list-account/page/{page:\d+}', [App\Controllers\Admin\UserController::class, 'renderListAccounts']);
 $router->get('create-account', [App\Controllers\Admin\UserController::class, 'renderCreateAccount']);
 $router->get('update-account/{id}', [App\Controllers\Admin\UserController::class, 'renderUpdateAccount']);
 $router->post('save-create-account', [App\Controllers\Admin\UserController::class, 'handleCreateAccount']);
 $router->post('save-update-account/{id}', [App\Controllers\Admin\UserController::class, 'handleUpdateAccount']);
 $router->get('delete-account/{id}', [App\Controllers\Admin\UserController::class, 'deleteAccount']);
+
 // --------------------------------Profile-------------------------------------------//
-$router->get('list-profile', [App\Controllers\Admin\UserController::class, 'renderListUser']);
+$router->get('list-profile', [App\Controllers\Admin\UserController::class, 'renderListProfile']);
 $router->get('update-profile/{id}', [App\Controllers\Admin\UserController::class, 'renderUpdateProfile']);
 $router->post('save-update-profile/{id}', [App\Controllers\Admin\UserController::class, 'handleUpdateProfile']);
 
-// -------------------------------Sort Account--------------------------------//
+// -------------------------------Sort user--------------------------------//
 $router->post('sort-account', [App\Controllers\Admin\UserController::class, 'handleSortAccount']);
-$router->get('list-account/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListUser']);
+$router->get('list-account/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
+
+$router->post('sort-profile', [App\Controllers\Admin\UserController::class, 'handleSortProfile']);
+$router->get('list-profile/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListProfile']);
+
 // --------------------------------Change password-------------------------------------------//
 $router->get('change-password/{id}', [App\Controllers\Admin\UserController::class, 'renderChangePassword']);
 $router->post('save-change-password/{id}', [App\Controllers\Admin\UserController::class, 'handleChangePassword']);

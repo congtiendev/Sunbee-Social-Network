@@ -107,8 +107,13 @@
                                       </span>
                                       <input type="text" placeholder="Họ..." name="first_name"
                                           class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                          value="{{ !empty($user->first_name) ? $user->first_name : $_POST['first_name'] }}">
+                                          value="@if (!empty($user->first_name)) {{ $user->first_name }} @else {{ isset($_SESSION['valid_data']['first_name']) ? $_SESSION['valid_data']['first_name'] : null }} @endif">
                                   </div>
+                                  <span class="text-xs text-red-500">
+                                      @if (isset($_SESSION['errors']['first_name']))
+                                          {{ $_SESSION['errors']['first_name'] }}
+                                      @endif
+                                  </span>
                               </div>
                               <div class="form-group">
                                   <label for="last_name" class="block text-sm font-medium text-gray-500 ">Tên
@@ -125,8 +130,13 @@
                                       </span>
                                       <input type="text" placeholder="Tên..." name="last_name"
                                           class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                          value="{{ !empty($user->last_name) ? $user->last_name : $_POST['last_name'] }}">
+                                          value="@if (!empty($user->last_name)) {{ $user->last_name }} @else {{ isset($_SESSION['valid_data']['last_name']) ? $_SESSION['valid_data']['last_name'] : null }} @endif">
                                   </div>
+                                  <span class="text-xs text-red-500">
+                                      @if (isset($_SESSION['errors']['last_name']))
+                                          {{ $_SESSION['errors']['last_name'] }}
+                                      @endif
+                                  </span>
                               </div>
                               <div class="form-group">
                                   <label for="email" class="block text-sm font-medium text-gray-500 ">Ngày
@@ -143,8 +153,13 @@
                                       </span>
                                       <input type="date" name="birthday"
                                           class="block w-full py-2 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                          value="{{ !empty($user->birthday) ? $user->birthday : $_POST['birthday'] }}">
+                                          value="{{ $user->birthday }}">
                                   </div>
+                                  <span class="text-xs text-red-500">
+                                      @if (isset($_SESSION['errors']['birthday']) && isset($_GET['msg']))
+                                          {{ $_SESSION['errors']['birthday'] }}
+                                      @endif
+                                  </span>
                               </div>
                               <div class="form-group">
                                   <label for="gender" class="block text-sm font-medium text-gray-500 ">Giới
@@ -187,8 +202,13 @@
                                       </span>
                                       <input type="text" placeholder="Địa chỉ..." name="address"
                                           class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                          value="{{ !empty($user->address) ? $user->address : $_POST['address'] }}">
+                                          value="@if (!empty($user->address)) {{ $user->address }} @else {{ isset($_SESSION['valid_data']['address']) && isset($_GET['msg']) ? $_SESSION['valid_data']['address'] : null }} @endif">
                                   </div>
+                                  <span class="text-xs text-red-500">
+                                      @if (isset($_SESSION['errors']['address']))
+                                          {{ $_SESSION['errors']['address'] }}
+                                      @endif
+                                  </span>
                               </div>
                           </div>
                           <div class="flex flex-col gap-2 mt-5 form-group"><label for="first_name"

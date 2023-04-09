@@ -85,9 +85,9 @@
                                         </svg>
 
                                     </span>
-                                    <input type="password" placeholder="Mật khẩu cũ..." name="password"
+                                    <input type="password" placeholder="Mật khẩu ..." name="password"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ isset($_SESSION['valid_data']['password']) ? $_SESSION['valid_data']['password'] : null }}">
+                                        value="{{ isset($_SESSION['valid_data']['password']) && isset($_GET['msg']) ? $_SESSION['valid_data']['password'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
                                     @if (isset($_SESSION['errors']['password']) && isset($_GET['msg']))
@@ -109,7 +109,7 @@
                                     </span>
                                     <input type="password" placeholder="Mật khẩu mới..." name="new_password"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ isset($_SESSION['valid_data']['new_password']) ? $_SESSION['valid_data']['new_password'] : null }}">
+                                        value="{{ isset($_SESSION['valid_data']['new_password']) && isset($_GET['msg']) ? $_SESSION['valid_data']['new_password'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
                                     @if (isset($_SESSION['errors']['new_password']) && isset($_GET['msg']))
@@ -133,7 +133,7 @@
                                     </span>
                                     <input type="password" placeholder="Nhập lại mật khẩu..." name="confirm_password"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="{{ isset($_SESSION['valid_data']['confirm_password']) ? $_SESSION['valid_data']['confirm_password'] : null }}">
+                                        value="{{ isset($_SESSION['valid_data']['confirm_password']) && isset($_GET['msg']) ? $_SESSION['valid_data']['confirm_password'] : null }}">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
                                     @if (isset($_SESSION['errors']['confirm_password']) && isset($_GET['msg']))

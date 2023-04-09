@@ -88,7 +88,7 @@
                                     </span>
                                     <input type="text" placeholder="First Name..." name="first_name"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="@if (!empty($user->first_name)) {{ trim($user->first_name) }} @else {{ isset($_SESSION['valid_data']['first_name']) ? trim($_SESSION['valid_data']['first_name']) : null }} @endif">
+                                        value="@if (!empty($user->first_name)) {{ trim($user->first_name) }} @else {{ isset($_SESSION['valid_data']['first_name']) && isset($_GET['msg']) ? trim($_SESSION['valid_data']['first_name']) : null }} @endif">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
                                     @if (isset($_SESSION['errors']['first_name']) && isset($_GET['msg']))
@@ -110,7 +110,7 @@
                                     </span>
                                     <input type="text" placeholder="Tên..." name="last_name"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="@if (!empty($user->last_name)) {{ trim($user->last_name) }} @else {{ isset($_SESSION['valid_data']['last_name']) ? trim($_SESSION['valid_data']['last_name']) : null }} @endif">
+                                        value="@if (!empty($user->last_name)) {{ trim($user->last_name) }} @else {{ isset($_SESSION['valid_data']['last_name']) && isset($_GET['msg']) ? trim($_SESSION['valid_data']['last_name']) : null }} @endif">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
                                     @if (isset($_SESSION['errors']['last_name']) && isset($_GET['msg']))
@@ -153,7 +153,7 @@
                                     </span>
                                     <input type="email" placeholder="Email..." name="email"
                                         class="block w-full py-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg pl-11 pr-5 rtl:pr-11 rtl:pl-5   focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                                        value="@if (!empty($user->email)) {{ $user->email }} @else {{ isset($_SESSION['valid_data']['email']) ? $_SESSION['valid_data']['email'] : null }} @endif">
+                                        value="@if (!empty($user->email)) {{ $user->email }} @else {{ isset($_SESSION['valid_data']['email']) && isset($_GET['msg']) ? $_SESSION['valid_data']['email'] : null }} @endif">
                                 </div>
                                 <span class="mt-2 text-xs text-red-500">
                                     @if (isset($_SESSION['errors']['email']) && isset($_GET['msg']))
