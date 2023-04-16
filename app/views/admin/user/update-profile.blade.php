@@ -6,7 +6,7 @@
                   <div class="overflow-y-auto bg-white shadow-xs">
                       <ul class="flex flex-col gap-1 p-3 list-sidebar">
                           <li class="flex items-center gap-1 p-2 bg-gray-100 rounded-md">
-                              <a href="{{ route('update-profile/' . $user->id) }}" class="flex items-center gap-2">
+                              <a href="{{ route('admin/update-profile/' . $user->id) }}" class="flex items-center gap-2">
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                       stroke-width="1.5" stroke="currentColor"
                                       class="p-1 text-gray-600 bg-gray-200 rounded-full w-7 h-7">
@@ -18,7 +18,7 @@
                               </a>
                           </li>
                           <li class="flex items-center gap-1 p-2  rounded-md">
-                              <a href="{{ route('update-account/' . $user->id) }}" class="flex items-center gap-2">
+                              <a href="{{ route('admin/update-account/' . $user->id) }}" class="flex items-center gap-2">
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                       stroke-width="1.5" stroke="currentColor"
                                       class="p-0.5 text-gray-500 bg-gray-200 rounded-full w-7 h-7">
@@ -70,11 +70,11 @@
               </aside>
               <article class="w-full h-full p-3 bg-white shadow-xs">
                   <section class="w-full h-full setting-user-info">
-                      <form action="{{ route('save-update-profile/' . $user->id) }}" method="post"
+                      <form action="{{ route('admin/save-update-profile/' . $user->id) }}" method="post"
                           enctype="multipart/form-data" class="w-full h-full">
                           <div class="flex items-center gap-2">
-                              <div class="relative avatar-box w-14 h-14 ">
-                                  <img src="{{ empty($user->avatar) ? BASE_URL . 'resources/images/default-avatar.jpg' : BASE_URL . 'public/uploads/avatar/' . $user->avatar }}"
+                              <div class="relative avatar-box w-14 h-14 object-cover">
+                                  <img src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
                                       alt="" class="rounded-full w-14 h-14">
                                   <label class="absolute right-0 cursor-pointer top-6">
                                       <img src="{{ BASE_URL }}resources/images/upload-btn.png" alt=""
@@ -218,11 +218,11 @@
                                   class="block w-full p-2.5 text-gray-700 placeholder-gray-400/70 bg-white border border-gray-200 rounded-lg    focus:border-indigo-400 focus:ring-indborder-indigo-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                   placeholder="Nhập tiểu sử...">{{ $user->bio }}</textarea>
                           </div>
-                          <div class="flex justify-center mt-5 btn-group">
-                              <button type="reset"
-                                  class="px-5 py-2 text-white bg-red-500 rounded-lg btn btn-error btn-md">Hủy</button>
-                              <button type="submit"
-                                  class="px-5 py-2 bg-indigo-500 rounded-lg btn btn-primary btn-md">Lưu</button>
+                          <div class="flex justify-center  gap-2 my-5 btn-group">
+                              <button type="reset" style="background-color: #ff0000"
+                                  class="w-32 px-4 py-2 font-medium text-white transition-all duration-300  rounded-xl hover:bg-red-500">Hủy</button>
+                              <button name="btn-save"
+                                  class="w-32 px-4 py-2 font-medium text-white transition-all duration-300 bg-green-600  rounded-xl hover:bg-green-500">Lưu</button>
                           </div>
                       </form>
                   </section>

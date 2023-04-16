@@ -5,5 +5,6 @@
      rel="stylesheet" />
  <link rel="stylesheet" href="{{ BASE_URL }}resources/css/tailwind.css" />
  <link rel="stylesheet" href="{{ BASE_URL }}resources/css/admin.css" />
+ <link rel="stylesheet" href="{{ BASE_URL }}resources/css/custom.css" />
  <script src="{{ BASE_URL }}resources/js/jquery-3.3.1.min.js"></script>
  <script src="{{ BASE_URL }}node_modules/sweetalert/dist/sweetalert.min.js"></script>

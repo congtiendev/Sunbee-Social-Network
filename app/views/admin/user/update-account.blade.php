@@ -6,7 +6,7 @@
                 <div class="overflow-y-auto bg-white shadow-xs">
                     <ul class="flex flex-col gap-1 p-3 list-sidebar">
                         <li class="flex items-center gap-1 p-2 rounded-md">
-                            <a href="{{ route('update-profile/' . $user->id) }}" class="flex items-center gap-2">
+                            <a href="{{ route('admin/update-profile/' . $user->id) }}" class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="p-1 text-gray-600 bg-gray-200 rounded-full w-7 h-7">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -17,7 +17,7 @@
                             </a>
                         </li>
                         <li class="flex items-center gap-1 p-2 bg-gray-100 rounded-md">
-                            <a href="{{ route('update-account/' . $user->id) }}" class="flex items-center gap-2">
+                            <a href="{{ route('admin/update-account/' . $user->id) }}" class="flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
                                     class="p-0.5 text-gray-500 bg-gray-200 rounded-full w-7 h-7">
@@ -69,7 +69,8 @@
             </aside>
             <article class="w-full h-full px-4 py-3 bg-white shadow-xs sm:px-5 sm:py-3">
                 <section class="w-full h-full setting-user-info">
-                    <form action="{{ route('save-update-account/' . $user->id) }}" method="post" class="w-full h-full">
+                    <form action="{{ route('admin/save-update-account/' . $user->id) }}" method="post"
+                        class="w-full h-full">
                         <h1 class="my-4 text-xl font-semibold text-gray-700">Thông tin
                             tài khoản
                         </h1>
@@ -222,13 +223,11 @@
                                     khẩu</a>
                             </div>
                         </div>
-                        <div class="flex justify-center mt-5 btn-group">
-                            <button type="reset"
-                                class="px-5 py-2 text-white bg-red-500 rounded-lg btn btn-error btn-md">Hủy
-                            </button>
-                            <button type="submit" name="btn-save"
-                                class="px-5 py-2 bg-indigo-500 rounded-lg btn-update-account btn btn-primary btn-md">Lưu
-                            </button>
+                        <div class="flex justify-center  gap-2 my-5 btn-group">
+                            <button type="reset" style="background-color: #ff0000"
+                                class="w-32 px-4 py-2 font-medium text-white transition-all duration-300  rounded-xl hover:bg-red-500">Hủy</button>
+                            <button name="btn-save"
+                                class="w-32 px-4 py-2 font-medium text-white transition-all duration-300 bg-green-600  rounded-xl hover:bg-green-500">Lưu</button>
                         </div>
                     </form>
                 </section>

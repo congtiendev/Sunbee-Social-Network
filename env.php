@@ -8,6 +8,8 @@ const DBPASS = "";
 const DBCHARSET = "utf8";
 const DBHOST = "127.0.0.1";
 const BASE_URL = "http://localhost:88/sunbee/";
+const IMG_PATH = "http://localhost:88/sunbee/resources/images/";
+const AVATAR_PATH = "http://localhost:88/sunbee/public/uploads/avatars/";
 
 function route($name): string
 {
@@ -28,27 +30,6 @@ function redirect($key, $msg, $route)
 
 	if ($key != "") {
 		header('location:' . BASE_URL . $route . "?msg=" . $key);
-	} else {
-		header('location:' . BASE_URL . $route);
-	}
-	die;
-}
-
-function __redirect($key, $data, $msg, $route)
-{
-	$_SESSION[$key] = $msg;
-	$_SESSION['valid_data'] = $data;
-	switch ($key) {
-		case 'success':
-			unset($_SESSION['errors']);
-			break;
-		case 'errors':
-			unset($_SESSION['success']);
-			break;
-	}
-
-	if ($key != "") {
-		header('location:' . BASE_URL . $route . "?data=" . $data . "?msg=" . $key);
 	} else {
 		header('location:' . BASE_URL . $route);
 	}

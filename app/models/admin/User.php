@@ -14,10 +14,12 @@ class User extends BaseModel
 		$this->setQuery($sql);
 		return $this->loadRow();
 	}
-	public function getAllUser($column = null, $order = null, $limit = null, $offset = null)
+	public function getAllUser($keyword = null, $limit = null, $offset = null, $column = null, $order = null)
 	{
 		$sql = "SELECT * FROM $this->table WHERE 1";
-
+		if ($keyword !== null) {
+			$sql .= " AND (first_name LIKE '%$keyword%' OR last_name LIKE '%$keyword%' OR username LIKE '%$keyword%' OR email LIKE '%$keyword%' OR phone_number LIKE '%$keyword%')";
+		}
 		if ($column !== null && $order !== null) {
 			$sql .= " ORDER BY $column $order";
 		}
@@ -30,6 +32,7 @@ class User extends BaseModel
 		$this->setQuery($sql);
 		return $this->loadAllRows();
 	}
+
 
 	public function getUserById($id)
 	{

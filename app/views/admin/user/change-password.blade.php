@@ -141,13 +141,11 @@
                                     @endif
                                 </span>
                             </div>
-                            <div class="flex justify-center mt-5 btn-group">
-                                <button type="reset"
-                                    class="px-5 py-2 text-white bg-red-500 rounded-lg btn btn-error btn-md">Hủy
-                                </button>
-                                <button type="submit" name="btn-save"
-                                    class="px-5 py-2 bg-indigo-500 rounded-lg btn-update-account btn btn-primary btn-md">Lưu
-                                </button>
+                            <div class="flex justify-center  gap-2 my-5 btn-group">
+                                <button type="reset" style="background-color: #ff0000"
+                                    class="w-32 px-4 py-2 font-medium text-white transition-all duration-300  rounded-xl hover:bg-red-500">Hủy</button>
+                                <button name="btn-save"
+                                    class="w-32 px-4 py-2 font-medium text-white transition-all duration-300 bg-green-600  rounded-xl hover:bg-green-500">Lưu</button>
                             </div>
                         </div>
                     </form>

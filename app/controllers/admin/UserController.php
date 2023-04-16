@@ -15,33 +15,28 @@ class UserController extends BaseController
 		$this->user = new User();
 	}
 
-	/**
-	 * @throws Exception
-	 */
-	public function renderListAccount($column = null, $order = null)
+	public function renderListAccount($keyword = null, $column = null, $order = null)
 	{
 		$title = "Danh sách tài khoản";
+		$users = $this->user->getAllUser($keyword, $this->Pagination()['limit'], $this->Pagination()['offset'], $column, $order);
+		$pagination = $this->Pagination();
+		$this->render("admin.user.list-account", compact('title', 'users', 'keyword', 'pagination'));
+	}
+	public function Pagination()
+	{
 		$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 		$limit = 10;
-		$offset = ($page - 1) * $limit;
-		$totalUsers = count($this->user->getAllUser()); //Đếm tổng số bản ghi
-		$totalPages = round(intval($totalUsers / $limit)); //Tổng số trang
-		$pagination = [
+		$totalData = count($this->user->getAllUser());
+		$offset = ($page - 1) * $limit; //Vị trí bắt đầu lấy dữ liệu
+		$totalPages = round(intval($totalData / $limit));
+		return [
 			'offset' => $offset,
-			'total' => $totalUsers,
+			'total' => $totalData,
 			'limit' => $limit,
 			'current_page' => $page,
 			'total_pages' => $totalPages,
-		]; //Tạo mảng chứa thông tin phân trang
-		if ($column !== null && $order !== null) { //Kiểm tra xem có sắp xếp hay không
-			$users = $this->user->getAllUser($column, $order, $limit, $offset);
-		} else { //Nếu không có sắp xếp thì lấy tất cả
-			$users = $this->user->getAllUser(null, null, $limit, $offset);
-		}
-
-		$this->render("admin.user.list-account", compact('title', 'users', 'pagination'));
+		];
 	}
-
 
 	public function renderCreateAccount()
 	{
@@ -59,7 +54,7 @@ class UserController extends BaseController
 	public function handleCreateAccount()
 	{
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			return redirect('errors', 'Không thể tạo mới tài khoản', 'list-account');
+			return redirect('errors', 'Không thể tạo mới tài khoản', 'admin/list-account');
 		}
 		$data = [
 			'first_name' => filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING) ?: '',
@@ -152,17 +147,17 @@ class UserController extends BaseController
 			);
 			if ($result) {
 				unset($_SESSION['valid_data']);
-				redirect('success', 'Tạo mới tài khoản thành công', 'list-account');
+				redirect('success', 'Tạo mới tài khoản thành công', 'admin/list-account');
 			}
 		} else {
-			redirect('errors', $errors, 'create-account');
+			redirect('errors', $errors, 'admin/create-account');
 		}
 	}
 
 	public function handleUpdateAccount($id)
 	{
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			return redirect('errors', 'Không thể thực hiện thao tác này', 'list-account');
+			return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-account');
 		}
 		$data = [
 			'first_name' => filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING) ?: '',
@@ -231,7 +226,7 @@ class UserController extends BaseController
 		}
 
 		if (count($errors) > 0) {
-			redirect('errors', $errors, 'update-account/' . $id);
+			redirect('errors', $errors, 'admin/update-account/' . $id);
 		} else {
 			$this->user->saveUpdateAccount(
 				trim($data['first_name']),
@@ -243,37 +238,115 @@ class UserController extends BaseController
 				$id
 			);
 			unset($_SESSION['valid_data']);
-			redirect('success', 'Cập nhật tài khoản thành công', 'list-account');
+			redirect('success', 'Cập nhật tài khoản thành công', 'admin/list-account');
 		}
 	}
 
 	public function deleteAccount(int $id)
 	{
 		$this->user->deleteUser($id);
-		redirect('success', 'Xóa tài khoản thành công', 'list-account');
+		redirect('success', 'Xóa tài khoản thành công', 'admin/list-account');
 	}
-	public function handleSortAccount()
+	// --------------------------------------Profile---------------------------------------//
+	public function renderListProfile($keyword = null, $column = null, $order = null)
+	{
+		$title = "Danh sách hồ sơ";
+		$users = $this->user->getAllUser($keyword, $this->Pagination()['limit'], $this->Pagination()['offset'], $column, $order);
+		$pagination = $this->Pagination();
+		$this->render("admin.user.list-profile", compact('title', 'users', 'keyword', 'pagination'));
+	}
+	public function renderUpdateProfile(int $id)
+	{
+		$title = "Cập nhật thông tin cá nhân";
+		$user = $this->user->getUserById($id);
+		$this->render("admin.user.update-profile", compact('title', 'user'));
+	}
+
+	public function handleUpdateProfile($id)
 	{
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			return redirect('errors', 'Không thể thực hiện thao tác này', 'list-account');
+			return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-profile');
 		}
-		$column = "";
-		$order = "";
+		$data = [
+			'first_name' => filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING) ?: '',
+			'last_name' => filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING) ?: '',
+			'gender' => filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING) ?: '',
+			'birthday' => filter_input(INPUT_POST, 'birthday', FILTER_SANITIZE_STRING) ?: '',
+			'address' => filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING) ?: '',
+			'bio' => filter_input(INPUT_POST, 'bio', FILTER_SANITIZE_STRING) ?: '',
+		];
+		$errors = [];
+		$_SESSION['valid_data'] = $data;
+		//Xóa khoảng trắng ở đầu và cuối chuỗi
+		foreach ($data as $key => $value) {
+			$data[$key] = trim($value);
+			$_SESSION['valid_data'][$key] = trim($value);
+		}
 
-		if ($_POST['sort_account'] == 'sort_by_name') {
-			$column = 'first_name';
-			$order = 'ASC';
-			return redirect('', 'Săps xếp theo tên', 'list-account/' . $column . '/' . $order);
-		} elseif ($_POST['sort_account'] == 'sort_by_latest') {
-			$column = 'created_at';
-			$order = 'DESC';
-			return redirect('', 'Săps xếp theo ngày tạo mới nhất', 'list-account/' . $column . '/' . $order);
-		} elseif ($_POST['sort_account'] == 'sort_by_oldest') {
-			$column = 'created_at';
-			$order = 'ASC';
-			return redirect('', 'Sắp xếp theo ngày tạo muộn nhất', 'list-account/' . $column . '/' . $order);
+		//Kiểm tra dữ liệu nhập vào
+		if (empty($data['first_name'])) {
+			$errors['first_name'] = 'Vui lòng nhập tên';
+		} elseif (strlen($data['first_name']) > 50) {
+			$errors['first_name'] = 'Tên không được quá 50 ký tự';
+		} elseif (strlen($data['first_name']) < 2) {
+			$errors['first_name'] = 'Tên không được ít hơn 2 ký tự';
+		}
+
+		if (empty($data['last_name'])) {
+			$errors['last_name'] = 'Vui lòng nhập họ';
+		} elseif (strlen($data['last_name']) > 50) {
+			$errors['last_name'] = 'Họ không được quá 50 ký tự';
+		} elseif (strlen($data['last_name']) < 2) {
+			$errors['last_name'] = 'Họ không được ít hơn 2 ký tự';
+		}
+
+		if (empty($data['birthday'])) {
+			$errors['birthday'] = 'Vui lòng nhập ngày sinh';
+		} elseif (strtotime($data['birthday']) > strtotime(date('d-m-Y'))) {
+			$errors['birthday'] = 'Ngày sinh không được lớn hơn ngày hiện tại';
+		}
+
+		if (empty($data['address'])) {
+			$errors['address'] = 'Vui lòng nhập địa chỉ';
+		} elseif (strlen($data['address']) > 255) {
+			$errors['address'] = 'Địa chỉ không được quá 255 ký tự';
+		} elseif (strlen($data['address']) < 2) {
+			$errors['address'] = 'Địa chỉ không được ít hơn 2 ký tự';
+		}
+
+		$avatar = $_FILES['avatar']['name'];
+		$avatar_name = $_FILES['avatar']['tmp_name'];
+		if ($avatar_name) {
+			$avatar_name = uniqid('', true) . '-' . $avatar;
+			move_uploaded_file($_FILES['avatar']['tmp_name'], './public/uploads/avatars/' . $avatar_name);
 		} else {
-			return redirect('', 'Danh sách tài khoản', 'list-account');
+			$avatar_name = $this->user->getUserById($id)->avatar;
+		}
+		if (empty($errors)) {
+			unset($_SESSION['valid_data']);
+			$this->user->saveUpdateProfile($data['first_name'], $data['last_name'], $data['gender'], $data['birthday'], $data['address'], $data['bio'], $avatar_name, $id);
+			redirect('success', 'Cập nhật thông tin cá nhân thành công', 'admin/list-profile');
+		} else {
+			redirect('errors', $errors, 'admin/update-profile/' . $id);
+		}
+	}
+
+	public function renderDetailProfile($id)
+	{
+		$title = "Thông tin cá nhân";
+		$user = $this->user->getUserById($id);
+		$this->render("admin.user.detail-profile", compact('title', 'user'));
+	}
+
+
+	// -----------------------------------Search user----------------------------------//
+	public function searchUser()
+	{
+		$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : null;
+		if (isset($_GET['account'])) {
+			$this->renderListAccount($keyword);
+		} elseif (isset($_GET['profile'])) {
+			$this->renderListProfile($keyword);
 		}
 	}
 
@@ -336,127 +409,6 @@ class UserController extends BaseController
 
 	}
 
-	// --------------------------------------Profile---------------------------------------//
-	public function renderListProfile($column = null, $order = null)
-	{
-		$title = "Danh sách hồ sơ";
-		$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-		$limit = 10;
-		$offset = ($page - 1) * $limit;
-		$totalUsers = count($this->user->getAllUser()); //Đếm tổng số bản ghi
-		$totalPages = round(intval($totalUsers / $limit)); //Tổng số trang
-		$pagination = [
-			'offset' => $offset,
-			'total' => $totalUsers,
-			'limit' => $limit,
-			'current_page' => $page,
-			'total_pages' => $totalPages,
-		]; //Tạo mảng chứa thông tin phân trang
-		if ($column !== null && $order !== null) { //Kiểm tra xem có sắp xếp hay không
-			$users = $this->user->getAllUser($column, $order, $limit, $offset);
-		} else { //Nếu không có sắp xếp thì lấy tất cả
-			$users = $this->user->getAllUser(null, null, $limit, $offset);
-		}
-		$this->render("admin.user.list-profile", compact('title', 'users', 'pagination'));
-	}
-	public function renderUpdateProfile(int $id)
-	{
-		$title = "Cập nhật thông tin cá nhân";
-		$user = $this->user->getUserById($id);
-		$this->render("admin.user.update-profile", compact('title', 'user'));
-	}
 
-	public function handleUpdateProfile($id)
-	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			return redirect('errors', 'Không thể thực hiện thao tác này', 'list-profile');
-		}
-		$data = [
-			'first_name' => filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING) ?: '',
-			'last_name' => filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING) ?: '',
-			'gender' => filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING) ?: '',
-			'birthday' => filter_input(INPUT_POST, 'birthday', FILTER_SANITIZE_STRING) ?: '',
-			'address' => filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING) ?: '',
-			'bio' => filter_input(INPUT_POST, 'bio', FILTER_SANITIZE_STRING) ?: '',
-		];
-		$errors = [];
-		$_SESSION['valid_data'] = $data;
-		//Xóa khoảng trắng ở đầu và cuối chuỗi
-		foreach ($data as $key => $value) {
-			$data[$key] = trim($value);
-			$_SESSION['valid_data'][$key] = trim($value);
-		}
-
-		//Kiểm tra dữ liệu nhập vào
-		if (empty($data['first_name'])) {
-			$errors['first_name'] = 'Vui lòng nhập tên';
-		} elseif (strlen($data['first_name']) > 50) {
-			$errors['first_name'] = 'Tên không được quá 50 ký tự';
-		} elseif (strlen($data['first_name']) < 2) {
-			$errors['first_name'] = 'Tên không được ít hơn 2 ký tự';
-		}
-
-		if (empty($data['last_name'])) {
-			$errors['last_name'] = 'Vui lòng nhập họ';
-		} elseif (strlen($data['last_name']) > 50) {
-			$errors['last_name'] = 'Họ không được quá 50 ký tự';
-		} elseif (strlen($data['last_name']) < 2) {
-			$errors['last_name'] = 'Họ không được ít hơn 2 ký tự';
-		}
-
-		if (empty($data['birthday'])) {
-			$errors['birthday'] = 'Vui lòng nhập ngày sinh';
-		} elseif (strtotime($data['birthday']) > strtotime(date('d-m-Y'))) {
-			$errors['birthday'] = 'Ngày sinh không được lớn hơn ngày hiện tại';
-		}
-
-		if (empty($data['address'])) {
-			$errors['address'] = 'Vui lòng nhập địa chỉ';
-		} elseif (strlen($data['address']) > 255) {
-			$errors['address'] = 'Địa chỉ không được quá 255 ký tự';
-		} elseif (strlen($data['address']) < 2) {
-			$errors['address'] = 'Địa chỉ không được ít hơn 2 ký tự';
-		}
-
-		$avatar = $_FILES['avatar']['name'];
-		$avatar_name = $_FILES['avatar']['tmp_name'];
-		if ($avatar_name) {
-			$avatar_name = uniqid('', true) . '-' . $avatar;
-			move_uploaded_file($_FILES['avatar']['tmp_name'], './public/uploads/avatar/' . $avatar_name);
-		} else {
-			$avatar_name = $this->user->getUserById($id)->avatar;
-		}
-		if (empty($errors)) {
-			unset($_SESSION['valid_data']);
-			$this->user->saveUpdateProfile($data['first_name'], $data['last_name'], $data['gender'], $data['birthday'], $data['address'], $data['bio'], $avatar_name, $id);
-			redirect('success', 'Cập nhật thông tin cá nhân thành công', 'list-profile');
-		} else {
-			redirect('errors', $errors, 'update-profile/' . $id);
-		}
-	}
-	public function handleSortProfile()
-	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			return redirect('errors', 'Không thể thực hiện thao tác này', 'list-account');
-		}
-		$column = "";
-		$order = "";
-
-		if ($_POST['sort_profile'] == 'sort_by_name') {
-			$column = 'first_name';
-			$order = 'ASC';
-			return redirect('', 'Săps xếp theo tên', 'list-profile/' . $column . '/' . $order);
-		} elseif ($_POST['sort_profile'] == 'sort_by_latest') {
-			$column = 'created_at';
-			$order = 'DESC';
-			return redirect('', 'Săps xếp theo ngày tạo mới nhất', 'list-profile/' . $column . '/' . $order);
-		} elseif ($_POST['sort_profile'] == 'sort_by_oldest') {
-			$column = 'created_at';
-			$order = 'ASC';
-			return redirect('', 'Sắp xếp theo ngày tạo muộn nhất', 'list-profile/' . $column . '/' . $order);
-		} else {
-			return redirect('', 'Danh sách tài khoản', 'list-profile');
-		}
-	}
 
 }
