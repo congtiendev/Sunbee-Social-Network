@@ -1,226 +1,157 @@
- @extends('admin.layouts.master')
- @section('content')
-     <main class="w-full h-full bg-white  overflow-y-auto p-2 sm:p-5 rounded-2xl hidden__scrollbar">
-         <!-- ------------------------wrapper title & fill  -->
-         <div class="lg:w-8/12 lg:mx-auto mb-8">
-             <header class="flex flex-wrap items-center p-4 md:py-8">
-                 <div class="md:w-3/12 md:ml-16">
-                     <!-- avatar -->
-                     <img class="w-20 h-20 md:w-40 md:h-40  object-cover rounded-full
-                             border-2 border-pink-600 p-1"
-                         src="{{ empty($user->avatar) ? BASE_URL . 'resources/images/default-avatar.jpg' : BASE_URL . 'public/uploads/avatar/' . $user->avatar }}"
-                         alt="profile">
-                 </div>
+@extends('admin.layouts.master')
+@section('content')
+    <main>
+        <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+            <div class="mx-auto max-w-242.5">
+                <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <h2 class="text-title-md2 font-bold text-black dark:text-white">
+                        Trang cá nhân
+                    </h2>
+                </div>
 
-                 <!-- profile meta -->
-                 <div class="w-8/12 md:w-7/12 ml-4">
-                     <div class="md:flex md:flex-wrap md:items-center mb-4">
-                         <h2
-                             class="fullname text-xl sm:text-2xl md:text-3xl text-gray-900 inline-block font-light md:mr-2 mb-2 sm:mb-0 whitespace-nowrap">
-                             {{ $user->first_name }} {{ $user->last_name }}
-                         </h2>
+                <div
+                    class="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                    <div class="relative z-20 h-35 md:h-65">
+                        <img src="{{ empty($user->cover_photo) ? COVER_PATH . 'default-cover-photo.jpg' : COVER_PATH . $user->cover_photo }}"
+                            alt="profile" alt="profile cover"
+                            class="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center" />
+                        <div class="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
+                            <label for="change-cover-photo"
+                                class="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-1 px-2 text-sm font-medium text-white hover:bg-opacity-80 xsm:px-4">
+                                <span>
+                                    <svg class="fill-current" width="14" height="14" viewBox="0 0 14 14"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M4.76464 1.42638C4.87283 1.2641 5.05496 1.16663 5.25 1.16663H8.75C8.94504 1.16663 9.12717 1.2641 9.23536 1.42638L10.2289 2.91663H12.25C12.7141 2.91663 13.1592 3.101 13.4874 3.42919C13.8156 3.75738 14 4.2025 14 4.66663V11.0833C14 11.5474 13.8156 11.9925 13.4874 12.3207C13.1592 12.6489 12.7141 12.8333 12.25 12.8333H1.75C1.28587 12.8333 0.840752 12.6489 0.512563 12.3207C0.184375 11.9925 0 11.5474 0 11.0833V4.66663C0 4.2025 0.184374 3.75738 0.512563 3.42919C0.840752 3.101 1.28587 2.91663 1.75 2.91663H3.77114L4.76464 1.42638ZM5.56219 2.33329L4.5687 3.82353C4.46051 3.98582 4.27837 4.08329 4.08333 4.08329H1.75C1.59529 4.08329 1.44692 4.14475 1.33752 4.25415C1.22812 4.36354 1.16667 4.51192 1.16667 4.66663V11.0833C1.16667 11.238 1.22812 11.3864 1.33752 11.4958C1.44692 11.6052 1.59529 11.6666 1.75 11.6666H12.25C12.4047 11.6666 12.5531 11.6052 12.6625 11.4958C12.7719 11.3864 12.8333 11.238 12.8333 11.0833V4.66663C12.8333 4.51192 12.7719 4.36354 12.6625 4.25415C12.5531 4.14475 12.4047 4.08329 12.25 4.08329H9.91667C9.72163 4.08329 9.53949 3.98582 9.4313 3.82353L8.43781 2.33329H5.56219Z"
+                                            fill="white" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M6.99992 5.83329C6.03342 5.83329 5.24992 6.61679 5.24992 7.58329C5.24992 8.54979 6.03342 9.33329 6.99992 9.33329C7.96642 9.33329 8.74992 8.54979 8.74992 7.58329C8.74992 6.61679 7.96642 5.83329 6.99992 5.83329ZM4.08325 7.58329C4.08325 5.97246 5.38909 4.66663 6.99992 4.66663C8.61075 4.66663 9.91659 5.97246 9.91659 7.58329C9.91659 9.19412 8.61075 10.5 6.99992 10.5C5.38909 10.5 4.08325 9.19412 4.08325 7.58329Z"
+                                            fill="white" />
+                                    </svg>
+                                </span>
+                                <span>Thay đổi</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- --------------------------------Change cover photo------------------------------------ -->
+                    <input type="checkbox" id="change-cover-photo" class="modal-toggle" />
+                    <div class="modal modal-bottom sm:modal-middle">
+                        <form action="{{ route('admin/change-cover-photo/' . $user->id) }}" method="post"
+                            enctype="multipart/form-data" class="modal-box bg-gray-100 dark:bg-boxdark">
+                            <label id="upload-cover-photo-label" for="upload-cover-photo"
+                                class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                </svg>
 
-                         <!-- icon tick -->
-                         <span
-                             class="inline-block fas fa-certificate fa-lg text-blue-500 
-                                       relative mr-6  text-xl transform -translate-y-2"
-                             aria-hidden="true">
-                             <i
-                                 class="fas fa-check text-white text-xs absolute inset-x-0
-                                       ml-1 mt-px"></i>
-                         </span>
+                                <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">
+                                    Thay đổi ảnh bìa
+                                </h2>
 
-                         <!-- follow button -->
-                         <a href="#"
-                             class="bg-blue-500 px-2 py-1 
-                                text-white font-semibold text-sm rounded block text-center 
-                                sm:inline-block">Theo
-                             dõi</a>
-                     </div>
+                                <p class="mt-2 text-gray-500 tracking-wide">
+                                    Tải lên ảnh bìa mới của bạn
+                                </p>
+                                <input id="upload-cover-photo" name="cover_photo" type="file" class="hidden" />
+                            </label>
+                            <div id="cover-photo-preview" class="my-4 w-full h-auto"></div>
+                            <div class="modal-action">
+                                <label for="change-cover-photo" class="btn btn-error">Hủy</label>
+                                <button name="change_cover_photo_btn" type="submit" class="btn btn-success">
+                                    Lưu
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- ------------------------------------------------------------- -->
+                    <div class="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
+                        <div
+                            class="relative z-30 mx-auto -mt-22 w-full max-w-30 sm:max-w-44 sm:h-44 h-30 rounded-full bg-white/20 p-1 backdrop-blur first-letter:sm:p-3">
+                            <div class="relative drop-shadow-2 w-full h-full">
+                                <img class="rounded-full w-full h-full object-cover"
+                                    src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
+                                    alt="profile avatar" />
+                                <label for="change-avatar"
+                                    class="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2">
+                                    <svg class="fill-current" width="14" height="14" viewBox="0 0 14 14"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M4.76464 1.42638C4.87283 1.2641 5.05496 1.16663 5.25 1.16663H8.75C8.94504 1.16663 9.12717 1.2641 9.23536 1.42638L10.2289 2.91663H12.25C12.7141 2.91663 13.1592 3.101 13.4874 3.42919C13.8156 3.75738 14 4.2025 14 4.66663V11.0833C14 11.5474 13.8156 11.9925 13.4874 12.3207C13.1592 12.6489 12.7141 12.8333 12.25 12.8333H1.75C1.28587 12.8333 0.840752 12.6489 0.512563 12.3207C0.184375 11.9925 0 11.5474 0 11.0833V4.66663C0 4.2025 0.184374 3.75738 0.512563 3.42919C0.840752 3.101 1.28587 2.91663 1.75 2.91663H3.77114L4.76464 1.42638ZM5.56219 2.33329L4.5687 3.82353C4.46051 3.98582 4.27837 4.08329 4.08333 4.08329H1.75C1.59529 4.08329 1.44692 4.14475 1.33752 4.25415C1.22812 4.36354 1.16667 4.51192 1.16667 4.66663V11.0833C1.16667 11.238 1.22812 11.3864 1.33752 11.4958C1.44692 11.6052 1.59529 11.6666 1.75 11.6666H12.25C12.4047 11.6666 12.5531 11.6052 12.6625 11.4958C12.7719 11.3864 12.8333 11.238 12.8333 11.0833V4.66663C12.8333 4.51192 12.7719 4.36354 12.6625 4.25415C12.5531 4.14475 12.4047 4.08329 12.25 4.08329H9.91667C9.72163 4.08329 9.53949 3.98582 9.4313 3.82353L8.43781 2.33329H5.56219Z"
+                                            fill="" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M7.00004 5.83329C6.03354 5.83329 5.25004 6.61679 5.25004 7.58329C5.25004 8.54979 6.03354 9.33329 7.00004 9.33329C7.96654 9.33329 8.75004 8.54979 8.75004 7.58329C8.75004 6.61679 7.96654 5.83329 7.00004 5.83329ZM4.08337 7.58329C4.08337 5.97246 5.38921 4.66663 7.00004 4.66663C8.61087 4.66663 9.91671 5.97246 9.91671 7.58329C9.91671 9.19412 8.61087 10.5 7.00004 10.5C5.38921 10.5 4.08337 9.19412 4.08337 7.58329Z"
+                                            fill="" />
+                                    </svg>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- --------------------------Change avatar modal------------------------------- -->
+                        <input type="checkbox" id="change-avatar" class="modal-toggle" />
+                        <div class="modal modal-bottom sm:modal-middle">
+                            <form method="post" action="{{ route('admin/change-avatar/' . $user->id) }}"
+                                enctype="multipart/form-data" class="modal-box bg-gray-100 dark:bg-boxdark">
+                                <label id="upload-avatar-label" for="upload-avatar"
+                                    class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
 
-                     <!-- post, following, followers list for medium screens -->
-                     <ul class="hidden md:flex space-x-8 mb-4 text-gray-900 whitespace-nowrap">
-                         <li>
-                             <span class="font-semibold">6</span>
-                             Bài viết
-                         </li>
+                                    <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">
+                                        Thay đổi ảnh đại diện
+                                    </h2>
 
-                         <li>
-                             <span class="font-semibold">50.5k</span>
-                             Người theo dõi
-                         </li>
-                         <li>
-                             <span class="font-semibold">10</span>
-                             Đang theo dõi
-                         </li>
-                     </ul>
+                                    <p class="mt-2 text-gray-500 tracking-wide">
+                                        Tải lên ảnh đại diện mới của bạn
+                                    </p>
+                                    <input id="upload-avatar" name="avatar" type="file" class="hidden" />
+                                </label>
+                                <div id="avatar-preview" class="my-4 w-full h-auto"></div>
+                                <div class="modal-action">
+                                    <label for="change-avatar" class="btn btn-error">Hủy</label>
+                                    <button name="change_avatar_btn" type="submit" class="btn btn-success">
+                                        Lưu
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- ------------------------------------------------------- -->
+                        <div class="mt-4">
+                            <h3 id="fullName" class="mb-1.5 text-2xl font-medium text-black dark:text-white">
+                                {{ $user->first_name . ' ' . $user->last_name }}
+                            </h3>
+                            <p id="username" class="font-medium">
+                                {{ '@' . $user->username }}
+                            </p>
+                            <div
+                                class="mx-auto mt-4.5 mb-5.5 grid max-w-[450px] whitespace-nowrap grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
+                                <div
+                                    class="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
+                                    <span class="font-semibold text-black dark:text-white">259</span>
+                                    <span class="text-sm">Bài đăng</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
+                                    <span class="font-semibold text-black dark:text-white">129K</span>
+                                    <span class="text-sm">Người theo dõi</span>
+                                </div>
+                                <div class="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
+                                    <span class="font-semibold text-black dark:text-white">2K</span>
+                                    <span class="text-sm">Đang theo dõi</span>
+                                </div>
+                            </div>
 
-                     <!-- user meta form medium screens -->
-                     <div class="hidden md:block text-gray-900">
-                         <h1 class="username font-semibold">{{ $user->username }}</h1>
-                         <span class="job">Internet company</span>
-                         <p class="bio">{{ $user->bio }}</p>
-                         <span class="website"><strong>www.bytewebster.com</strong></span>
-                     </div>
-
-                 </div>
-
-                 <!-- user meta form mobile screens -->
-                 <div class="md:hidden text-sm my-2 text-gray-900">
-                     <h1 class="username font-semibold">{{ $user->username }}</h1>
-                     <span class="job">Internet company</span>
-                     <p class="bio">{{ $user->bio }}</p>
-                     <span class="website"><strong>www.bytewebster.com</strong></span>
-                 </div>
-
-             </header>
-
-             <!-- posts -->
-             <div class="px-px md:px-3">
-                 <!-- user following for mobile only -->
-                 <ul
-                     class="flex md:hidden justify-around space-x-8 border-t 
-                        text-center p-2 text-gray-600 leading-snug text-sm">
-                     <li>
-                         <span class="font-semibold text-gray-800 block">6</span>
-                         Bài viết
-                     </li>
-
-                     <li>
-                         <span class="font-semibold text-gray-800 block">50.5k</span>
-                         Người theo dõi
-                     </li>
-                     <li>
-                         <span class="font-semibold text-gray-800 block">10</span>
-                         Đang theo dõi
-                     </li>
-                 </ul>
-                 <br>
-                 <br>
-                 <!-- insta freatures -->
-                 <ul
-                     class="flex items-center justify-around md:justify-center space-x-12  
-                            uppercase tracking-widest font-semibold text-xs text-gray-600
-                            border-t">
-                     <!-- posts tab is active -->
-                     <li class="md:border-t md:border-gray-700 md:-mt-px md:text-gray-700">
-                         <a class="p-3 flex gap-2 items-center" href="#">
-                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-6 h-6">
-                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                     d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                             </svg>
-                             <span class="hidden md:inline">Bài đăng</span>
-                         </a>
-                     </li>
-                     <li>
-                         <a class="p-3 flex gap-2 items-center" href="#">
-                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-6 h-6">
-                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                     d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
-                             </svg>
-                             <span class="hidden md:inline">Đã lưu</span>
-                         </a>
-                     </li>
-                     <li>
-                         <a class="p-3 flex gap-2 items-center" href="#">
-                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-6 h-6">
-                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                     d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5l-3.9 19.5m-2.1-19.5l-3.9 19.5" />
-                             </svg>
-                             <span class="hidden md:inline">Được gắn thẻ</span>
-                         </a>
-                     </li>
-                 </ul>
-                 <!-- flexbox grid -->
-                 <div class="flex flex-wrap -mx-px md:-mx-3">
-
-                     <!-- column -->
-                     <div class="w-1/3 p-px md:px-3">
-                         <!-- post 1-->
-                         <a href="#">
-                             <article class="post bg-gray-100 text-white relative pb-full md:mb-6">
-                                 <!-- post images-->
-                                 <img class="w-full h-full absolute left-0 top-0 object-cover"
-                                     src="../../../../resources/images/avatars/avatar-1.jpg" alt="image">
-
-                                 <i class="fas fa-square absolute right-0 top-0 m-1"></i>
-                                 <!-- overlay-->
-                                 <div
-                                     class="overlay bg-gray-800 bg-opacity-25 w-full h-full absolute 
-                                        left-0 top-0 hidden">
-                                     <div
-                                         class="flex justify-center items-center 
-                                            space-x-4 h-full">
-                                         <span class="p-2 flex items-center gap-2">
-                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                     d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                             </svg>
-
-                                             412K
-                                         </span>
-
-                                         <span class="p-2 flex items-center gap-2">
-                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                     d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
-                                             </svg>
-                                             2,909
-                                         </span>
-                                     </div>
-                                 </div>
-
-                             </article>
-                         </a>
-                     </div>
-
-                     <div class="w-1/3 p-px md:px-3">
-                         <a href="#">
-                             <!-- post 2 -->
-                             <article class="post bg-gray-100 text-white relative pb-full md:mb-6">
-                                 <img class="w-full h-full absolute left-0 top-0 object-cover"
-                                     src="../../../../resources/images/avatars/avatar-1.jpg" alt="image">
-
-                                 <!-- overlay-->
-                                 <div
-                                     class="overlay bg-gray-800 bg-opacity-25 w-full h-full absolute 
-                                        left-0 top-0 hidden">
-                                     <div
-                                         class="flex justify-center items-center 
-                                            space-x-4 h-full">
-                                         <span class="p-2 flex items-center gap-2">
-                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                     d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                             </svg>
-
-                                             412K
-                                         </span>
-
-                                         <span class="p-2 flex items-center gap-2">
-                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                     d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
-                                             </svg>
-                                             1,993
-                                         </span>
-                                     </div>
-                                 </div>
-
-                             </article>
-                         </a>
-                     </div>
-
-                 </div>
-             </div>
-         </div>
-
-     </main>
- @endsection
+                            <div class="mx-auto max-w-180">
+                                <p class="mt-4.5 text-sm font-medium">
+                                    {{ $user->bio }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+@endsection

@@ -101,7 +101,7 @@
                                         <td class="flex items-center gap-2 px-4 py-4 text-sm font-medium whitespace-nowrap">
                                             <div class="w-8 h-8">
                                                 <img class="object-cover w-full h-full rounded-full"
-                                                    src="{{ empty($user->avatar) ? IMG_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
+                                                    src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
                                                     alt="Avatar" loading="lazy" />
                                             </div>
                                             <section>

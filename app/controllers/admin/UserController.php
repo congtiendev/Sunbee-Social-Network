@@ -338,6 +338,48 @@ class UserController extends BaseController
 		$this->render("admin.user.detail-profile", compact('title', 'user'));
 	}
 
+	public function handleChangeAvatar($id)
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-profile');
+		}
+		$avatar = $_FILES['avatar']['name'];
+		$avatar_name = $_FILES['avatar']['tmp_name'];
+		if ($avatar_name) {
+			$avatar_name = uniqid('', true) . '-' . $avatar;
+			move_uploaded_file($_FILES['avatar']['tmp_name'], './public/uploads/avatars/' . $avatar_name);
+			$old_avatar = $this->user->getUserById($id)->avatar;
+			if ($old_avatar !== 'default-avatar.jpg') {
+				unlink('./public/uploads/avatars/' . $old_avatar);
+			}
+		} else {
+			$avatar_name = $this->user->getUserById($id)->avatar;
+		}
+		$this->user->changeAvatar($avatar_name, $id);
+		redirect('success', 'Cập nhật ảnh đại diện thành công', 'admin/detail-profile/' . $id);
+	}
+
+	public function handleChangeCoverPhoto($id)
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-profile');
+		}
+		$cover_photo = $_FILES['cover_photo']['name'];
+		$cover_photo_name = $_FILES['cover_photo']['tmp_name'];
+		if ($cover_photo_name) {
+			$cover_photo_name = uniqid('', true) . '-' . $cover_photo;
+			move_uploaded_file($_FILES['cover_photo']['tmp_name'], './public/uploads/covers/' . $cover_photo_name);
+			$old_cover_photo = $this->user->getUserById($id)->cover_photo;
+			if ($old_cover_photo !== 'default-cover-photo.jpg') {
+				unlink('./public/uploads/covers/' . $old_cover_photo);
+			}
+		} else {
+			$cover_photo_name = $this->user->getUserById($id)->cover_photo;
+		}
+		$this->user->changeCoverPhoto($cover_photo_name, $id);
+		redirect('success', 'Cập nhật ảnh bìa thành công', 'admin/detail-profile/' . $id);
+	}
+
 
 	// -----------------------------------Search user----------------------------------//
 	public function searchUser()

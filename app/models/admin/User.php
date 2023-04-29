@@ -55,6 +55,20 @@ class User extends BaseModel
 		return $this->execute(array($first_name, $last_name, $username, $email, $phone_number, $role, $password));
 	}
 
+	public function changeAvatar($avatar, $id)
+	{
+		$sql = "UPDATE $this->table SET avatar = ? WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute(array($avatar, $id));
+	}
+
+	public function changeCoverPhoto($cover_photo, $id)
+	{
+		$sql = "UPDATE $this->table SET cover_photo = ? WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute(array($cover_photo, $id));
+	}
+
 
 	protected function checkExists($columnName, $value, $id = 0)
 	{

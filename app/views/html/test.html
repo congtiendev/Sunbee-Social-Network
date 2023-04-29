@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Change Profile Picture</title>
+    <style>
+      .preview-image {
+        max-width: 300px;
+        max-height: 300px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Change Profile Picture</h1>
+    <div>
+      <label for="profile-image">Select an image:</label>
+      <input
+        type="file"
+        id="profile-image"
+        accept="image/*"
+        onchange="previewImage(event)"
+      />
+    </div>
+    <div id="image-preview">
+      <!-- Placeholder for image preview -->
+    </div>
+    <script>
+      function previewImage(event) {
+        const preview = document.getElementById("image-preview");
+        preview.innerHTML = ""; // Clear previous preview
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.classList.add("preview-image");
+            preview.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
+  </body>
+</html>

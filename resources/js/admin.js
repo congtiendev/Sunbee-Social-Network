@@ -26,5 +26,55 @@ $(document).ready(function () {
     });
 });
 
+//================================Preview image================================
+function previewImage(file, previewElementId, callback) {
+    const previewElement = document.querySelector(`#${previewElementId}`);
+    previewElement.innerHTML = "";
+    if (file) {
+        if (!file.type.startsWith("image/")) {
+            swal("File bạn chọn không phải là ảnh", "", "error");
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function () {
+            const img = document.createElement("img");
+            img.src = reader.result;
+            if (callback) {
+                callback(img);
+            } else {
+                previewElement.appendChild(img);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+const avatar = document.querySelector("#upload-avatar");
+if (avatar) {
+    avatar.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        previewImage(file, "avatar-preview", function (img) {
+            const previewElement = document.querySelector("#avatar-preview");
+            previewElement.innerHTML = "";
+            previewElement.appendChild(img);
+
+        });
+    });
+}
+const coverPhoto = document.querySelector("#upload-cover-photo");
+if (coverPhoto) {
+    coverPhoto.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        previewImage(file, "cover-photo-preview", function (img) {
+            const previewElement = document.querySelector(
+                "#cover-photo-preview"
+            );
+            previewElement.innerHTML = "";
+            previewElement.appendChild(img);
+        });
+    });
+}
+
+
 
 

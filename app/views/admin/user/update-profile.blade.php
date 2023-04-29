@@ -74,11 +74,11 @@
                           enctype="multipart/form-data" class="w-full h-full">
                           <div class="flex items-center gap-2">
                               <div class="relative avatar-box w-14 h-14 object-cover">
-                                  <img src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
+                                  <img class="w-14 h-14 rounded-full object-cover"
+                                      src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
                                       alt="" class="rounded-full w-14 h-14">
                                   <label class="absolute right-0 cursor-pointer top-6">
-                                      <img src="{{ BASE_URL }}resources/images/upload-btn.png" alt=""
-                                          class="w-8 h-8">
+                                      <img src="{{ IMG_PATH }}icon/upload-btn.png" alt="" class="w-8 h-8">
                                       <input name="avatar" type="file" class="hidden" />
                                   </label>
                               </div>

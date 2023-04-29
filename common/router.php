@@ -21,6 +21,8 @@ $router->get('admin/detail-profile/{id}', [App\Controllers\Admin\UserController:
 $router->get('admin/list-profile', [App\Controllers\Admin\UserController::class, 'renderListProfile']);
 $router->get('admin/update-profile/{id}', [App\Controllers\Admin\UserController::class, 'renderUpdateProfile']);
 $router->post('admin/save-update-profile/{id}', [App\Controllers\Admin\UserController::class, 'handleUpdateProfile']);
+$router->post('admin/change-avatar/{id}', [App\Controllers\Admin\UserController::class, 'handleChangeAvatar']);
+$router->post('admin/change-cover-photo/{id}', [App\Controllers\Admin\UserController::class, 'handleChangeCoverPhoto']);
 
 // -------------------------------Sort & Search User--------------------------------//
 $router->get('admin/list-account/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
