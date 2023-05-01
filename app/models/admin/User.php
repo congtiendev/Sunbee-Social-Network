@@ -62,11 +62,26 @@ class User extends BaseModel
 		return $this->execute(array($avatar, $id));
 	}
 
+	public function deleteAvatar($id)
+	{
+		$sql = "UPDATE $this->table SET avatar = null WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute(array($id));
+	}
+
+
 	public function changeCoverPhoto($cover_photo, $id)
 	{
 		$sql = "UPDATE $this->table SET cover_photo = ? WHERE id = ?";
 		$this->setQuery($sql);
 		return $this->execute(array($cover_photo, $id));
+	}
+
+	public function deleteCoverPhoto($id)
+	{
+		$sql = "UPDATE $this->table SET cover_photo = null WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute(array($id));
 	}
 
 
@@ -147,5 +162,7 @@ class User extends BaseModel
 		$this->setQuery($sql);
 		return $this->execute(array($first_name, $last_name, $gender, $birthday, $address, $bio, $avatar, $id));
 	}
+
+
 
 }

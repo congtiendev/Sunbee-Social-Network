@@ -26,6 +26,32 @@ $(document).ready(function () {
     });
 });
 
+//================================Confirm delete avatar====================================
+$(document).ready(function () {
+    $('.delete-avatar').on('click', function (e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+        swal({
+            title: 'Bạn có chắc chắn muốn xóa ảnh đại diện ?',
+            text: 'Ảnh đại diện của tài khoản này sẽ bị xóa.! ',
+            icon: 'warning',
+            buttons: ['Hủy', 'Xóa'],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                swal({
+                    title: 'Đã xóa ảnh đại diện',
+                    icon: 'success',
+                    timer: 1500,
+                }).then(function () {
+                    window.location.href = 'http://localhost:88/sunbee/admin/delete-avatar/' + id;
+                });
+            } else {
+                swal('Hủy xóa ảnh đại diện', 'Ảnh đại diện của tài khoản này sẽ không bị xóa.', 'info')
+            }
+        });
+    });
+});
 //================================Preview image================================
 function previewImage(file, previewElementId, callback) {
     const previewElement = document.querySelector(`#${previewElementId}`);
@@ -76,5 +102,9 @@ if (coverPhoto) {
 }
 
 
-
-
+if (document.querySelector('.sliderPosts')) {
+    var swiper = new Swiper(".sliderPosts", {
+        effect: "cards",
+        grabCursor: true
+    });
+}

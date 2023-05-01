@@ -337,6 +337,27 @@ class UserController extends BaseController
 		$user = $this->user->getUserById($id);
 		$this->render("admin.user.detail-profile", compact('title', 'user'));
 	}
+	public function handleDeleteAvatar($id)
+	{
+		$avatar = $this->user->getUserById($id)->avatar;
+		if (!empty($avatar)) {
+			unlink('./public/uploads/avatars/' . $avatar);
+		}
+		$this->user->deleteAvatar($id);
+		redirect('success', 'Đã xóa ảnh đại diện', 'back');
+	}
+
+	public function handleDeleteCoverPhoto($id)
+	{
+		$cover_photo = $this->user->getUserById($id)->cover_photo;
+		if (!empty($cover_photo)) {
+			unlink('./public/uploads/cover-photos/' . $cover_photo);
+		}
+		$this->user->deleteCoverPhoto($id);
+		redirect('success', 'Đã xóa ảnh bìa', 'back');
+	}
+
+
 
 	public function handleChangeAvatar($id)
 	{
@@ -349,14 +370,14 @@ class UserController extends BaseController
 			$avatar_name = uniqid('', true) . '-' . $avatar;
 			move_uploaded_file($_FILES['avatar']['tmp_name'], './public/uploads/avatars/' . $avatar_name);
 			$old_avatar = $this->user->getUserById($id)->avatar;
-			if ($old_avatar !== 'default-avatar.jpg') {
+			if (!empty($old_avatar)) {
 				unlink('./public/uploads/avatars/' . $old_avatar);
 			}
 		} else {
 			$avatar_name = $this->user->getUserById($id)->avatar;
 		}
 		$this->user->changeAvatar($avatar_name, $id);
-		redirect('success', 'Cập nhật ảnh đại diện thành công', 'admin/detail-profile/' . $id);
+		redirect('success', 'Cập nhật ảnh đại diện thành công', 'back');
 	}
 
 	public function handleChangeCoverPhoto($id)
@@ -368,16 +389,16 @@ class UserController extends BaseController
 		$cover_photo_name = $_FILES['cover_photo']['tmp_name'];
 		if ($cover_photo_name) {
 			$cover_photo_name = uniqid('', true) . '-' . $cover_photo;
-			move_uploaded_file($_FILES['cover_photo']['tmp_name'], './public/uploads/covers/' . $cover_photo_name);
+			move_uploaded_file($_FILES['cover_photo']['tmp_name'], './public/uploads/cover-photos/' . $cover_photo_name);
 			$old_cover_photo = $this->user->getUserById($id)->cover_photo;
-			if ($old_cover_photo !== 'default-cover-photo.jpg') {
-				unlink('./public/uploads/covers/' . $old_cover_photo);
+			if (!empty($old_cover_photo)) {
+				unlink('./public/uploads/cover-photos/' . $old_cover_photo);
 			}
 		} else {
 			$cover_photo_name = $this->user->getUserById($id)->cover_photo;
 		}
 		$this->user->changeCoverPhoto($cover_photo_name, $id);
-		redirect('success', 'Cập nhật ảnh bìa thành công', 'admin/detail-profile/' . $id);
+		redirect('success', 'Cập nhật ảnh bìa thành công', 'back');
 	}
 
 

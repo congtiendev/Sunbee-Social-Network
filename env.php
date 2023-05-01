@@ -10,7 +10,7 @@ const DBHOST = "127.0.0.1";
 const BASE_URL = "http://localhost:88/sunbee/";
 const IMG_PATH = "http://localhost:88/sunbee/resources/images/";
 const AVATAR_PATH = "http://localhost:88/sunbee/public/uploads/avatars/";
-const COVER_PATH = "http://localhost:88/sunbee/public/uploads/covers/";
+const COVER_PATH = "http://localhost:88/sunbee/public/uploads/cover-photos/";
 function route($name): string
 {
 	return BASE_URL . $name;

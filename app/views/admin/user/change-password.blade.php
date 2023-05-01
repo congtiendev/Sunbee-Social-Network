@@ -69,7 +69,8 @@
             </aside>
             <article class="w-full h-full px-4 py-3 bg-white shadow-xs sm:px-5 sm:py-3">
                 <section class="w-full h-full setting-user-info">
-                    <form action="{{ route('save-change-password/' . $user->id) }}" method="post" class="w-full h-full">
+                    <form action="{{ route('admin/save-change-password/' . $user->id) }}" method="post"
+                        class="w-full h-full">
                         <h1 class="my-4 text-xl font-semibold text-gray-700">Thay đổi mật khẩu
                         </h1>
                         <div class="grid grid-cols-1 gap-5 form-control">

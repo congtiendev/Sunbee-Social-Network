@@ -217,7 +217,7 @@
                                 <label for="first_name" class="block mb-2 text-sm font-medium text-gray-500">
                                     Mật khẩu
                                 </label>
-                                <a href="{{ route('change-password/' . $user->id) }}"
+                                <a href="{{ route('admin/change-password/' . $user->id) }}"
                                     class="btn btn-outline btn-info">Đổi
                                     mật
                                     khẩu</a>

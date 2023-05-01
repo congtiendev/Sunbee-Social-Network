@@ -36,26 +36,59 @@
                     <!-- --------------------------------Change cover photo------------------------------------ -->
                     <input type="checkbox" id="change-cover-photo" class="modal-toggle" />
                     <div class="modal modal-bottom sm:modal-middle">
-                        <form action="{{ route('admin/change-cover-photo/' . $user->id) }}" method="post"
-                            enctype="multipart/form-data" class="modal-box bg-gray-100 dark:bg-boxdark">
-                            <label id="upload-cover-photo-label" for="upload-cover-photo"
-                                class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                </svg>
+                        <form class="modal-box bg-gray-100 dark:bg-boxdark" method="POST"
+                            action="{{ route('admin/change-cover-photo/' . $user->id) }}" enctype="multipart/form-data">
+                            <div class="mb-4 flex items-center gap-3">
+                                <div class="h-10 w-20">
+                                    <img class="h-10 w-20 object-cover"
+                                        src="{{ empty($user->cover_photo) ? COVER_PATH . 'default-cover-photo.jpg' : COVER_PATH . $user->cover_photo }}"
+                                        alt="cover photo" />
+                                </div>
+                                <div>
+                                    <span class="mb-1.5 font-medium text-black dark:text-white">Thay đổi ảnh bìa</span>
+                                    @if (!empty($user->cover_photo))
+                                        <span class="flex gap-2.5">
+                                            <a href="{{ route('admin/delete-cover-photo/' . $user->id) }}"
+                                                data-id="{{ $user->id }}"
+                                                class="text-sm font-medium hover:text-primary">
+                                                Xóa ảnh bìa
+                                            </a>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div id="coverPhotoUpload"
+                                class="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
+                                <input id="upload-cover-photo" name="cover_photo" type="file" accept="image/*"
+                                    class="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none" />
+                                <div class="flex flex-col items-center justify-center space-y-3">
+                                    <span
+                                        class="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M1.99967 9.33337C2.36786 9.33337 2.66634 9.63185 2.66634 10V12.6667C2.66634 12.8435 2.73658 13.0131 2.8616 13.1381C2.98663 13.2631 3.1562 13.3334 3.33301 13.3334H12.6663C12.8431 13.3334 13.0127 13.2631 13.1377 13.1381C13.2628 13.0131 13.333 12.8435 13.333 12.6667V10C13.333 9.63185 13.6315 9.33337 13.9997 9.33337C14.3679 9.33337 14.6663 9.63185 14.6663 10V12.6667C14.6663 13.1971 14.4556 13.7058 14.0806 14.0809C13.7055 14.456 13.1968 14.6667 12.6663 14.6667H3.33301C2.80257 14.6667 2.29387 14.456 1.91879 14.0809C1.54372 13.7058 1.33301 13.1971 1.33301 12.6667V10C1.33301 9.63185 1.63148 9.33337 1.99967 9.33337Z"
+                                                fill="#3C50E0" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M7.5286 1.52864C7.78894 1.26829 8.21106 1.26829 8.4714 1.52864L11.8047 4.86197C12.0651 5.12232 12.0651 5.54443 11.8047 5.80478C11.5444 6.06513 11.1223 6.06513 10.8619 5.80478L8 2.94285L5.13807 5.80478C4.87772 6.06513 4.45561 6.06513 4.19526 5.80478C3.93491 5.54443 3.93491 5.12232 4.19526 4.86197L7.5286 1.52864Z"
+                                                fill="#3C50E0" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M7.99967 1.33337C8.36786 1.33337 8.66634 1.63185 8.66634 2.00004V10C8.66634 10.3682 8.36786 10.6667 7.99967 10.6667C7.63148 10.6667 7.33301 10.3682 7.33301 10V2.00004C7.33301 1.63185 7.63148 1.33337 7.99967 1.33337Z"
+                                                fill="#3C50E0" />
+                                        </svg>
+                                    </span>
+                                    <p class="text-sm font-medium">
+                                        <span class="text-primary">Tải lên ảnh</span> hoặc kéo
+                                        thả ảnh vào đây
+                                    </p>
+                                    <p class="mt-1.5 text-sm font-medium">
+                                        SVG, PNG, JPG or GIF
+                                    </p>
+                                </div>
+                            </div>
 
-                                <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">
-                                    Thay đổi ảnh bìa
-                                </h2>
-
-                                <p class="mt-2 text-gray-500 tracking-wide">
-                                    Tải lên ảnh bìa mới của bạn
-                                </p>
-                                <input id="upload-cover-photo" name="cover_photo" type="file" class="hidden" />
-                            </label>
                             <div id="cover-photo-preview" class="my-4 w-full h-auto"></div>
+
                             <div class="modal-action">
                                 <label for="change-cover-photo" class="btn btn-error">Hủy</label>
                                 <button name="change_cover_photo_btn" type="submit" class="btn btn-success">
@@ -89,26 +122,60 @@
                         <!-- --------------------------Change avatar modal------------------------------- -->
                         <input type="checkbox" id="change-avatar" class="modal-toggle" />
                         <div class="modal modal-bottom sm:modal-middle">
-                            <form method="post" action="{{ route('admin/change-avatar/' . $user->id) }}"
-                                enctype="multipart/form-data" class="modal-box bg-gray-100 dark:bg-boxdark">
-                                <label id="upload-avatar-label" for="upload-avatar"
-                                    class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-blue-400 bg-white p-6 text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                    </svg>
+                            <form class="modal-box bg-gray-100 dark:bg-boxdark" method="POST"
+                                action="{{ route('admin/change-avatar/' . $user->id) }}" enctype="multipart/form-data">
+                                <div class="mb-4 flex items-center gap-3">
+                                    <div class="h-14 w-14 rounded-full">
+                                        <img class="h-full w-full rounded-full object-cover"
+                                            src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
+                                            alt="avatar" />
+                                    </div>
+                                    <div>
+                                        <span class="mb-1.5 font-medium text-black dark:text-white">Thay đổi ảnh đại
+                                            diện</span>
+                                        @if (!empty($user->avatar))
+                                            <span class="flex gap-2.5">
+                                                <a href="{{ route('admin/delete-avatar/' . $user->id) }}"
+                                                    data-id="{{ $user->id }}"
+                                                    class="delete-avatar text-sm font-medium hover:text-primary">
+                                                    Xóa ảnh đại diện
+                                                </a>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div id="avatarUpload"
+                                    class="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
+                                    <input id="upload-avatar" name="avatar" type="file" accept="image/*"
+                                        class="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none" />
+                                    <div class="flex flex-col items-center justify-center space-y-3">
+                                        <span
+                                            class="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M1.99967 9.33337C2.36786 9.33337 2.66634 9.63185 2.66634 10V12.6667C2.66634 12.8435 2.73658 13.0131 2.8616 13.1381C2.98663 13.2631 3.1562 13.3334 3.33301 13.3334H12.6663C12.8431 13.3334 13.0127 13.2631 13.1377 13.1381C13.2628 13.0131 13.333 12.8435 13.333 12.6667V10C13.333 9.63185 13.6315 9.33337 13.9997 9.33337C14.3679 9.33337 14.6663 9.63185 14.6663 10V12.6667C14.6663 13.1971 14.4556 13.7058 14.0806 14.0809C13.7055 14.456 13.1968 14.6667 12.6663 14.6667H3.33301C2.80257 14.6667 2.29387 14.456 1.91879 14.0809C1.54372 13.7058 1.33301 13.1971 1.33301 12.6667V10C1.33301 9.63185 1.63148 9.33337 1.99967 9.33337Z"
+                                                    fill="#3C50E0" />
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M7.5286 1.52864C7.78894 1.26829 8.21106 1.26829 8.4714 1.52864L11.8047 4.86197C12.0651 5.12232 12.0651 5.54443 11.8047 5.80478C11.5444 6.06513 11.1223 6.06513 10.8619 5.80478L8 2.94285L5.13807 5.80478C4.87772 6.06513 4.45561 6.06513 4.19526 5.80478C3.93491 5.54443 3.93491 5.12232 4.19526 4.86197L7.5286 1.52864Z"
+                                                    fill="#3C50E0" />
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M7.99967 1.33337C8.36786 1.33337 8.66634 1.63185 8.66634 2.00004V10C8.66634 10.3682 8.36786 10.6667 7.99967 10.6667C7.63148 10.6667 7.33301 10.3682 7.33301 10V2.00004C7.33301 1.63185 7.63148 1.33337 7.99967 1.33337Z"
+                                                    fill="#3C50E0" />
+                                            </svg>
+                                        </span>
+                                        <p class="text-sm font-medium">
+                                            <span class="text-primary">Tải lên ảnh</span> hoặc
+                                            kéo thả ảnh vào đây
+                                        </p>
+                                        <p class="mt-1.5 text-sm font-medium">
+                                            SVG, PNG, JPG or GIF
+                                        </p>
+                                    </div>
+                                </div>
 
-                                    <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">
-                                        Thay đổi ảnh đại diện
-                                    </h2>
-
-                                    <p class="mt-2 text-gray-500 tracking-wide">
-                                        Tải lên ảnh đại diện mới của bạn
-                                    </p>
-                                    <input id="upload-avatar" name="avatar" type="file" class="hidden" />
-                                </label>
                                 <div id="avatar-preview" class="my-4 w-full h-auto"></div>
+
                                 <div class="modal-action">
                                     <label for="change-avatar" class="btn btn-error">Hủy</label>
                                     <button name="change_avatar_btn" type="submit" class="btn btn-success">
