@@ -13,6 +13,12 @@
 		
 		public function passes($fieldValue): bool
 		{
+			if (preg_match('/^\$2y\$/', $this->field)) {
+				if (password_verify($fieldValue, $this->field)) {
+					return false;
+				}
+				return true;
+			}
 			return $fieldValue !== $this->field;
 		}
 		

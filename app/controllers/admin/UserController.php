@@ -4,10 +4,8 @@
 	
 	use App\Controllers\BaseController;
 	use App\Controllers\RequestController as Request;
-	use App\Models\Admin\User;
+	use App\models\User;
 	use App\Validation\Validator;
-	use App\Models\BaseModel;
-	use Exception;
 	
 	class UserController extends BaseController
 	{
@@ -91,10 +89,11 @@
 			$this->render("admin.user.update-account", compact('title', 'user'));
 		}
 		
+		
 		public function handleCreateAccount()
 		{
 			if ($_SERVER[ 'REQUEST_METHOD' ] !== 'POST') {
-				return redirect('errors', 'Không thể tạo mới tài khoản', 'admin/list-account');
+				return redirect('errors', 'Không thể thực hiện thao tác này', 'back');
 			}
 			
 			$_SESSION[ 'valid_data' ] = $this->request->all();
@@ -148,21 +147,22 @@
 			$this->validator->setMessages($messages);
 			$this->validator->Validation();
 			$errors = $this->validator->getErrors();
-			if (empty($errors)) {
-				$result = $this->user->storeCreateAccount($this->request->all());
-				if ($result) {
-					unset($_SESSION[ 'valid_data' ]);
-					return redirect('success', 'Tạo mới tài khoản thành công', 'admin/list-account');
-				}
-			} else {
+			if (!empty($errors)) {
 				redirect('errors', $errors, 'admin/create-account');
+			}
+			$password = $this->request->get('password');
+			$this->request->set('password', password_hash($password, PASSWORD_DEFAULT));
+			$result = $this->user->storeCreateAccount($this->request->all());
+			if ($result) {
+				unset($_SESSION[ 'valid_data' ]);
+				return redirect('success', 'Tạo mới tài khoản thành công', 'admin/list-account');
 			}
 		}
 		
 		public function handleUpdateAccount($id)
 		{
 			if ($_SERVER[ 'REQUEST_METHOD' ] !== 'POST') {
-				return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-account');
+				return redirect('errors', 'Không thể thực hiện thao tác này', 'back');
 			}
 			
 			$_SESSION[ 'valid_data' ] = $this->request->all();
@@ -207,14 +207,13 @@
 			$this->validator->setMessages($messages);
 			$this->validator->Validation();
 			$errors = $this->validator->getErrors();
-			if (empty($errors)) {
-				$result = $this->user->storeUpdateAccount($this->request->all(), $id);
-				if ($result) {
-					unset($_SESSION[ 'valid_data' ]);
-					return redirect('success', 'Cật nhật tài khoản thành công', 'admin/list-account');
-				}
-			} else {
+			if (!empty($errors)) {
 				redirect('errors', $errors, 'admin/update-account/' . $id);
+			}
+			$result = $this->user->storeUpdateAccount($this->request->all(), $id);
+			if ($result) {
+				unset($_SESSION[ 'valid_data' ]);
+				return redirect('success', 'Cập nhật tài khoản thành công', 'admin/list-account');
 			}
 		}
 		
@@ -240,72 +239,71 @@
 			$this->render("admin.user.update-profile", compact('title', 'user'));
 		}
 		
-		public function handleUpdateProfile($id)
+		public function handleUpdateProfile(int $id)
 		{
 			if ($_SERVER[ 'REQUEST_METHOD' ] !== 'POST') {
-				return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-profile');
+				return redirect('errors', 'Không thể thực hiện thao tác này', 'back');
 			}
-			$data = [
-				'first_name' => filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING) ?: '',
-				'last_name' => filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING) ?: '',
-				'gender' => filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING) ?: '',
-				'birthday' => filter_input(INPUT_POST, 'birthday', FILTER_SANITIZE_STRING) ?: '',
-				'address' => filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING) ?: '',
-				'bio' => filter_input(INPUT_POST, 'bio', FILTER_SANITIZE_STRING) ?: '',
+			
+			$_SESSION[ 'valid_data' ] = $this->request->all();
+			
+			$min_age = date('Y-m-d', strtotime('-16 years', strtotime(date('Y-m-d'))));
+			$rules = [
+				'first_name' => 'required|alpha_unicode|min:2|max:50',
+				'last_name' => 'required|alpha_unicode|min:2|max:50',
+				'birthday' => 'required|before_or_equal:' . $min_age,
+				'address' => 'required|min:5|max:255',
+				'avatar' => 'mimes:jpeg/png/jpg/gif/svg|max:10MB',
+				'bio' => 'max:255',
+			];
+			$messages = [
+				'first_name.required' => 'Vui lòng nhập họ',
+				'first_name.alpha_unicode' => 'Họ không được chứa ký tự đặc biệt và số',
+				'first_name.min' => 'Họ phải có ít nhất 2 ký tự',
+				'first_name.max' => 'Họ không được vượt quá 50 ký tự',
+				
+				'last_name.required' => 'Vui lòng nhập tên',
+				'last_name.alpha_unicode' => 'Tên không được chứa ký tự đặc biệt và số',
+				'last_name.min' => 'Tên phải có ít nhất 2 ký tự',
+				'last_name.max' => 'Tên không được vượt quá 50 ký tự',
+				
+				'birthday.required' => 'Vui lòng nhập ngày sinh',
+				'birthday.date' => 'Vui lòng nhập đúng định dạng ngày sinh',
+				'birthday.before_or_equal' => 'Bạn phải đủ 16 tuổi để đăng ký tài khoản',
+				
+				'address.required' => 'Vui lòng nhập địa chỉ',
+				'address.min' => 'Địa chỉ phải có ít nhất 5 ký tự',
+				'address.max' => 'Địa chỉ không được vượt quá 255 ký tự',
+				
+				'avatar.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, gif, svg',
+				'avatar.max' => 'Ảnh đại diện không được vượt quá 10MB',
+				'bio.max' => 'Tiểu sử không được vượt quá 255 ký tự',
 			];
 			$errors = [];
-			$_SESSION[ 'valid_data' ] = $data;
-			//Xóa khoảng trắng ở đầu và cuối chuỗi
-			foreach ($data as $key => $value) {
-				$data[ $key ] = trim($value);
-				$_SESSION[ 'valid_data' ][ $key ] = trim($value);
-			}
-			
-			//Kiểm tra dữ liệu nhập vào
-			if (empty($data[ 'first_name' ])) {
-				$errors[ 'first_name' ] = 'Vui lòng nhập tên';
-			} elseif (strlen($data[ 'first_name' ]) > 50) {
-				$errors[ 'first_name' ] = 'Tên không được quá 50 ký tự';
-			} elseif (strlen($data[ 'first_name' ]) < 2) {
-				$errors[ 'first_name' ] = 'Tên không được ít hơn 2 ký tự';
-			}
-			
-			if (empty($data[ 'last_name' ])) {
-				$errors[ 'last_name' ] = 'Vui lòng nhập họ';
-			} elseif (strlen($data[ 'last_name' ]) > 50) {
-				$errors[ 'last_name' ] = 'Họ không được quá 50 ký tự';
-			} elseif (strlen($data[ 'last_name' ]) < 2) {
-				$errors[ 'last_name' ] = 'Họ không được ít hơn 2 ký tự';
-			}
-			
-			if (empty($data[ 'birthday' ])) {
-				$errors[ 'birthday' ] = 'Vui lòng nhập ngày sinh';
-			} elseif (strtotime($data[ 'birthday' ]) > strtotime(date('d-m-Y'))) {
-				$errors[ 'birthday' ] = 'Ngày sinh không được lớn hơn ngày hiện tại';
-			}
-			
-			if (empty($data[ 'address' ])) {
-				$errors[ 'address' ] = 'Vui lòng nhập địa chỉ';
-			} elseif (strlen($data[ 'address' ]) > 255) {
-				$errors[ 'address' ] = 'Địa chỉ không được quá 255 ký tự';
-			} elseif (strlen($data[ 'address' ]) < 2) {
-				$errors[ 'address' ] = 'Địa chỉ không được ít hơn 2 ký tự';
-			}
-			
-			$avatar = $_FILES[ 'avatar' ][ 'name' ];
-			$avatar_name = $_FILES[ 'avatar' ][ 'tmp_name' ];
-			if ($avatar_name) {
-				$avatar_name = uniqid('', true) . '-' . $avatar;
-				move_uploaded_file($_FILES[ 'avatar' ][ 'tmp_name' ], './public/uploads/avatars/' . $avatar_name);
+			$this->validator->setRules($rules);
+			$this->validator->setMessages($messages);
+			$this->validator->Validation();
+			$errors = $this->validator->getErrors();
+			if (!empty($errors)) {
+				return redirect('errors', $errors, 'admin/update-profile/' . $id);
 			} else {
-				$avatar_name = $this->user->getUserById($id)->avatar;
-			}
-			if (empty($errors)) {
-				unset($_SESSION[ 'valid_data' ]);
-				$this->user->saveUpdateProfile($data[ 'first_name' ], $data[ 'last_name' ], $data[ 'gender' ], $data[ 'birthday' ], $data[ 'address' ], $data[ 'bio' ], $avatar_name, $id);
-				redirect('success', 'Cập nhật thông tin cá nhân thành công', 'admin/list-profile');
-			} else {
-				redirect('errors', $errors, 'admin/update-profile/' . $id);
+				$avatar = $this->request->get('avatar')[ 'name' ];
+				$avatar_name = $this->request->get('avatar')[ 'tmp_name' ];
+				if ($avatar_name) {
+					$avatar_name = uniqid('', true) . '-' . $avatar;
+					move_uploaded_file($_FILES[ 'avatar' ][ 'tmp_name' ], './public/uploads/avatars/' . $avatar_name);
+					if (!empty($this->user->getUserById($id)->avatar)) {
+						unlink('./public/uploads/avatars/' . $this->user->getUserById($id)->avatar);
+					}
+				} else {
+					$avatar_name = $this->user->getUserById($id)->avatar;
+				}
+				$this->request->set('avatar', $avatar_name);
+				$result = $this->user->storeUpdateProfile($this->request->all(), $id);
+				if ($result) {
+					unset($_SESSION[ 'valid_data' ]);
+					return redirect('success', 'Cập nhật thông tin cá nhân thành công', 'admin/list-profile');
+				}
 			}
 		}
 		
@@ -336,27 +334,46 @@
 			redirect('success', 'Đã xóa ảnh bìa', 'back');
 		}
 		
-		
-		
 		public function handleChangeAvatar($id)
 		{
 			if ($_SERVER[ 'REQUEST_METHOD' ] !== 'POST') {
 				return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-profile');
 			}
-			$avatar = $_FILES[ 'avatar' ][ 'name' ];
-			$avatar_name = $_FILES[ 'avatar' ][ 'tmp_name' ];
-			if ($avatar_name) {
-				$avatar_name = uniqid('', true) . '-' . $avatar;
-				move_uploaded_file($_FILES[ 'avatar' ][ 'tmp_name' ], './public/uploads/avatars/' . $avatar_name);
-				$old_avatar = $this->user->getUserById($id)->avatar;
-				if (!empty($old_avatar)) {
-					unlink('./public/uploads/avatars/' . $old_avatar);
-				}
+			$rules = [
+				'avatar' => 'required|mimes:jpeg/png/jpg/gif/svg|max:10MB',
+			];
+			$messages = [
+				'avatar.required' => 'Vui lòng chọn ảnh đại diện',
+				'avatar.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, gif, svg',
+				'avatar.max' => 'Ảnh đại diện không được vượt quá 10MB',
+			];
+			$_SESSION[ 'valid_data' ] = $this->request->all();
+			$errors = [];
+			$this->validator->setRules($rules);
+			$this->validator->setMessages($messages);
+			$this->validator->Validation();
+			$errors = $this->validator->getErrors();
+			if (!empty($errors)) {
+				return redirect('errors', $errors, 'admin/change-avatar/' . $id);
 			} else {
-				$avatar_name = $this->user->getUserById($id)->avatar;
+				$avatar = $this->request->get('avatar')[ 'name' ];
+				$avatar_name = $this->request->get('avatar')[ 'tmp_name' ];
+				if ($avatar_name) {
+					$avatar_name = uniqid('', true) . '-' . $avatar;
+					move_uploaded_file($_FILES[ 'avatar' ][ 'tmp_name' ], './public/uploads/avatars/' . $avatar_name);
+					if (!empty($this->user->getUserById($id)->avatar)) {
+						unlink('./public/uploads/avatars/' . $this->user->getUserById($id)->avatar);
+					}
+				} else {
+					$avatar_name = $this->user->getUserById($id)->avatar;
+				}
+				$this->request->set('avatar', $avatar_name);
+				$result = $this->user->changeAvatar($avatar_name, $id);
+				if ($result) {
+					unset($_SESSION[ 'valid_data' ]);
+					return redirect('success', 'Cập nhật ảnh đại diện thành công', 'admin/list-profile');
+				}
 			}
-			$this->user->changeAvatar($avatar_name, $id);
-			redirect('success', 'Cập nhật ảnh đại diện thành công', 'back');
 		}
 		
 		public function handleChangeCoverPhoto($id)
@@ -364,22 +381,43 @@
 			if ($_SERVER[ 'REQUEST_METHOD' ] !== 'POST') {
 				return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-profile');
 			}
-			$cover_photo = $_FILES[ 'cover_photo' ][ 'name' ];
-			$cover_photo_name = $_FILES[ 'cover_photo' ][ 'tmp_name' ];
-			if ($cover_photo_name) {
-				$cover_photo_name = uniqid('', true) . '-' . $cover_photo;
-				move_uploaded_file($_FILES[ 'cover_photo' ][ 'tmp_name' ], './public/uploads/cover-photos/' . $cover_photo_name);
-				$old_cover_photo = $this->user->getUserById($id)->cover_photo;
-				if (!empty($old_cover_photo)) {
-					unlink('./public/uploads/cover-photos/' . $old_cover_photo);
-				}
+			
+			$rules = [
+				'cover_photo' => 'required|mimes:jpeg/png/jpg/gif/svg|max:10MB',
+			];
+			$messages = [
+				'cover_photo.required' => 'Vui lòng chọn ảnh bìa',
+				'cover_photo.mimes' => 'Ảnh bìa phải có định dạng jpeg, png, jpg, gif, svg',
+				'cover_photo.max' => 'Ảnh bìa không được vượt quá 10MB',
+			];
+			$_SESSION[ 'valid_data' ] = $this->request->all();
+			$errors = [];
+			$this->validator->setRules($rules);
+			$this->validator->setMessages($messages);
+			$this->validator->Validation();
+			$errors = $this->validator->getErrors();
+			if (!empty($errors)) {
+				return redirect('errors', $errors, 'admin/change-cover-photo/' . $id);
 			} else {
-				$cover_photo_name = $this->user->getUserById($id)->cover_photo;
+				$cover_photo = $this->request->get('cover_photo')[ 'name' ];
+				$cover_photo_name = $this->request->get('cover_photo')[ 'tmp_name' ];
+				if ($cover_photo_name) {
+					$cover_photo_name = uniqid('', true) . '-' . $cover_photo;
+					move_uploaded_file($_FILES[ 'cover_photo' ][ 'tmp_name' ], './public/uploads/cover-photos/' . $cover_photo_name);
+					if (!empty($this->user->getUserById($id)->cover_photo)) {
+						unlink('./public/uploads/cover-photos/' . $this->user->getUserById($id)->cover_photo);
+					}
+				} else {
+					$cover_photo_name = $this->user->getUserById($id)->cover_photo;
+				}
+				$this->request->set('cover_photo', $cover_photo_name);
+				$result = $this->user->changeCoverPhoto($cover_photo_name, $id);
+				if ($result) {
+					unset($_SESSION[ 'valid_data' ]);
+					return redirect('success', 'Cập nhật ảnh bìa thành công', 'back');
+				}
 			}
-			$this->user->changeCoverPhoto($cover_photo_name, $id);
-			redirect('success', 'Cập nhật ảnh bìa thành công', 'back');
 		}
-		
 		
 		// -----------------------------------Search user----------------------------------//
 		public function searchUser()
@@ -387,7 +425,8 @@
 			$keyword = isset($_GET[ 'keyword' ]) ? $_GET[ 'keyword' ] : null;
 			if (isset($_GET[ 'account' ])) {
 				$this->renderListAccount($keyword);
-			} elseif (isset($_GET[ 'profile' ])) {
+			}
+			if (isset($_GET[ 'profile' ])) {
 				$this->renderListProfile($keyword);
 			}
 		}
@@ -405,52 +444,41 @@
 			if ($_SERVER[ 'REQUEST_METHOD' ] !== 'POST') {
 				return redirect('errors', 'Không thể thực hiện thao tác này', 'back');
 			}
-			$data = [
-				'password' => filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING) ?: '',
-				'new_password' => filter_input(INPUT_POST, 'new_password', FILTER_SANITIZE_STRING) ?: '',
-				'confirm_password' => filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING) ?: '',
+			
+			$password = $this->user->getUserById($id)->password;
+			$new_password = $this->request->get('new_password');
+			
+			$rules = [
+				'password' => 'required|password:' . $password,
+				'new_password' => 'required|min:6|max:32|different:' . $password,
+				'confirm_password' => 'required|confirmed:' . $new_password,
 			];
-			
-			$_SESSION[ 'valid_data' ] = $data; //Lưu dữ liệu đã nhập vào session để hiển thị lại khi có lỗi
-			//Xóa khoảng trắng ở đầu và cuối chuỗi
-			foreach ($data as $key => $value) {
-				$data[ $key ] = trim($value);
-				$_SESSION[ 'valid_data' ][ $key ] = trim($value);
-			}
-			if (empty($data[ 'password' ])) {
-				$errors[ 'password' ] = 'Mật khẩu không được để trống';
-			} elseif (!password_verify($data[ 'password' ], $this->user->getUserById($id)->password)) {
-				$errors[ 'password' ] = 'Mật khẩu không đúng';
-			} else {
-				$password_valid = true;
-			}
-			if (empty(trim($data[ 'new_password' ]))) {
-				$errors[ 'new_password' ] = 'Vui lòng nhập mật khẩu mới của bạn !';
-			} elseif (strlen(trim($data[ 'new_password' ])) < 6) {
-				$errors[ 'new_password' ] = 'Mật khẩu phải có ít nhất 6 ký tự';
-			} elseif (strlen(trim($data[ 'new_password' ])) > 20) {
-				$errors[ 'new_password' ] = 'Mật khẩu không được quá 20 ký tự';
-			} else if (password_verify($data[ 'new_password' ], $this->user->getUserById($id)->password) && $password_valid) {
-				$errors[ 'new_password' ] = 'Mật khẩu mới không được trùng với mật khẩu cũ';
-			}
-			
-			if (empty($data[ 'confirm_password' ])) {
-				$errors[ 'confirm_password' ] = 'Vui lòng nhập lại mật khẩu mới của bạn !';
-			} elseif ($data[ 'new_password' ] !== $data[ 'confirm_password' ]) {
-				$errors[ 'confirm_password' ] = 'Mật khẩu nhập lại không khớp';
-			}
+			$messages = [
+				'password.required' => 'Vui lòng nhập mật khẩu cũ',
+				'password.password' => 'Mật khẩu cũ không chính xác',
+				'new_password.required' => 'Vui lòng nhập mật khẩu mới',
+				'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự',
+				'new_password.max' => 'Mật khẩu mới không được vượt quá 32 ký tự',
+				'new_password.different' => 'Mật khẩu mới không được trùng với mật khẩu cũ',
+				'confirm_password.required' => 'Vui lòng nhập lại mật khẩu mới',
+				'confirm_password.confirmed' => 'Mật khẩu nhập lại không trùng khớp',
+			];
+			$_SESSION[ 'valid_data' ] = $this->request->all();
+			$errors = [];
+			$this->validator->setRules($rules);
+			$this->validator->setMessages($messages);
+			$this->validator->Validation();
+			$errors = $this->validator->getErrors();
 			if (empty($errors)) {
-				$result = $this->user->changePassword(password_hash($data[ 'new_password' ], PASSWORD_DEFAULT), $id);
+				$result = $this->user->changePassword(password_hash($new_password, PASSWORD_DEFAULT), $id);
 				if ($result) {
 					unset($_SESSION[ 'valid_data' ]);
-					redirect('success', 'Đổi mật khẩu thành công', 'update-account/' . $id);
+					return redirect('success', 'Đổi mật khẩu thành công', 'admin/update-account/' . $id);
 				}
 			} else {
-				redirect('errors', $errors, 'change-password/' . $id);
+				return redirect('errors', $errors, 'admin/change-password/' . $id);
 			}
 			
 		}
-		
-		
 		
 	}

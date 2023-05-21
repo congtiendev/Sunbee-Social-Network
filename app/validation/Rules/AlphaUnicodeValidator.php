@@ -9,7 +9,7 @@
 	{
 		public function passes($fieldValue): bool
 		{
-			return preg_match('/^[\p{L}]+$/u', $fieldValue);
+			return preg_match('/^[\p{L}\s]+$/u', $fieldValue);
 		}
 		
 		public function message($fieldName, $message): string

@@ -40,6 +40,9 @@
 		// --------------------------------Change password-------------------------------------------//
 		$router->get('change-password/{id}', [App\Controllers\Admin\UserController::class, 'renderChangePassword']);
 		$router->post('save-change-password/{id}', [App\Controllers\Admin\UserController::class, 'handleChangePassword']);
+		
+		//--------------------------------------Post------------------------------------------------//
+		$router->get('list-post', [App\Controllers\Admin\PostController::class, 'renderListPost']);
 	});
 	
 	

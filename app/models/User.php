@@ -1,8 +1,6 @@
 <?php
 	
-	namespace App\Models\Admin;
-	
-	use App\Models\BaseModel;
+	namespace App\Models;
 	
 	class User extends BaseModel
 	{

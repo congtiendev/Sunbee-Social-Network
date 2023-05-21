@@ -28,6 +28,8 @@
 	use App\Validation\Rules\BeforeOrEqualValidator as BeforeOrEqualValidator;
 	use App\Validation\Rules\AfterOrEqualValidator as AfterOrEqualValidator;
 	use App\Validation\Rules\ActiveUrlValidator as ActiveUrlValidator;
+	use App\Validation\Rules\PasswordValidator as PasswordValidator;
+	use App\Validation\Rules\AcceptedValidator as AcceptedValidator;
 	
 	
 	class Validator
@@ -60,7 +62,9 @@
 			'after' => AfterValidator::class,
 			'before_or_equal' => BeforeOrEqualValidator::class,
 			'after_or_equal' => AfterOrEqualValidator::class,
-			'active_url' => ActiveUrlValidator::class
+			'active_url' => ActiveUrlValidator::class,
+			'password' => PasswordValidator::class,
+			'accepted' => AcceptedValidator::class,
 		];
 		private array $errors = [];
 		private array $messages = [];
