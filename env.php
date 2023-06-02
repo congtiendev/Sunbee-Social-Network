@@ -7,10 +7,11 @@ const DBUSER = "root";
 const DBPASS = "";
 const DBCHARSET = "utf8";
 const DBHOST = "127.0.0.1";
-const BASE_URL = "http://localhost:88/sunbee/";
-const IMG_PATH = "http://localhost:88/sunbee/resources/images/";
-const AVATAR_PATH = "http://localhost:88/sunbee/public/uploads/avatars/";
-const COVER_PATH = "http://localhost:88/sunbee/public/uploads/cover-photos/";
+const BASE_URL = "http://localhost:88/Sunbee-Social-Network/";
+const IMG_PATH = BASE_URL . "resources/images/";
+const AVATAR_PATH = BASE_URL . "public/uploads/avatars/";
+const COVER_PATH = BASE_URL . "public/uploads/covers/";
+const POST_IMG_PATH = BASE_URL . "public/uploads/posts/";
 function route($name): string
 {
 	return BASE_URL . $name;

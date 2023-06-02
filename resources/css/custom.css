@@ -47,3 +47,44 @@
     inset 0px -6px 16px 0px rgba(145, 192, 255, 0.6),
     inset 0px 11px 28px 0px rgb(255, 255, 255);
 }
+.large-font {
+  font-size: 1.5rem;
+}
+
+.like__post-btn.active {
+  animation: like_animation 0.5s 1;
+  fill: red;
+  stroke: none;
+}
+.like__post-btn {
+  fill: transparent;
+  transition: all 0.5s;
+}
+
+@keyframes like_animation {
+  0% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+#loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loader-overlay img {
+  width: 200px;
+}
