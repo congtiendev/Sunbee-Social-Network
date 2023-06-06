@@ -8,13 +8,13 @@ class Auth extends BaseModel
 
     public function register($data)
     {
-        $sql = "INSERT INTO $this->table (first_name, last_name, email,phone, password) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO $this->table (first_name, last_name,username, email, password) VALUES (?, ?, ?, ?, ?)";
         $this->setQuery($sql);
         return $this->execute([
             $data['first_name'],
             $data['last_name'],
+            $data['username'],
             $data['email'],
-            $data['phone'],
             $data['password'],
         ]);
     }

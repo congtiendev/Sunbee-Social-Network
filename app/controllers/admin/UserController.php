@@ -9,11 +9,9 @@ use App\Validation\Validator;
 
 class UserController extends BaseController
 {
-	protected $user;
-	protected $request;
-	protected $validator;
-
-
+	private $user;
+	private $request;
+	private $validator;
 
 	public function __construct()
 	{
@@ -65,7 +63,7 @@ class UserController extends BaseController
 		$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 		$limit = 10;
 		$totalData = count($this->user->getAllUser());
-		$offset = ($page - 1) * $limit; //Vị trí bắt đầu lấy dữ liệu
+		$offset = ($page - 1) * $limit;
 		$totalPages = round((int) ($totalData / $limit));
 		return [
 			'offset' => $offset,
@@ -96,7 +94,6 @@ class UserController extends BaseController
 			return redirect('errors', 'Không thể thực hiện thao tác này', 'back');
 		}
 
-		$_SESSION['valid_data'] = $this->request->all();
 
 		$rules = [
 			'first_name' => 'required|alpha_unicode|min:2|max:50',
@@ -148,14 +145,13 @@ class UserController extends BaseController
 		$this->validator->Validation();
 		$errors = $this->validator->getErrors();
 		if (!empty($errors)) {
-			redirect('errors', $errors, 'admin/create-account');
+			redirect('errors', $errors, 'admin/account/create');
 		}
 		$password = $this->request->get('password');
 		$this->request->set('password', password_hash($password, PASSWORD_DEFAULT));
 		$result = $this->user->storeCreateAccount($this->request->all());
 		if ($result) {
-			unset($_SESSION['valid_data']);
-			return redirect('success', 'Tạo mới tài khoản thành công', 'admin/list-account');
+			return redirect('success', 'Tạo mới tài khoản thành công', 'admin/account/list');
 		}
 	}
 
@@ -165,7 +161,6 @@ class UserController extends BaseController
 			return redirect('errors', 'Không thể thực hiện thao tác này', 'back');
 		}
 
-		$_SESSION['valid_data'] = $this->request->all();
 
 		$rules = [
 			'first_name' => 'required|alpha_unicode|min:2|max:50',
@@ -208,19 +203,18 @@ class UserController extends BaseController
 		$this->validator->Validation();
 		$errors = $this->validator->getErrors();
 		if (!empty($errors)) {
-			redirect('errors', $errors, 'admin/update-account/' . $id);
+			redirect('errors', $errors, 'admin/account/update/' . $id);
 		}
 		$result = $this->user->storeUpdateAccount($this->request->all(), $id);
 		if ($result) {
-			unset($_SESSION['valid_data']);
-			return redirect('success', 'Cập nhật tài khoản thành công', 'admin/list-account');
+			return redirect('success', 'Cập nhật tài khoản thành công', 'admin/account/list');
 		}
 	}
 
 	public function deleteAccount(int $id)
 	{
 		$this->user->deleteUser($id);
-		redirect('success', 'Xóa tài khoản thành công', 'admin/list-account');
+		redirect('success', 'Xóa tài khoản thành công', 'admin/account/list');
 	}
 
 	// --------------------------------------Profile---------------------------------------//
@@ -244,8 +238,6 @@ class UserController extends BaseController
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			return redirect('errors', 'Không thể thực hiện thao tác này', 'back');
 		}
-
-		$_SESSION['valid_data'] = $this->request->all();
 
 		$min_age = date('Y-m-d', strtotime('-16 years', strtotime(date('Y-m-d'))));
 		$rules = [
@@ -285,7 +277,7 @@ class UserController extends BaseController
 		$this->validator->Validation();
 		$errors = $this->validator->getErrors();
 		if (!empty($errors)) {
-			return redirect('errors', $errors, 'admin/update-profile/' . $id);
+			return redirect('errors', $errors, 'admin/profile/update/' . $id);
 		} else {
 			$avatar = $this->request->get('avatar')['name'];
 			$avatar_name = $this->request->get('avatar')['tmp_name'];
@@ -301,17 +293,16 @@ class UserController extends BaseController
 			$this->request->set('avatar', $avatar_name);
 			$result = $this->user->storeUpdateProfile($this->request->all(), $id);
 			if ($result) {
-				unset($_SESSION['valid_data']);
-				return redirect('success', 'Cập nhật thông tin cá nhân thành công', 'admin/list-profile');
+				return redirect('success', 'Cập nhật thông tin cá nhân thành công', 'admin/profile/list');
 			}
 		}
 	}
 
-	public function renderDetailProfile($id)
+	public function renderProfile($id)
 	{
 		$title = "Thông tin cá nhân";
 		$user = $this->user->getUserById($id);
-		$this->render("admin.user.detail-profile", compact('title', 'user'));
+		$this->render("admin.user.profile", compact('title', 'user'));
 	}
 
 	public function handleDeleteAvatar($id)
@@ -337,7 +328,7 @@ class UserController extends BaseController
 	public function handleChangeAvatar($id)
 	{
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-profile');
+			return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/profile/list');
 		}
 		$rules = [
 			'avatar' => 'required|mimes:jpeg/png/jpg/gif/svg|max:10MB',
@@ -347,7 +338,6 @@ class UserController extends BaseController
 			'avatar.mimes' => 'Ảnh đại diện phải có định dạng jpeg, png, jpg, gif, svg',
 			'avatar.max' => 'Ảnh đại diện không được vượt quá 10MB',
 		];
-		$_SESSION['valid_data'] = $this->request->all();
 		$errors = [];
 		$this->validator->setRules($rules);
 		$this->validator->setMessages($messages);
@@ -370,8 +360,8 @@ class UserController extends BaseController
 			$this->request->set('avatar', $avatar_name);
 			$result = $this->user->changeAvatar($avatar_name, $id);
 			if ($result) {
-				unset($_SESSION['valid_data']);
-				return redirect('success', 'Cập nhật ảnh đại diện thành công', 'admin/list-profile');
+				unset($_SESSION['old']);
+				return redirect('success', 'Cập nhật ảnh đại diện thành công', 'admin/profile/list');
 			}
 		}
 	}
@@ -379,7 +369,7 @@ class UserController extends BaseController
 	public function handleChangeCoverPhoto($id)
 	{
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/list-profile');
+			return redirect('errors', 'Không thể thực hiện thao tác này', 'admin/profile/list');
 		}
 
 		$rules = [
@@ -390,7 +380,6 @@ class UserController extends BaseController
 			'cover_photo.mimes' => 'Ảnh bìa phải có định dạng jpeg, png, jpg, gif, svg',
 			'cover_photo.max' => 'Ảnh bìa không được vượt quá 10MB',
 		];
-		$_SESSION['valid_data'] = $this->request->all();
 		$errors = [];
 		$this->validator->setRules($rules);
 		$this->validator->setMessages($messages);
@@ -413,7 +402,7 @@ class UserController extends BaseController
 			$this->request->set('cover_photo', $cover_photo_name);
 			$result = $this->user->changeCoverPhoto($cover_photo_name, $id);
 			if ($result) {
-				unset($_SESSION['valid_data']);
+				unset($_SESSION['old']);
 				return redirect('success', 'Cập nhật ảnh bìa thành công', 'back');
 			}
 		}
@@ -463,7 +452,6 @@ class UserController extends BaseController
 			'confirm_password.required' => 'Vui lòng nhập lại mật khẩu mới',
 			'confirm_password.confirmed' => 'Mật khẩu nhập lại không trùng khớp',
 		];
-		$_SESSION['valid_data'] = $this->request->all();
 		$errors = [];
 		$this->validator->setRules($rules);
 		$this->validator->setMessages($messages);
@@ -472,13 +460,10 @@ class UserController extends BaseController
 		if (empty($errors)) {
 			$result = $this->user->changePassword(password_hash($new_password, PASSWORD_DEFAULT), $id);
 			if ($result) {
-				unset($_SESSION['valid_data']);
-				return redirect('success', 'Đổi mật khẩu thành công', 'admin/update-account/' . $id);
+				return redirect('success', 'Đổi mật khẩu thành công', 'admin/account/update/' . $id);
 			}
 		} else {
 			return redirect('errors', $errors, 'admin/change-password/' . $id);
 		}
-
 	}
-
 }

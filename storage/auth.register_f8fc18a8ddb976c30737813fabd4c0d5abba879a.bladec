@@ -26,23 +26,89 @@
  <span class="flex-none text-xs font-semibold text-gray-400 uppercase">Hoặc</span>
  <span class="relative flex-grow h-px bg-gray-300 top-2"></span>
  </div>
- <form id="login__form" method="post" action="" class="flex flex-col w-64 mt-4">
- <input autofocus
- class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
- name="email" placeholder="Email" type="email" />
- <input autofocus
- class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
- name="last_name" placeholder="Họ" type="text" />
- <input autofocus
- class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
- name="first_name" placeholder="Tên" type="text" />
- <input autofocus
- class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
- name="username" placeholder="Tên người dùng" type="text" />
+ <form id="login__form" method="post" action="<?php echo \htmlentities(route('register/handle')??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="flex flex-col w-64 mt-4">
+ <span class="email__error text-xs text-red-500 my-0.5">
+ <?php if(isset($_SESSION['errors']) &&
+ isset($_SESSION['errors']['email']) &&
+ count($_SESSION['errors']['email']) > 0 &&
+ isset($_GET['msg'])): ?>
+ <?php echo \htmlentities($_SESSION['errors']['email'][0]??'', ENT_QUOTES, 'UTF-8', false); ?>
 
+ <?php endif; ?>
+ </span>
  <input autofocus
  class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
- id="password" name="password" placeholder="Mật khẩu" type="password" />
+ name="email" placeholder="Email" type="email"
+ value="<?php echo \htmlentities(isset($_SESSION['old']['email']) && isset($_GET['msg']) ? $_SESSION['old']['email'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ <span class="lastname__error text-xs text-red-500 my-0.5">
+ <?php if(isset($_SESSION['errors']) &&
+ isset($_SESSION['errors']['last_name']) &&
+ count($_SESSION['errors']['last_name']) > 0 &&
+ isset($_GET['msg'])): ?>
+ <?php echo \htmlentities($_SESSION['errors']['last_name'][0]??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <?php endif; ?>
+ </span>
+ <input autofocus
+ class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
+ name="last_name" placeholder="Họ" type="text"
+ value="<?php echo \htmlentities(isset($_SESSION['old']['first_name']) && isset($_GET['msg']) ? $_SESSION['old']['first_name'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ <span class="firstname__error text-xs text-red-500 my-0.5">
+ <?php if(isset($_SESSION['errors']) &&
+ isset($_SESSION['errors']['first_name']) &&
+ count($_SESSION['errors']['first_name']) > 0 &&
+ isset($_GET['msg'])): ?>
+ <?php echo \htmlentities($_SESSION['errors']['first_name'][0]??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <?php endif; ?>
+ </span>
+ <input autofocus
+ class="w-full
+ px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none
+ focus:border-gray-400 active:outline-none"
+ name="first_name" placeholder="Tên" type="text"
+ value="<?php echo \htmlentities(isset($_SESSION['old']['last_name']) && isset($_GET['msg']) ? $_SESSION['old']['last_name'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ <span class="username__error text-xs text-red-500 my-0.5">
+ <?php if(isset($_SESSION['errors']) &&
+ isset($_SESSION['errors']['username']) &&
+ count($_SESSION['errors']['username']) > 0 &&
+ isset($_GET['msg'])): ?>
+ <?php echo \htmlentities($_SESSION['errors']['username'][0]??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <?php endif; ?>
+ </span>
+ <input autofocus
+ class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
+ name="username" placeholder="Tên người dùng" type="text"
+ value="<?php echo \htmlentities(isset($_SESSION['old']['username']) && isset($_GET['msg']) ? $_SESSION['old']['username'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ <span class="password__error text-xs text-red-500 my-0.5">
+ <?php if(isset($_SESSION['errors']) &&
+ isset($_SESSION['errors']['password']) &&
+ count($_SESSION['errors']['password']) > 0 &&
+ isset($_GET['msg'])): ?>
+ <?php echo \htmlentities($_SESSION['errors']['password'][0]??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <?php endif; ?>
+ </span>
+ <input autofocus
+ class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
+ id="password" name="password" placeholder="Mật khẩu" type="password"
+ value="<?php echo \htmlentities(isset($_SESSION['old']['password']) && isset($_GET['msg']) ? $_SESSION['old']['password'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ <span class="confirm-password__error text-xs text-red-500 my-0.5">
+ <?php if(isset($_SESSION['errors']) &&
+ isset($_SESSION['errors']['confirm_password']) &&
+ count($_SESSION['errors']['confirm_password']) > 0 &&
+ isset($_GET['msg'])): ?>
+ <?php echo \htmlentities($_SESSION['errors']['confirm_password'][0]??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <?php endif; ?>
+ </span>
+ <input autofocus
+ class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
+ id="confirm_password" name="confirm_password" placeholder="Xác nhận mật khẩu" type="password"
+ value="<?php echo \htmlentities(isset($_SESSION['old']['confirm_password']) && isset($_GET['msg']) ? $_SESSION['old']['confirm_password'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+
  <div class="py-2 terms_and_policies">
  <p class="text-xs text-gray-400">
  Bằng cách đăng ký, bạn đồng ý với

@@ -28,5 +28,4 @@ class PasswordValidator
 
 		return $fieldName . ' is incorrect';
 	}
-
 }

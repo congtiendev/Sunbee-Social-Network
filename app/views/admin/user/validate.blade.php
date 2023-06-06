@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
-    <form method="post" action="{{ route('handle-validate') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('admin/post/create') }}" enctype="multipart/form-data">
         @csrf
         <label>
             <input name="text" type="text" />

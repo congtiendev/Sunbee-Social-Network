@@ -261,13 +261,20 @@
  <section class="relative" x-data="{ dropdownOpen: false }">
  <a class="flex items-center gap-4" href="#" @click.prevent="dropdownOpen = ! dropdownOpen">
  <section class="hidden text-right lg:block">
- <span class="fullname block text-sm font-medium text-black dark:text-white">Lê Công
- Tiến</span>
- <span class="username block text-xs font-medium">congtiendev</span>
+ <span class="fullname block text-sm font-medium text-black dark:text-white">
+ <?php echo \htmlentities($_SESSION['auth']->first_name . ' ' . $_SESSION['auth']->last_name??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ </span>
+ <span class="username block text-xs font-medium">
+ <?php echo \htmlentities($_SESSION['auth']->username??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ </span>
  </section>
 
  <div class="avatar w-12 h-12 rounded-full">
- <img src="<?php echo \htmlentities(BASE_URL??'', ENT_QUOTES, 'UTF-8', false); ?>resources/images/user/user-01.png" alt="User" />
+ <img class="avatar w-full h-full rounded-full"
+ src="<?php echo \htmlentities(empty($_SESSION['auth']->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $_SESSION['auth']->avatar??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ alt="avatar" />
  </div>
 
  <svg :class="dropdownOpen && 'rotate-180'" class="hidden fill-current sm:block" width="12"
@@ -285,7 +292,7 @@
  class="flex flex-col text-sm text-gray-700 gap-3 border-b border-stroke p-5 dark:border-strokedark">
  <?php if(isset($_SESSION['auth']) && !empty($_SESSION['auth'])): ?>
  <li>
- <a href="profile.html"
+ <a href="<?php echo \htmlentities('admin/profile/' . $_SESSION['auth']->id??'', ENT_QUOTES, 'UTF-8', false); ?>"
  class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
  stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -296,7 +303,7 @@
  </a>
  </li>
  <li>
- <a href="settings.html"
+ <a href="<?php echo \htmlentities('admin/update-profile/' . $_SESSION['auth']->id??'', ENT_QUOTES, 'UTF-8', false); ?>"
  class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
  stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -308,8 +315,9 @@
  Cài đặt tài khoản
  </a>
  </li>
- <a href="<?php echo \htmlentities(route('logout')??'', ENT_QUOTES, 'UTF-8', false); ?>"
- class="flex items-center gap-3.5 py-3 text-gray-700 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+ <li>
+ <a href="<?php echo \htmlentities('logout'??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="flex items-center gap-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
  <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22"
  fill="none" xmlns="http://www.w3.org/2000/svg">
  <path
@@ -321,6 +329,7 @@
  </svg>
  Đăng xuất
  </a>
+ </li>
  <?php else: ?>
  <li>
  <a href="<?php echo \htmlentities(route('login')??'', ENT_QUOTES, 'UTF-8', false); ?>"

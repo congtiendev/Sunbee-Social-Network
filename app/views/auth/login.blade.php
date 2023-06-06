@@ -30,7 +30,7 @@
                         <input autofocus
                             class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
                             name="account" placeholder="Số điện thoại, tên người dùng hoặc email" type="text"
-                            value="{{ isset($_SESSION['valid_data']['account']) && isset($_GET['msg']) ? $_SESSION['valid_data']['account'] : null }}" />
+                            value="{{ isset($_SESSION['old']['account']) && isset($_GET['msg']) ? $_SESSION['old']['account'] : null }}" />
                         <span class="password__error text-xs text-red-500 my-0.5">
                             @if (isset($_SESSION['errors']) &&
                                     isset($_SESSION['errors']['password']) &&
@@ -42,7 +42,7 @@
                         <input autofocus
                             class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
                             id="password" name="password" placeholder="Mật khẩu" type="password"
-                            value="{{ isset($_SESSION['valid_data']['password']) && isset($_GET['msg']) ? $_SESSION['valid_data']['password'] : null }}" />
+                            value="{{ isset($_SESSION['old']['password']) && isset($_GET['msg']) ? $_SESSION['old']['password'] : null }}" />
                         <label class="cursor-pointer flex items-center gap-2 pb-2">
                             <input type="checkbox" name="remember"
                                 class="checkbox w-[17px] h-[17px] rounded-sm checkbox-warning" />

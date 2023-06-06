@@ -11,10 +11,23 @@ const BASE_URL = "http://localhost:88/Sunbee-Social-Network/";
 const IMG_PATH = BASE_URL . "resources/images/";
 const AVATAR_PATH = BASE_URL . "public/uploads/avatars/";
 const COVER_PATH = BASE_URL . "public/uploads/covers/";
-const POST_IMG_PATH = BASE_URL . "public/uploads/posts/";
+const POST_MEDIA_PATH = BASE_URL . "public/uploads/posts/";
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 function route($name): string
 {
 	return BASE_URL . $name;
+}
+
+function isImage($image)
+{
+	$extension = pathinfo($image, PATHINFO_EXTENSION);
+	$extension = strtolower($extension);
+	$images = ['jpg', 'jpeg', 'png', 'gif'];
+	if (in_array($extension, $images)) {
+		return true;
+	}
+	return false;
 }
 
 function redirect($key, $msg, $route)
@@ -23,6 +36,7 @@ function redirect($key, $msg, $route)
 	switch ($key) {
 		case 'success':
 			unset($_SESSION['errors']);
+			unset($_SESSION['old']);
 			break;
 		case 'errors':
 			unset($_SESSION['success']);

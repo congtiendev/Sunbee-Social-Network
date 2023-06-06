@@ -24,18 +24,18 @@ $router->group(['before' => 'auth'], function () use ($router) {
 $router->group(['prefix' => 'admin'], function () use ($router) {
 	$router->group(['before' => 'auth'], function () use ($router) {
 		// -------------------------------CRUD Account--------------------------------//
-		$router->get('list-account', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
-		$router->get('create-account', [App\Controllers\Admin\UserController::class, 'renderCreateAccount']);
-		$router->get('update-account/{id}', [App\Controllers\Admin\UserController::class, 'renderUpdateAccount']);
-		$router->post('save-create-account', [App\Controllers\Admin\UserController::class, 'handleCreateAccount']);
-		$router->post('save-update-account/{id}', [App\Controllers\Admin\UserController::class, 'handleUpdateAccount']);
+		$router->get('account/list', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
+		$router->get('account/create', [App\Controllers\Admin\UserController::class, 'renderCreateAccount']);
+		$router->get('account/update/{id}', [App\Controllers\Admin\UserController::class, 'renderUpdateAccount']);
+		$router->post('account/create/handle', [App\Controllers\Admin\UserController::class, 'handleCreateAccount']);
+		$router->post('account/update/handle/{id}', [App\Controllers\Admin\UserController::class, 'handleUpdateAccount']);
 		$router->get('delete-account/{id}', [App\Controllers\Admin\UserController::class, 'deleteAccount']);
 
 		// --------------------------------Profile-------------------------------------------//
-		$router->get('admin/list-profile', [App\Controllers\Admin\UserController::class, 'renderListProfile']);
-		$router->get('detail-profile/{id}', [App\Controllers\Admin\UserController::class, 'renderDetailProfile']);
-		$router->get('update-profile/{id}', [App\Controllers\Admin\UserController::class, 'renderUpdateProfile']);
-		$router->post('save-update-profile/{id}', [App\Controllers\Admin\UserController::class, 'handleUpdateProfile']);
+		$router->get('profile/list', [App\Controllers\Admin\UserController::class, 'renderListProfile']);
+		$router->get('profile/{id}', [App\Controllers\Admin\UserController::class, 'renderProfile']);
+		$router->get('profile/update/{id}', [App\Controllers\Admin\UserController::class, 'renderUpdateProfile']);
+		$router->post('profile/update/handle/{id}', [App\Controllers\Admin\UserController::class, 'handleUpdateProfile']);
 		$router->post('change-avatar/{id}', [App\Controllers\Admin\UserController::class, 'handleChangeAvatar']);
 		$router->get('delete-avatar/{id}', [App\Controllers\Admin\UserController::class, 'handleDeleteAvatar']);
 		$router->post('change-cover-photo/{id}', [App\Controllers\Admin\UserController::class, 'handleChangeCoverPhoto']);
@@ -43,8 +43,8 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
 
 
 		// -------------------------------Sort & Search User--------------------------------//
-		$router->get('list-account/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
-		$router->get('list-profile/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListProfile']);
+		$router->get('account/list/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
+		$router->get('profile/list/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListProfile']);
 
 		$router->get('search-user', [App\Controllers\Admin\UserController::class, 'searchUser']);
 		$router->get('search-account/{keyword}/{column}/{order}', [App\Controllers\Admin\UserController::class, 'renderListAccount']);
@@ -52,14 +52,14 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
 
 		// --------------------------------Change password-------------------------------------------//
 		$router->get('change-password/{id}', [App\Controllers\Admin\UserController::class, 'renderChangePassword']);
-		$router->post('save-change-password/{id}', [App\Controllers\Admin\UserController::class, 'handleChangePassword']);
+		$router->post('change-password/handle/{id}', [App\Controllers\Admin\UserController::class, 'handleChangePassword']);
 
 		//--------------------------------------Post------------------------------------------------//
 		$router->get('posts-manager', [App\Controllers\Admin\PostController::class, 'renderListPost']);
+		$router->post('posts/create', [App\Controllers\Admin\PostController::class, 'handleCreatePost']);
 		$router->post('like-post', [App\Controllers\Admin\PostController::class, 'handleLikePost']);
 		$router->post('unlike-post', [App\Controllers\Admin\PostController::class, 'handleUnlikePost']);
 	});
-
 });
 
 

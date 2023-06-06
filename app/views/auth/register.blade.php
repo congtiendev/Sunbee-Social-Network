@@ -26,23 +26,83 @@
                         <span class="flex-none text-xs font-semibold text-gray-400 uppercase">Hoặc</span>
                         <span class="relative flex-grow h-px bg-gray-300 top-2"></span>
                     </div>
-                    <form id="login__form" method="post" action="" class="flex flex-col w-64 mt-4">
+                    <form id="login__form" method="post" action="{{ route('register/handle') }}"
+                        class="flex flex-col w-64 mt-4">
+                        <span class="email__error text-xs text-red-500 my-0.5">
+                            @if (isset($_SESSION['errors']) &&
+                                    isset($_SESSION['errors']['email']) &&
+                                    count($_SESSION['errors']['email']) > 0 &&
+                                    isset($_GET['msg']))
+                                {{ $_SESSION['errors']['email'][0] }}
+                            @endif
+                        </span>
                         <input autofocus
                             class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
-                            name="email" placeholder="Email" type="email" />
+                            name="email" placeholder="Email" type="email"
+                            value="{{ isset($_SESSION['old']['email']) && isset($_GET['msg']) ? $_SESSION['old']['email'] : null }}" />
+                        <span class="lastname__error text-xs text-red-500 my-0.5">
+                            @if (isset($_SESSION['errors']) &&
+                                    isset($_SESSION['errors']['last_name']) &&
+                                    count($_SESSION['errors']['last_name']) > 0 &&
+                                    isset($_GET['msg']))
+                                {{ $_SESSION['errors']['last_name'][0] }}
+                            @endif
+                        </span>
                         <input autofocus
                             class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
-                            name="last_name" placeholder="Họ" type="text" />
+                            name="last_name" placeholder="Họ" type="text"
+                            value="{{ isset($_SESSION['old']['first_name']) && isset($_GET['msg']) ? $_SESSION['old']['first_name'] : null }}" />
+                        <span class="firstname__error text-xs text-red-500 my-0.5">
+                            @if (isset($_SESSION['errors']) &&
+                                    isset($_SESSION['errors']['first_name']) &&
+                                    count($_SESSION['errors']['first_name']) > 0 &&
+                                    isset($_GET['msg']))
+                                {{ $_SESSION['errors']['first_name'][0] }}
+                            @endif
+                        </span>
+                        <input autofocus
+                            class="w-full
+                            px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none
+                            focus:border-gray-400 active:outline-none"
+                            name="first_name" placeholder="Tên" type="text"
+                            value="{{ isset($_SESSION['old']['last_name']) && isset($_GET['msg']) ? $_SESSION['old']['last_name'] : null }}" />
+                        <span class="username__error text-xs text-red-500 my-0.5">
+                            @if (isset($_SESSION['errors']) &&
+                                    isset($_SESSION['errors']['username']) &&
+                                    count($_SESSION['errors']['username']) > 0 &&
+                                    isset($_GET['msg']))
+                                {{ $_SESSION['errors']['username'][0] }}
+                            @endif
+                        </span>
                         <input autofocus
                             class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
-                            name="first_name" placeholder="Tên" type="text" />
+                            name="username" placeholder="Tên người dùng" type="text"
+                            value="{{ isset($_SESSION['old']['username']) && isset($_GET['msg']) ? $_SESSION['old']['username'] : null }}" />
+                        <span class="password__error text-xs text-red-500 my-0.5">
+                            @if (isset($_SESSION['errors']) &&
+                                    isset($_SESSION['errors']['password']) &&
+                                    count($_SESSION['errors']['password']) > 0 &&
+                                    isset($_GET['msg']))
+                                {{ $_SESSION['errors']['password'][0] }}
+                            @endif
+                        </span>
                         <input autofocus
                             class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
-                            name="username" placeholder="Tên người dùng" type="text" />
+                            id="password" name="password" placeholder="Mật khẩu" type="password"
+                            value="{{ isset($_SESSION['old']['password']) && isset($_GET['msg']) ? $_SESSION['old']['password'] : null }}" />
+                        <span class="confirm-password__error text-xs text-red-500 my-0.5">
+                            @if (isset($_SESSION['errors']) &&
+                                    isset($_SESSION['errors']['confirm_password']) &&
+                                    count($_SESSION['errors']['confirm_password']) > 0 &&
+                                    isset($_GET['msg']))
+                                {{ $_SESSION['errors']['confirm_password'][0] }}
+                            @endif
+                        </span>
+                        <input autofocus
+                            class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
+                            id="confirm_password" name="confirm_password" placeholder="Xác nhận mật khẩu" type="password"
+                            value="{{ isset($_SESSION['old']['confirm_password']) && isset($_GET['msg']) ? $_SESSION['old']['confirm_password'] : null }}" />
 
-                        <input autofocus
-                            class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
-                            id="password" name="password" placeholder="Mật khẩu" type="password" />
                         <div class="py-2 terms_and_policies">
                             <p class="text-xs text-gray-400">
                                 Bằng cách đăng ký, bạn đồng ý với

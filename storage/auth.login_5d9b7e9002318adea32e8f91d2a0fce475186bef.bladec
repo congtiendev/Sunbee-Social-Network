@@ -31,7 +31,7 @@
  <input autofocus
  class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
  name="account" placeholder="Số điện thoại, tên người dùng hoặc email" type="text"
- value="<?php echo \htmlentities(isset($_SESSION['valid_data']['account']) && isset($_GET['msg']) ? $_SESSION['valid_data']['account'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ value="<?php echo \htmlentities(isset($_SESSION['old']['account']) && isset($_GET['msg']) ? $_SESSION['old']['account'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
  <span class="password__error text-xs text-red-500 my-0.5">
  <?php if(isset($_SESSION['errors']) &&
  isset($_SESSION['errors']['password']) &&
@@ -44,7 +44,7 @@
  <input autofocus
  class="w-full px-2 py-2 mb-2 text-xs bg-gray-100 border border-gray-300 rounded focus:outline-none focus:border-gray-400 active:outline-none"
  id="password" name="password" placeholder="Mật khẩu" type="password"
- value="<?php echo \htmlentities(isset($_SESSION['valid_data']['password']) && isset($_GET['msg']) ? $_SESSION['valid_data']['password'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ value="<?php echo \htmlentities(isset($_SESSION['old']['password']) && isset($_GET['msg']) ? $_SESSION['old']['password'] : null??'', ENT_QUOTES, 'UTF-8', false); ?>" />
  <label class="cursor-pointer flex items-center gap-2 pb-2">
  <input type="checkbox" name="remember"
  class="checkbox w-[17px] h-[17px] rounded-sm checkbox-warning" />

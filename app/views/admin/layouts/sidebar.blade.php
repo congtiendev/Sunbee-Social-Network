@@ -119,7 +119,7 @@
                              <ul class="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                                  <li>
                                      <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                         href="{{ route('admin/list-account') }}"
+                                         href="{{ route('admin/account/list') }}"
                                          :class="page === 'list' && '!text-white'"><svg
                                              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -131,7 +131,7 @@
                                  </li>
                                  <li>
                                      <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                         href="{{ route('admin/list-profile') }}"
+                                         href="{{ route('admin/profile/list') }}"
                                          :class="page === 'kanban' && '!text-white'"><svg
                                              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
