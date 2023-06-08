@@ -60,6 +60,7 @@ module.exports = {
         'pt-serif': ['PT Serif', 'sans-serif'],
         'inter': ['Inter', 'sans-serif'],
         'quick-sand': ['Quick Sand', 'sans-serif'],
+        'sunbee': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
       }
     },
   },

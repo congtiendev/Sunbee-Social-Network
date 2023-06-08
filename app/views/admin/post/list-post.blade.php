@@ -45,7 +45,7 @@
                             src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
                             alt="author avatar" />
                         <div class="flex flex-col author__info item-center">
-                            <h2 class="text-sm font-semibold text-gray-900 author__name dark:text-gray-100">
+                            <h2 class="text-sm font-semibold text-[#000000] author__name dark:text-gray-100">
                                 {{ $user->first_name . ' ' . $user->last_name }}
                             </h2>
                             <span class="text-xs text-gray-500 dark:text-gray-400">
@@ -55,11 +55,11 @@
                     </div>
                     <form action="{{ route('admin/posts/create') }}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <textarea name="content" id="posts__content"
-                                class="w-full h-32 p-3 text-gray-900 bg-gray-100 border border-gray-200 rounded-lg dark:border-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none"
+                            <textarea name="post_content" id="posts__content"
+                                class="w-full h-32 p-3 text-[#000000] bg-gray-100 border border-gray-200 rounded-lg dark:border-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none"
                                 placeholder="Bạn đang nghĩ gì thế ?"></textarea>
                         </div>
-                        <pre id="posts__content-preview" class="text-gray-900 font-montserrat text-start dark:text-gray-100"></pre>
+                        <pre id="posts__content-preview" class="text-[#000000] font-montserrat text-start dark:text-gray-100"></pre>
                         <div id="posts__media-preview" class="grid grid-cols-2 gap-1"></div>
                         <div class="flex items-center justify-between mt-2 form-group">
                             <div
@@ -90,7 +90,7 @@
                 @foreach ($posts as $post)
                     <!-- --------------------------------posts------------------------------ -->
                     <section
-                        class="max-w-sm min-w-[300px] px-4 pt-4 pb-1 transition duration-500 transform bg-white shadow-lg posts-item dark:bg-boxdark rounded-xl hover:scale-105">
+                        class="max-w-sm min-w-[250px] px-4 pt-4 pb-1 transition duration-500 transform bg-white shadow-lg posts-item dark:bg-boxdark rounded-xl hover:scale-105">
                         <section class="relative flex items-center gap-2 infor__user">
                             <!-- -------------------options posts------------------------- -->
                             <section class="absolute top-0 right-0 btn-options">
@@ -145,37 +145,24 @@
                             </section>
                             <img src="{{ empty($post->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $post->avatar }}"
                                 alt="" class="object-cover w-10 h-10 rounded-full" />
-                            <section class="text-gray-700 name-user dark:text-white">
+                            <div>
                                 <a href="#">
-                                    <h3 class="text-base font-semibold full-name">
+                                    <h3 class="text-sm font-semibold text-[#000000] dark:text-white full-name">
                                         {{ $post->first_name }} {{ $post->last_name }}
                                     </h3>
                                 </a>
-                                <p class="text-xs text-gray-900 sm:text-sm time dark:text-gray-200">
-                                    {{ date('H:i d/m/Y', strtotime($post->created_at)) }}
-                                </p>
-                            </section>
+                                <span class="date text-sm text-[#737373] dark:text-gray-200 whitespace-nowrap">
+                                    {{ date('H:i d/m/Y', strtotime($post->post_date)) }}</span>
+                            </div>
                         </section>
-                        <div class="mt-3 text-gray-900 content-post dark:text-white">
-                            <p class="text-xs sm:text-sm limited__content-3">
-                                {{ $post->content }}
-                            </p>
-                            @if (!empty($post->hashtag))
-                                <div
-                                    class="hashtag text-xs sm:text-sm text-indigo-900 dark:text-indigo-400 font-bold flex gap-0.5 flex-wrap">
-                                    <a href="#">
-                                        {{ $post->hashtag }}
-                                    </a>
-                                </div>
-                            @endif
-                        </div>
+
                         <div class="my-3 img__post">
                             <div class="w-full swiper sliderPosts rounded-xl">
                                 <div class="w-full swiper-wrapper rounded-xl">
-                                    @foreach ($post->media_url as $index => $name)
-                                        @if (isImage($name))
+                                    @foreach ($post->medias as $media)
+                                        @if (isImage($media->post_media))
                                             <div class="w-full swiper-slide rounded-xl">
-                                                <img src="{{ POST_MEDIA_PATH . $name }}" alt=""
+                                                <img src="{{ POST_MEDIA_PATH . $media->post_media }}" alt=""
                                                     class="w-full min-h-[200px] max-h-[200px] object-cover rounded-xl" />
                                             </div>
                                         @else
@@ -183,7 +170,8 @@
                                                 class="w-full min-h-[200px] max-h-[200px] bg-black swiper-slide rounded-xl">
                                                 <video class="w-full min-h-[200px] max-h-[200px] object-contain rounded-xl"
                                                     controls>
-                                                    <source src="{{ POST_MEDIA_PATH . $name }}" type="video/mp4">
+                                                    <source src="{{ POST_MEDIA_PATH . $media->post_media }}"
+                                                        type="video/mp4">
                                                 </video>
                                             </div>
                                         @endif
@@ -192,30 +180,64 @@
                             </div>
                         </div>
 
-                        <section class="flex items-center justify-between p-2 mt-3 border-t-2 border-dashed interact-post">
-                            <div class="flex items-center gap-1 like__count">
+                        <section class="post__actions">
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex gap-5">
+                                    <svg data-post-id="{{ $post->post_id }}" data-user-id="{{ $_SESSION['auth']->id }}"
+                                        class="w-6 h-6 fill-black dark:fill-white like__post-btn  @if ($post->is_liked) active @endif"
+                                        height="24" viewBox="0 0 48 48" width="24">
+                                        <path
+                                            d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
+                                        </path>
+                                    </svg>
+                                    <svg class="w-6 h-6 comment-icon fill-black dark:fill-white" viewBox="0 0 48 48">
+                                        <path clip-rule="evenodd"
+                                            d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z"
+                                            fill-rule="evenodd"></path>
+                                    </svg>
+                                    <svg class="w-6 h-6 share-icon fill-black dark:fill-white" viewBox="0 0 48 48">
+                                        <path
+                                            d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
+                                        </path>
+                                    </svg>
+                                </div>
                                 <svg data-post-id="{{ $post->post_id }}" data-user-id="{{ $_SESSION['auth']->id }}"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor"
-                                    class="w-6 h-6 text-black dark:text-gray-100 like__post-btn @if ($post->is_liked) active @endif">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                    class="save__post-btn w-6 h-6 fill-black dark:fill-white @if ($post->is_saved) active @endif"
+                                    viewBox="0 0 48 48">
+                                    <path
+                                        d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z">
+                                    </path>
                                 </svg>
-                                <span
-                                    class="text-xs text-gray-900 dark:text-gray-100 like__post-count sm:text-base font-extralight">
-                                    {{ intval($post->likes) }}
-                                </span>
                             </div>
-                            <div class="flex items-center gap-1 count-like">
-                                <img src="{{ IMG_PATH . 'icon/comment-icon.png' }}" alt="" class="w-6 h-6" />
-                                <span
-                                    class="text-xs text-gray-900 dark:text-gray-100 sm:text-base font-extralight">1</span>
-                            </div>
-                            <div class="flex items-center gap-1 count-like">
-                                <span
-                                    class="text-xs text-gray-900 dark:text-gray-100 sm:text-base font-extralight">1</span>
-                                <img src="{{ IMG_PATH . 'icon/share-icon.png' }}" alt="" class="w-6 h-6" />
-                            </div>
+                            <section class="my-2 text-[#000000] text-sm total-interact dark:text-white">
+                                <div class="font-semibold like__post"><span class="like__post-count">
+                                        {{ intval($post->like_count) }}</span> lượt thích
+                                </div>
+                                @if (!empty($post->post_content))
+                                    <div class="my-1 text-sm text-[#000000] dark:text-white">
+                                        <a href="#"
+                                            class="font-medium limited__content-3">{{ $post->username }}</a>
+                                        <p>{{ $post->post_content }}</p>
+                                    </div>
+                                @endif
+                                <div class=" text-sm text-[#737373] dark:text-gray-400 comment__post">
+                                    @if ($post->comment_count > 0)
+                                        <a href="#">
+                                            Xem <span
+                                                class="comment__post-count">{{ intval($post->comment_count) }}</span>
+                                            bình luận
+                                        </a>
+                                    @else
+                                        <span>Chưa có bình luận</span>
+                                    @endif
+                                </div>
+                                <div>
+                                    <input data-post-id="{{ $post->post_id }}"
+                                        data-user-id="{{ $_SESSION['auth']->id }}" type="text"
+                                        placeholder="Thêm bình luận..."
+                                        class="w-full py-1 text-sm text-[#000000] bg-transparent border-none rounded outline-none dark:text-white add__comment-input" />
+                                </div>
+                            </section>
                         </section>
                     </section>
                     <!-- ------------------------------end post-------------------------------- -->

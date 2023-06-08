@@ -24,13 +24,16 @@ class PostController extends BaseController
 	{
 		$title = "Danh sách bài đăng";
 		$user = $_SESSION['auth'];
-		$posts = $this->post->getPost($keyword, $this->Pagination()['limit'], $this->Pagination()['offset'], $column, $order);
+		$limit = $this->Pagination()['limit'];
+		$offset = $this->Pagination()['offset'];
+		$posts = $this->post->getPost($keyword, $limit, $offset, $column, $order);
 		foreach ($posts as $post) {
-			$post->media_url = explode(',', $post->media_url);
-			$post->media_type = explode(',', $post->media_type);
-			$post->is_liked = $this->post->isLiked($post->post_id, $user->id);
+			$postID = $post->post_id;
+			$post->medias = $this->post->getPostMedia($postID);
+			$post->comments = $this->post->getPostComment($postID);
+			$post->is_liked = $this->post->isLiked($postID, $user->id);
+			$post->is_saved = $this->post->isSaved($postID, $user->id);
 		}
-
 		$pagination = $this->Pagination();
 		$this->render("admin.post.list-post", compact('title', 'user', 'posts', 'keyword', 'pagination'));
 	}
@@ -40,7 +43,7 @@ class PostController extends BaseController
 		$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 		$limit = 10;
 		$totalData = count($this->post->getPost());
-		$offset = ($page - 1) * $limit; //Vị trí bắt đầu lấy dữ liệu
+		$offset = ($page - 1) * $limit;
 		$totalPages = round((int) ($totalData / $limit));
 		return [
 			'offset' => $offset,
@@ -67,8 +70,7 @@ class PostController extends BaseController
 				$mediaName = $this->request->uploadFile($medias['name'][$key], $medias['tmp_name'][$key], "public/uploads/posts/");
 				$dataMedia = [
 					'post_id' => $postID->id,
-					'media_url' => $mediaName,
-					'media_type' => $medias['type'][$key],
+					'post_media' => $mediaName
 				];
 				$this->post->insertPostMedia($dataMedia);
 			}
@@ -97,5 +99,27 @@ class PostController extends BaseController
 		$post_id = $this->request->post('postID');
 		$user_id = $this->request->post('userID');
 		return $this->post->unLikePost($post_id, $user_id);
+	}
+
+	public function handleSavePost()
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			return redirect('', '', 'back');
+		}
+		$post_id = $this->request->post('postID');
+		$user_id = $this->request->post('userID');
+		if ($this->post->isSaved($post_id, $user_id)) {
+			return $this->post->unSavePost($post_id, $user_id);
+		}
+		return $this->post->savePost($post_id, $user_id);
+	}
+	public function handleUnSavePost()
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			return redirect('', '', 'back');
+		}
+		$post_id = $this->request->post('postID');
+		$user_id = $this->request->post('userID');
+		return $this->post->unSavePost($post_id, $user_id);
 	}
 }

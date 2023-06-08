@@ -5,13 +5,13 @@ use Phroute\Phroute\RouteCollector;
 
 $url = $_GET['url'] ?? '/';
 $router = new RouteCollector();
-$router->get('404', [App\Controllers\ErrorController::class, 'render404']);
 $router->filter('auth', function () {
 	if (!isset($_SESSION["auth"]) || empty($_SESSION["auth"])) {
 		header('location: ' . route('login'));
 		die;
 	}
 });
+$router->get('404', [App\Controllers\ErrorController::class, 'render404']);
 $router->get('login', [App\Controllers\AuthController::class, 'renderLogin']);
 $router->post('login/verify', [App\Controllers\AuthController::class, 'handleLogin']);
 $router->get('logout', [App\Controllers\AuthController::class, 'logout']);
@@ -59,6 +59,8 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
 		$router->post('posts/create', [App\Controllers\Admin\PostController::class, 'handleCreatePost']);
 		$router->post('like-post', [App\Controllers\Admin\PostController::class, 'handleLikePost']);
 		$router->post('unlike-post', [App\Controllers\Admin\PostController::class, 'handleUnlikePost']);
+		$router->post('save-post', [App\Controllers\Admin\PostController::class, 'handleSavePost']);
+		$router->post('unsave-post', [App\Controllers\Admin\PostController::class, 'handleUnSavePost']);
 	});
 });
 
@@ -75,7 +77,12 @@ $dispatcher = new Dispatcher($router->getData());
 
 try {
 	$response = $dispatcher->dispatch($_SERVER['REQUEST_METHOD'], $url);
-	echo $response;
+	if ($response instanceof PDOStatement) {
+		$data = $response->fetchAll(PDO::FETCH_ASSOC);
+		echo json_encode($data);
+	} else {
+		echo $response;
+	}
 } catch (\Phroute\Phroute\Exception\HttpRouteNotFoundException $e) {
 	redirect('errors', 'Không tìm thấy trang', '404');
 } catch (\Phroute\Phroute\Exception\HttpMethodNotAllowedException $e) {

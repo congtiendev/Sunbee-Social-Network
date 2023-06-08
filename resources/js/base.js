@@ -1,3 +1,6 @@
+
+const API_URL = "http://localhost:88/Sunbee-Social-Network/";
+
 //==========================Loading page=================================================
 $(window).on('load', function () {
     $('#loader-overlay').fadeOut('slow');
@@ -22,7 +25,7 @@ $(document).ready(function () {
                     icon: 'success',
                     timer: 1500,
                 }).then(function () {
-                    window.location.href = 'http://localhost:88/sunbee/admin/delete-avatar/' + id;
+                    window.location.href = API_URL + 'admin/delete-avatar/' + id;
                 });
             } else {
                 swal('Hủy xóa ảnh đại diện', 'Ảnh đại diện của tài khoản này sẽ không bị xóa.', 'info')
@@ -85,10 +88,6 @@ function previewMultipleImage(file, previewElementId, callback) {
     const previewElement = document.querySelector(`${previewElementId}`);
     previewElement.innerHTML = "";
     if (file) {
-        if (!file.type.startsWith("image/")) {
-            swal("File bạn chọn không phải là ảnh", "", "error");
-            return;
-        }
         const reader = new FileReader();
         reader.onload = function () {
             const img = document.createElement("img");
@@ -153,7 +152,7 @@ $(document).ready(function () {
     $('.like__post-btn').on('click', function () {
         const postID = $(this).data('post-id');
         const userID = $(this).data('user-id');
-        const likePostCount = $(this).siblings(".like__post-count");
+        const likePostCount = $(this).closest(".post__actions").find(".like__post-count");;
         let count = parseInt(likePostCount.text());
         console.log(count);
         console.log(postID);
@@ -173,7 +172,7 @@ $(document).ready(function () {
 
     function likePost(postID, userID) {
         $.ajax({
-            url: 'http://localhost:88/Sunbee-Social-Network/admin/like-post',
+            url: API_URL + 'admin/like-post',
             type: 'POST',
             data: {
                 postID: postID,
@@ -190,7 +189,7 @@ $(document).ready(function () {
 
     function unlikePost(postID, userID) {
         $.ajax({
-            url: 'http://localhost:88/Sunbee-Social-Network/admin/unlike-post',
+            url: API_URL + 'admin/unlike-post',
             type: 'POST',
             data: {
                 postID: postID,
@@ -206,5 +205,55 @@ $(document).ready(function () {
     }
 });
 
+//==============================================Save post==========================================
 
+$(document).ready(function () {
+    $('.save__post-btn').on('click', function () {
+        const postID = $(this).data('post-id');
+        const userID = $(this).data('user-id');
+        if ($(this).hasClass("active")) {
+            $(this).removeClass("active");
+            unSavePost(postID, userID);
+            swal("Đã bỏ lưu bài viết", "", "success");
+        } else {
+            $(this).addClass("active");
+            savePost(postID, userID);
+            swal("Bài viết đã được lưu", "", "success");
+        }
+    });
+
+    function savePost(postID, userID) {
+        $.ajax({
+            url: API_URL + 'admin/save-post',
+            type: 'POST',
+            data: {
+                postID: postID,
+                userID: userID
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function unSavePost(postID, userID) {
+        $.ajax({
+            url: API_URL + 'admin/unsave-post',
+            type: 'POST',
+            data: {
+                postID: postID,
+                userID: userID
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+});
 
