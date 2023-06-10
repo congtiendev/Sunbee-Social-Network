@@ -61,7 +61,11 @@ module.exports = {
         'inter': ['Inter', 'sans-serif'],
         'quick-sand': ['Quick Sand', 'sans-serif'],
         'sunbee': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
-      }
+      },
+      screens: {
+        's': '320px',
+        'xs': '410px'
+      },
     },
   },
   plugins: [require("tw-elements/dist/plugin"

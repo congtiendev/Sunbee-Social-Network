@@ -58,6 +58,7 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
 		$router->get('posts-manager', [App\Controllers\Admin\PostController::class, 'renderListPost']);
 		$router->post('posts/create', [App\Controllers\Admin\PostController::class, 'handleCreatePost']);
 		$router->post('like-post', [App\Controllers\Admin\PostController::class, 'handleLikePost']);
+		$router->get('is-liked/{post_id}/{user_id}', [App\Controllers\Admin\PostController::class, 'isLiked']);
 		$router->post('unlike-post', [App\Controllers\Admin\PostController::class, 'handleUnlikePost']);
 		$router->post('save-post', [App\Controllers\Admin\PostController::class, 'handleSavePost']);
 		$router->post('unsave-post', [App\Controllers\Admin\PostController::class, 'handleUnSavePost']);

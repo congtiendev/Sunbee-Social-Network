@@ -145,30 +145,56 @@ if (document.querySelector('.sliderPosts')) {
         grabCursor: true
     });
 }
+if (document.querySelector('.sliderDetailsPosts')) {
+    var swiper = new Swiper(".sliderDetailsPosts", {
+        grabCursor: true,
+        effect: "creative",
+        creativeEffect: {
+            prev: {
+                shadow: true,
+                translate: ["-20%", 0, -1],
+            },
+            next: {
+                translate: ["100%", 0, 0],
+            },
+        },
+    });
+}
 
 /* ====================================Like post====================================*/
 
 $(document).ready(function () {
-    $('.like__post-btn').on('click', function () {
+    $('.like__post-btn, .like__details-post-btn').on('click', function () {
         const postID = $(this).data('post-id');
         const userID = $(this).data('user-id');
-        const likePostCount = $(this).closest(".post__actions").find(".like__post-count");;
-        let count = parseInt(likePostCount.text());
-        console.log(count);
-        console.log(postID);
-        console.log(userID);
+        const likePostBtn = $(`#post-action_${postID}`).find(".like__post-btn");
+        const likePostCount = $(`#post-action_${postID}`).find(".like__post-count");
+        const likeDetailsPostBtn = $(`#post-action_${postID}`).find(".like__details-post-btn");
+        const likeDetailsPostCount = $(`#post-action_${postID}`).find(".like__details-post-count");
 
-        if ($(this).hasClass("active")) {
+        let count = parseInt(likePostCount.text());
+        let countDetails = parseInt(likeDetailsPostCount.text());
+        console.log(count);
+        console.log(countDetails);
+
+        if (likePostBtn.hasClass("active") && likeDetailsPostBtn.hasClass("active")) {
             count -= 1;
-            $(this).removeClass("active");
+            countDetails -= 1;
+            likePostBtn.removeClass("active");
+            likeDetailsPostBtn.removeClass("active");
             unlikePost(postID, userID);
         } else {
             count += 1;
-            $(this).addClass("active");
+            countDetails += 1;
+            likePostBtn.addClass("active");
+            likeDetailsPostBtn.addClass("active");
             likePost(postID, userID);
         }
         likePostCount.text(count);
+        likeDetailsPostCount.text(countDetails);
     });
+
+
 
     function likePost(postID, userID) {
         $.ajax({
