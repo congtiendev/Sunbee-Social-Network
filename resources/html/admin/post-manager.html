@@ -7,10 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sunbee Social Network</title>
   <link rel="icon" href="favicon.png" />
-  <link rel="stylesheet" href="../../../resources/css/tailwind.css" />
-  <link href="../../../node_modules/swiper/swiper-bundle.min.css" rel="stylesheet" />
-  <link href="../../../resources/css/admin.css" rel="stylesheet" />
-  <link href="../../../resources/css/custom.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/tailwind.css" />
+  <link href="../../css/admin.css" rel="stylesheet" />
+  <link href="../../css/custom.css" rel="stylesheet" />
 </head>
 
 <body
@@ -26,7 +25,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
       <!-- SIDEBAR HEADER -->
       <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <a class="flex items-center justify-center gap-2" href="#">
-          <img class="block h-10" src="../../../resources/images/logo.png" alt="Logo" />
+          <img class="block h-10" src="../../images/logo.png" alt="Logo" />
           <span class="block text-xs text-bodydark1">Social Network™</span>
         </a>
         <button class="block lg:hidden" @click.stop="sidebarToggle = !sidebarToggle">
@@ -363,7 +362,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
             </button>
             <!-- ------------------Logo------------------- -->
             <a class="flex-shrink-0 block lg:hidden" href="index.html">
-              <img class="h-10" src="../../../resources/images/logo.png" alt="Logo" />
+              <img class="h-10" src="../../images/logo.png" alt="Logo" />
             </a>
           </div>
           <div class="hidden sm:block">
@@ -595,7 +594,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 </section>
 
                 <div class="w-12 h-12 rounded-full avatar">
-                  <img src="../../../resources/images/user/user-01.png" alt="User" />
+                  <img src="../../images/user/user-01.png" alt="User" />
                 </div>
 
                 <svg :class="dropdownOpen && 'rotate-180'" class="hidden fill-current sm:block" width="12" height="8"
@@ -721,10 +720,10 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                     </h2>
                     <label for="posts__media-uploads">
                       <input multiple type="file" name="media[]" id="posts__media-uploads" class="sr-only" />
-                      <img class="w-7 h-7" src="../../../resources/images/icon/camera-icon.png" alt="" />
+                      <img class="w-7 h-7" src="../../images/icon/camera-icon.png" alt="" />
                     </label>
 
-                    <img class="w-8 h-8" src="../../../resources/images/icon/feelings.png" alt="" />
+                    <img class="w-8 h-8" src="../../images/icon/feelings.png" alt="" />
                   </div>
                   <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-lg">
                     Đăng
@@ -793,8 +792,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                     <!-- -------------dropdown post----------------- -->
                   </section>
                 </section>
-                <img src="../../../resources/images/carousel/carousel-01.jpg" alt=""
-                  class="object-cover w-10 h-10 rounded-full" />
+                <img src="../../images/carousel/carousel-01.jpg" alt="" class="object-cover w-10 h-10 rounded-full" />
                 <div>
                   <a href="#">
                     <h3 class="text-sm font-semibold text-[#000000] dark:text-white full-name">
@@ -810,7 +808,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 <div class="w-full swiper sliderPosts rounded-xl">
                   <div class="w-full swiper-wrapper rounded-xl">
                     <div class="w-full swiper-slide rounded-xl">
-                      <img src="../../../resources/images/carousel/carousel-01.jpg" alt=""
+                      <img src="../../images/carousel/carousel-01.jpg" alt=""
                         class="w-full min-h-[200px] max-h-[200px] object-cover rounded-xl" />
                     </div>
                     <div class="w-full swiper-slide rounded-xl">
@@ -889,7 +887,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                               class="rounded-xl max-w-xs  xs:max-w-[370px]  sm:max-w-2xl md:max-w-3xl lg:max-w-screen-xl swiper sliderPosts ">
                               <div class=" swiper-wrapper rounded-xl">
                                 <div class="flex items-center p-2 bg-white w-fit swiper-slide rounded-xl">
-                                  <img src="../../../resources/images/carousel/carousel-01.jpg" alt=""
+                                  <img src="../../images/carousel/carousel-01.jpg" alt=""
                                     class="rounded-xl w-full flex-shrink-0 mx-auto h-full min-h-[320px] max-h-[320px] xs:min-h-[355px] xs:max-h-[355px] sm:min-h-[400px] sm:max-h-[400px] md:min-h-[500px] md:max-h-[500px]  object-cover" />
                                 </div>
                                 <div class="flex p-2 w-fit swiper-slide glassmorphism rounded-xl">
@@ -1133,13 +1131,31 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                 </svg>
                               </div>
                               <section class="my-2 text-[#000000] total-interact dark:text-white">
-                                <div class="text-sm font-semibold like__post">
+                                <div class="text-sm pb-2  font-semibold like__post">
                                   <span class="like__post-count"> 1</span>
                                   lượt thích
                                 </div>
-                                <div>
-                                  <input data-post-id="1" data-user-id="1" type="text" placeholder="Thêm bình luận..."
-                                    class="w-full pt-1 text-sm text-[#000000] bg-transparent border-none rounded outline-none dark:text-white add__comment-input" />
+                                <div id="add__comment_1"
+                                  class="relative flex items-center gap-2 pt-2  border-t border-gray-200 dark:border-gray-700">
+                                  <label for="comment_media_1">
+                                    <input id="comment_media_1" type="file" name="comment_media"
+                                      class="sr-only comment_media" accept="image/*,video/*" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                      stroke-width="1.5" stroke="currentColor"
+                                      class="w-7 h-7 text-[#000000] dark:text-white">
+                                      <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                      <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                                    </svg>
+                                  </label>
+                                  <input id="comment_content_1" type="text" placeholder="Thêm bình luận..."
+                                    name="comment_content"
+                                    class="w-full pt-1 text-sm text-[#000000] bg-transparent border-none rounded outline-none dark:text-white " />
+                                  <button data-post-id="1" data-user-id="1"
+                                    class="add__comment-btn text-sm font-semibold text-blue-500 dark:text-white absolute right-0 ">
+                                    Đăng
+                                  </button>
                                 </div>
                               </section>
                             </section>
@@ -1161,13 +1177,13 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
       src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTFiNDBmNWM5ZWRmZmI4YjI4MWU3M2RhNDAyZjg0Zjc1ODFlMmFiMCZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PXM/i4yTcA8ihuOsgcj77T/giphy.gif"
       alt="Loading..." />
   </div>
-  <script defer src="../../../resources/js/jquery-3.3.1.min.js"></script>
-  <script defer src="../../../resources/js/bundle.js"></script>
-  <script defer src="../../../resources/js/beacon.min.js"></script>
+  <script defer src="../../js/jquery-3.3.1.min.js"></script>
+  <script defer src="../../js/bundle.js"></script>
+  <script defer src="../../js/beacon.min.js"></script>
   <script src="../../../node_modules/swiper/swiper-bundle.min.js"></script>
   <script src="../../../node_modules/sweetalert/dist/sweetalert.min.js"></script>
-  <script type="module" defer src="../../../resources/js/base.js"></script>
-  <script type="module" defer src="../../../resources/js/admin.js"></script>
+  <script type="module" defer src="../../js/base.js"></script>
+  <script type="module" defer src="../../js/admin.js"></script>
 </body>
 
 </html>

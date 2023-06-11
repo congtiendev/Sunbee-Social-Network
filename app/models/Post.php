@@ -129,13 +129,18 @@ class Post extends BaseModel
 
 	public function insertComment($data)
 	{
-		$sql = "INSERT INTO $this->comments (post_id, user_id, content) VALUES (?, ?, ?)";
+		$sql = "INSERT INTO $this->comments (post_id, user_id, comment_content,comment_media) VALUES (?, ?, ?,?)";
 		$this->setQuery($sql);
-		return $this->execute([
+		$this->execute([
 			$data['post_id'],
 			$data['user_id'],
-			$data['content'],
+			$data['comment_content'],
+			$data['comment_media'],
 		]);
+		$commentCountSQL = "UPDATE $this->posts SET comment_count = comment_count + 1 WHERE id = ?";
+		$this->setQuery($commentCountSQL);
+		$this->execute([$data['post_id']]);
+		return true;
 	}
 
 	public function getPostBy($column, $value)

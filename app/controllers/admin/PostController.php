@@ -41,7 +41,7 @@ class PostController extends BaseController
 	public function Pagination(): array
 	{
 		$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-		$limit = 10;
+		$limit = 100;
 		$totalData = count($this->post->getPost());
 		$offset = ($page - 1) * $limit;
 		$totalPages = round((int) ($totalData / $limit));
@@ -59,23 +59,24 @@ class PostController extends BaseController
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			return redirect('', '', 'back');
 		}
-		$userID = $_SESSION['auth']->id;
 		$data = $this->request->all();
-		$data['user_id'] = $userID;
 		$this->post->insertPost($data);
-		$postID = $this->post->getLatestPostByUserId($userID);
-		$medias = $this->request->file('media');
+		$post_id = $this->post->getLatestPostByUserId($data['user_id']);
+		$medias = $this->request->file('post_media');
 		if ($medias['name'][0] !== '') {
-			foreach ($medias['name'] as $key => $media) {
-				$mediaName = $this->request->uploadFile($medias['name'][$key], $medias['tmp_name'][$key], "public/uploads/posts/");
-				$dataMedia = [
-					'post_id' => $postID->id,
-					'post_media' => $mediaName
-				];
-				$this->post->insertPostMedia($dataMedia);
+			$mediaNames = []; // Mảng lưu trữ tên tất cả các tệp đính kèm
+			if ($medias['name'][0] !== '') {
+				foreach ($medias['name'] as $key => $media) {
+					$mediaName = $this->request->uploadFile($medias['name'][$key], $medias['tmp_name'][$key], "public/uploads/posts/");
+					$dataMedia = [
+						'post_id' => $post_id->id,
+						'post_media' => $mediaName
+					];
+					$mediaNames[] = $mediaName;
+					$this->post->insertPostMedia($dataMedia);
+				}
 			}
 		}
-		return redirect('success', 'Tạo bài đăng thành công', 'back');
 	}
 
 	public function handleLikePost()
@@ -121,5 +122,20 @@ class PostController extends BaseController
 		$post_id = $this->request->post('postID');
 		$user_id = $this->request->post('userID');
 		return $this->post->unSavePost($post_id, $user_id);
+	}
+
+	public function handleAddComment()
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			return redirect('', '', 'back');
+		}
+		$data = $this->request->all();
+		$comment_media = $this->request->file('comment_media');
+		if ($comment_media !== null && $comment_media['name'] !== '') {
+			$data['comment_media'] = $this->request->uploadFile($comment_media['name'], $comment_media['tmp_name'], "public/uploads/comments/");
+		} else {
+			$data['comment_media'] = "";
+		}
+		return $this->post->insertComment($data);
 	}
 }

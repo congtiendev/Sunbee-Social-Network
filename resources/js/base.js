@@ -34,86 +34,60 @@ $(document).ready(function () {
     });
 });
 
-//================================Preview image================================
+//================================Preview media================================
 
-function previewImage(file, previewElementId, callback) {
-    const previewElement = document.querySelector(`#${previewElementId}`);
-    previewElement.innerHTML = "";
-    if (file) {
-        if (!file.type.startsWith("image/")) {
-            swal("File bạn chọn không phải là ảnh", "", "error");
-            return;
-        }
-        const reader = new FileReader();
-        reader.onload = function () {
-            const img = document.createElement("img");
-            img.src = reader.result;
-            if (callback) {
-                callback(img);
-            } else {
-                previewElement.appendChild(img);
-            }
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-const avatar = document.querySelector("#upload-avatar");
-if (avatar) {
-    avatar.addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        previewImage(file, "avatar-preview", function (img) {
-            const previewElement = document.querySelector("#avatar-preview");
-            previewElement.innerHTML = "";
-            previewElement.appendChild(img);
-
-        });
-    });
-}
-const coverPhoto = document.querySelector("#upload-cover-photo");
-if (coverPhoto) {
-    coverPhoto.addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        previewImage(file, "cover-photo-preview", function (img) {
-            const previewElement = document.querySelector(
-                "#cover-photo-preview"
-            );
-            previewElement.innerHTML = "";
-            previewElement.appendChild(img);
-        });
-    });
-}
-
-function previewMultipleImage(file, previewElementId, callback) {
-    const previewElement = document.querySelector(`${previewElementId}`);
-    previewElement.innerHTML = "";
+const uploadedFiles = []; // Mảng lưu trữ các tệp đã tải lên
+function previewMultiple(file, previewElementId, callback) {
+    const previewElement = document.querySelector(previewElementId);
+    const previewContainer = document.createElement("div");
+    previewContainer.classList.add("preview-container", "relative");
     if (file) {
         const reader = new FileReader();
         reader.onload = function () {
-            const img = document.createElement("img");
-            img.classList.add("w-full", "h-40", "object-cover", "rounded-md");
-            img.src = reader.result;
-            if (callback) {
-                callback(img);
-            } else {
-                previewElement.appendChild(img);
+            const mediaElement = document.createElement(file.type.startsWith("video/") ? "video" : "img");
+            mediaElement.classList.add("w-full", "h-40", "object-cover", "rounded-md", "relative");
+            mediaElement.src = reader.result;
+            if (file.type.startsWith("video/")) {
+                mediaElement.controls = true;
             }
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-const postsMediaUpload = document.querySelector("#posts__media-uploads");
-if (postsMediaUpload) {
-    postsMediaUpload.addEventListener("change", function (event) {
-        const files = event.target.files;
-        const previewMedia = document.querySelector("#posts__media-preview");
-        previewMedia.innerHTML = "";
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            previewMultipleImage(file, "#posts__media-preview", function (img) {
-                previewMedia.appendChild(img);
+            const removeButton = document.createElement("button");
+            removeButton.classList.add("remove-btn", "absolute", "top-0", "right-0", "cursor-pointer");
+            removeButton.innerHTML = `<img src="${API_URL}resources/images/icon/remove-icon.png" alt="close" class="w-7 h-7">`;
+            removeButton.addEventListener("click", function () {
+                // Xóa tệp khỏi mảng uploadedFiles
+                const index = uploadedFiles.indexOf(file);
+                if (index !== -1) { // Nếu tệp tồn tại trong mảng uploadedFiles
+                    uploadedFiles.splice(index, 1); // Xóa tệp khỏi mảng uploadedFiles
+                }
+                previewContainer.remove();
             });
+            previewContainer.appendChild(mediaElement);
+            previewContainer.appendChild(removeButton);
+            previewElement.appendChild(previewContainer);
+
+            // Thêm tệp vào mảng uploadedFiles
+            uploadedFiles.push(file);
+
+            if (callback) {
+                callback(previewContainer);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+const postMediaUpload = document.getElementById("post_media");
+if (postMediaUpload) {
+    postMediaUpload.addEventListener("change", function () {
+        const files = postMediaUpload.files;
+        if (files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!uploadedFiles.includes(file)) {
+                    const previewMedia = "#post__media-preview";
+                    previewMultiple(file, previewMedia);
+                }
+            }
         }
     });
 }
@@ -136,8 +110,50 @@ if (postsContent) {
         previewText(text, "posts__content-preview");
     });
 }
+// ===================================CREATE POSTS=====================================//
 
-/* ===================================List post image================================= */
+$(document).ready(function () {
+    $('#create__post-btn').on('click', function (event) {
+        event.preventDefault();
+        const user_id = $(this).data('user-id');
+        const post_content = $('#post_content').val();
+        const post_media = $('#post_media').prop('files');
+        if (post_media.length == 0 && post_content.length == 0) {
+            swal('Bài viết của bạn không có nội dung và hình ảnh', '', 'error');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('user_id', user_id);
+        formData.append('post_content', post_content);
+        formData.append('post_media', post_media);
+        for (let i = 0; i < post_media.length; i++) {
+            formData.append('post_media[]', post_media[i]);
+            console.log(post_media[i]);
+        }
+
+        $.ajax({
+            url: API_URL + 'admin/posts/create',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log(response);
+                swal('Bài viết đã được đăng ', '', 'success');
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            },
+            error: function (error) {
+                console.log(error);
+                swal('Đã có lỗi xảy ra', '', 'error');
+            }
+        });
+    });
+});
+
+/* ===================================Slider Media================================= */
 
 if (document.querySelector('.sliderPosts')) {
     var swiper = new Swiper(".sliderPosts", {
@@ -161,61 +177,39 @@ if (document.querySelector('.sliderDetailsPosts')) {
     });
 }
 
+
 /* ====================================Like post====================================*/
 
 $(document).ready(function () {
     $('.like__post-btn, .like__details-post-btn').on('click', function () {
         const postID = $(this).data('post-id');
         const userID = $(this).data('user-id');
-        const likePostBtn = $(`#post-action_${postID}`).find(".like__post-btn");
-        const likePostCount = $(`#post-action_${postID}`).find(".like__post-count");
-        const likeDetailsPostBtn = $(`#post-action_${postID}`).find(".like__details-post-btn");
-        const likeDetailsPostCount = $(`#post-action_${postID}`).find(".like__details-post-count");
+        const postAction = $(`#post-action_${postID}`);
+        const likePostBtn = postAction.find(".like__post-btn");
+        const likePostCount = postAction.find(".like__post-count");
+        const likeDetailsPostBtn = postAction.find(".like__details-post-btn");
+        const likeDetailsPostCount = postAction.find(".like__details-post-count");
 
         let count = parseInt(likePostCount.text());
-        let countDetails = parseInt(likeDetailsPostCount.text());
-        console.log(count);
-        console.log(countDetails);
 
         if (likePostBtn.hasClass("active") && likeDetailsPostBtn.hasClass("active")) {
             count -= 1;
-            countDetails -= 1;
             likePostBtn.removeClass("active");
             likeDetailsPostBtn.removeClass("active");
-            unlikePost(postID, userID);
+            handleLikePost(postID, userID, 'admin/posts/unlike-post');
         } else {
             count += 1;
-            countDetails += 1;
             likePostBtn.addClass("active");
             likeDetailsPostBtn.addClass("active");
-            likePost(postID, userID);
+            handleLikePost(postID, userID, 'admin/posts/like-post');
         }
         likePostCount.text(count);
-        likeDetailsPostCount.text(countDetails);
+        likeDetailsPostCount.text(count);
     });
 
-
-
-    function likePost(postID, userID) {
+    function handleLikePost(postID, userID, url) {
         $.ajax({
-            url: API_URL + 'admin/like-post',
-            type: 'POST',
-            data: {
-                postID: postID,
-                userID: userID
-            },
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-    function unlikePost(postID, userID) {
-        $.ajax({
-            url: API_URL + 'admin/unlike-post',
+            url: API_URL + url,
             type: 'POST',
             data: {
                 postID: postID,
@@ -230,44 +224,32 @@ $(document).ready(function () {
         });
     }
 });
+
 
 //==============================================Save post==========================================
 
 $(document).ready(function () {
-    $('.save__post-btn').on('click', function () {
+    $('.save__post-btn,.save__details-post-btn').on('click', function () {
         const postID = $(this).data('post-id');
         const userID = $(this).data('user-id');
-        if ($(this).hasClass("active")) {
-            $(this).removeClass("active");
-            unSavePost(postID, userID);
-            swal("Đã bỏ lưu bài viết", "", "success");
+        const postAction = $(`#post-action_${postID}`);
+        const savePostBtn = postAction.find(".save__post-btn");
+        const saveDetailsPostBtn = postAction.find(".save__details-post-btn");
+
+        if (savePostBtn.hasClass("active") && saveDetailsPostBtn.hasClass("active")) {
+            savePostBtn.removeClass("active");
+            saveDetailsPostBtn.removeClass("active");
+            handleSavePost(postID, userID, 'admin/posts/unsave-post');
         } else {
-            $(this).addClass("active");
-            savePost(postID, userID);
-            swal("Bài viết đã được lưu", "", "success");
+            savePostBtn.addClass("active");
+            saveDetailsPostBtn.addClass("active");
+            handleSavePost(postID, userID, 'admin/posts/save-post');
         }
     });
 
-    function savePost(postID, userID) {
+    function handleSavePost(postID, userID, url) {
         $.ajax({
-            url: API_URL + 'admin/save-post',
-            type: 'POST',
-            data: {
-                postID: postID,
-                userID: userID
-            },
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-    function unSavePost(postID, userID) {
-        $.ajax({
-            url: API_URL + 'admin/unsave-post',
+            url: API_URL + url,
             type: 'POST',
             data: {
                 postID: postID,
@@ -283,3 +265,61 @@ $(document).ready(function () {
     }
 });
 
+// ===================================Comment post====================================
+$(document).ready(function () {
+    $('.add__comment-btn').on('click', function (event) {
+        event.preventDefault();
+        const post_id = $(this).data('post-id');
+        const user_id = $(this).data('user-id');
+        const comment_content = $(`#comment_content_${post_id}`).val();
+        const comment_media = $(`#comment_media_${post_id}`).prop('files');
+        if (!comment_content && comment_media.length === 0) {
+            return;
+        }
+        const form_data = new FormData();
+        form_data.append('post_id', post_id);
+        form_data.append('user_id', user_id);
+        form_data.append('comment_content', comment_content);
+        for (let i = 0; i < comment_media.length; i++) {
+            form_data.append('comment_media', comment_media[i]);
+        }
+        $.ajax({
+            url: API_URL + 'admin/posts/add-comment',
+            type: 'POST',
+            data: form_data,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+
+                // if (response.status == 'success') {
+                //     const comment = response.data;
+                //     const commentElement = `
+                //     <div class="comment__item">
+                //         <div class="comment__item-avatar">
+                //             <img src="${comment.user.avatar}" alt="">
+                //         </div>
+                //         <div class="comment__item-content">
+                //             <div class="comment__item-content-info">
+                //                 <div class="comment__item-content-info-name">${comment.user.name}</div>
+                //                 <div class="comment__item-content-info-time">${comment.created_at}</div>
+                //             </div>
+                //             <div class="comment__item-content-text">${comment.comment_content}</div>
+                //             <div class="comment__item-content-media">
+                //                 <img src="${comment.comment_media}" alt="">
+                //             </div>
+                //         </div>
+                //     </div>
+                //     `;
+                //     $(`#comment_${post_id}`).prepend(commentElement);
+                //     $(`#comment_content_${post_id}`).val('');
+                //     $(`#comment_media_${post_id}`).val('');
+                // }
