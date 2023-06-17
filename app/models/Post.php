@@ -65,12 +65,24 @@ class Post extends BaseModel
 			$data['id'],
 		]);
 	}
+	public function deleteMedia($id)
+	{
+		$sql = "DELETE FROM $this->media WHERE post_id = ?";
+		$this->setQuery($sql);
+		return $this->execute([$id]);
+	}
 
 	public function deletePost($id)
 	{
-		$sql = "DELETE FROM $this->posts WHERE id = ?";
-		$this->setQuery($sql);
-		return $this->execute([$id]);
+		$this->deleteLike($id);
+		$comment = "DELETE FROM $this->comments WHERE post_id = ?";
+		$this->setQuery($comment);
+		$this->execute([$id]);
+		$this->deleteMedia($id);
+		$post = "DELETE FROM $this->posts WHERE id = ?";
+		$this->setQuery($post);
+		$this->execute([$id]);
+		return true;
 	}
 
 	public function isLiked($post_id, $user_id)
@@ -104,6 +116,13 @@ class Post extends BaseModel
 		$this->execute([$post_id]);
 
 		return true;
+	}
+
+	public function deleteLike($id)
+	{
+		$sql = "DELETE FROM $this->likes WHERE post_id = ?";
+		$this->setQuery($sql);
+		return $this->execute([$id]);
 	}
 
 	public function savePost($post_id, $user_id)
@@ -142,7 +161,23 @@ class Post extends BaseModel
 		$this->execute([$data['post_id']]);
 		return true;
 	}
+	public function updateCommentCount($post_id)
+	{
+		$sql = "UPDATE $this->posts SET comment_count = comment_count + 1 WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->execute([$post_id]);
+	}
 
+	public function deleteComment($post_id, $comment_id)
+	{
+		$commentSQL = "DELETE FROM $this->comments WHERE id = ?";
+		$this->setQuery($commentSQL);
+		$this->execute([$comment_id]);
+		$commentCountSQL = "UPDATE $this->posts SET comment_count = comment_count - 1 WHERE id = ?";
+		$this->setQuery($commentCountSQL);
+		$this->execute([$post_id]);
+		return true;
+	}
 	public function getPostBy($column, $value)
 	{
 		$sql = "SELECT * FROM $this->posts WHERE $column = '$value'";
@@ -156,6 +191,8 @@ class Post extends BaseModel
 		$this->setQuery($sql);
 		return $this->loadRow([$user_id]);
 	}
+
+
 
 	public function getPostMedia($post_id)
 	{
@@ -171,5 +208,17 @@ class Post extends BaseModel
 		LEFT JOIN {$this->users} user ON comment.user_id = user.id WHERE post_id = ?";
 		$this->setQuery($sql);
 		return $this->loadAllRows([$post_id]);
+	}
+	public function getCommentBy($column, $value)
+	{
+		$sql = "SELECT * FROM $this->comments WHERE $column = '$value'";
+		$this->setQuery($sql);
+		return $this->loadAllRows();
+	}
+	public function getLatestCommentByUserId($user_id, $post)
+	{
+		$sql = "SELECT * FROM $this->comments WHERE user_id = ? AND post_id = ? ORDER BY created_at DESC LIMIT 1";
+		$this->setQuery($sql);
+		return $this->loadRow([$user_id, $post]);
 	}
 }

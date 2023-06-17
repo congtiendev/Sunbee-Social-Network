@@ -61,9 +61,8 @@
  class="w-full h-32 p-3 text-[#000000] bg-gray-100 border border-gray-200 rounded-lg dark:border-gray-700 dark:text-gray-100 dark:bg-gray-700 focus:outline-none"
  placeholder="Bạn đang nghĩ gì thế ?"></textarea>
  </div>
- <pre id="post__content-preview"
- class="text-[#000000] font-montserrat text-start dark:text-gray-100"></pre>
- <div id="post__media-preview" class="grid  grid-cols-2 gap-1"></div>
+
+ <div id="post__media-preview" class="grid max-h-40 grid-cols-2 gap-1"></div>
  <div class="flex items-center justify-between mt-2 form-group">
  <div
  class="flex items-center gap-3 px-2 py-1 border border-gray-200 rounded-lg options-posts dark:border-gray-600">
@@ -75,7 +74,6 @@
  class="sr-only" />
  <img class="w-7 h-7" src="<?php echo \htmlentities(IMG_PATH??'', ENT_QUOTES, 'UTF-8', false); ?>icon/camera-icon.png" alt="" />
  </label>
-
  <img class="w-8 h-8" src="<?php echo \htmlentities(IMG_PATH??'', ENT_QUOTES, 'UTF-8', false); ?>icon/feelings.png" alt="" />
  </div>
  <button data-user-id="<?php echo \htmlentities($_SESSION['auth']->id??'', ENT_QUOTES, 'UTF-8', false); ?>" id="create__post-btn" type="submit"
@@ -110,39 +108,80 @@
  d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
  clip-rule="evenodd" />
  </svg></button></label>
+ <?php /* ------------------POST OPTIONS -------------*/ ?>
  <ul tabindex="<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
- class="flex flex-col w-40 gap-1 px-3 py-2 text-sm text-gray-700 shadow dropdown-content bg-gray-50 dark:bg-base-100 rounded-box whitespace-nowrap dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-base-200">
+ class="bg-white shadow dropdown-content dark:bg-base-100 rounded-xl z-50">
+ <div
+ class="w-48 p-2 text-sm text-gray-500 bg-white border border-gray-100 dark:bg-base-100 rounded-xl dark:text-gray-100 dark:border-gray-700">
+ <ul class="space-y-1">
  <li>
- <a href="#" class="flex items-center gap-2">Báo cáo
- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
- stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+ <a href="#"
+ class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+ <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+ viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+ class="w-5 h-5 text-gray-900 dark:text-white">
  <path stroke-linecap="round" stroke-linejoin="round"
- d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+ d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
  </svg>
+ Chỉnh sửa bài viết
  </a>
  </li>
  <li>
- <a href="#" class="flex items-center gap-2">Lưu bài viết
- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
- stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
- <path stroke-linecap="round" stroke-linejoin="round"
- d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+ <a href="#"
+ class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+ <svg class="w-5 h-5 fill-black dark:fill-white" viewBox="0 0 48 48">
+ <path clip-rule="evenodd"
+ d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z"
+ fill-rule="evenodd"></path>
  </svg>
+ Tắt bình luận
  </a>
  </li>
  <li>
- <a href="#" class="flex items-center gap-2">Xóa bài viết
- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
- stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+ <a href="#"
+ class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+ <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+ viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+ class="w-5 h-5 text-gray-900 dark:text-white">
+ <path stroke-linecap="round" stroke-linejoin="round"
+ d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
+ </svg>
+
+ Đi đến bài viết
+ </a>
+ </li>
+ <li>
+ <a href="#"
+ class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+ <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+ viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+ class="w-5 h-5 text-gray-900 dark:text-white">
+ <path stroke-linecap="round" stroke-linejoin="round"
+ d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
+ </svg>
+ Báo cáo bài viết
+ </a>
+ </li>
+ <li>
+ <hr class="my-2 -mx-2 border-gray-300 dark:border-gray-500" />
+ </li>
+ <li>
+ <a href="#"
+ class="flex items-center gap-3 p-2 text-red-500 rounded-md hover:bg-red-100 hover:text-white dark:hover:bg-red-600">
+ <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+ viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+ class="w-6 h-6 text-red-500">
  <path stroke-linecap="round" stroke-linejoin="round"
  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
  </svg>
+ Xóa bài viết
  </a>
  </li>
  </ul>
  </div>
-
- <!-- -------------dropdown post----------------- -->
+ </ul>
+ <?php /* --------------------------END POST OPTIONS--------------------- */ ?>
+ </div>
  </section>
  </section>
  <img src="<?php echo \htmlentities(empty($post->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $post->avatar??'', ENT_QUOTES, 'UTF-8', false); ?>"
@@ -224,20 +263,20 @@
  <div class=" text-sm text-[#737373] dark:text-gray-400 comment__post">
  <?php if($post->comment_count > 0): ?>
  <a href="#">
- Xem <span class="comment__post-count"><?php echo \htmlentities(intval($post->comment_count)??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+ Xem <span class="comment__post-count_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"><?php echo \htmlentities(intval($post->comment_count)??'', ENT_QUOTES, 'UTF-8', false); ?></span>
  bình luận
  </a>
  <?php else: ?>
- <span>Chưa có bình luận</span>
+ <span id="no__comment_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>">Chưa có bình luận</span>
  <?php endif; ?>
  </div>
  </section>
  <!-- ------------------------------ DETAILS POST MODAL-------------------------------- -->
  <dialog id="post__details_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>" class="modal">
  <form method="dialog"
- class="relative w-11/12 max-w-6xl p-0 bg-white modal-box dark:bg-base-100 hidden__scrollbar">
+ class="relative w-11/12 max-w-6xl p-0 bg-white modal-box dark:bg-base-100 hidden__scrollbar z-10">
  <button for="post__details_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
- class="absolute z-50 border-none outline-none right-2 top-2">
+ class="absolute z-40 border-none outline-none right-2 top-2">
  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
  stroke-width="1.5" stroke="currentColor"
  class="w-6 h-6 text-gray-900 dark:text-white">
@@ -245,7 +284,7 @@
  </svg>
  </button>
  <!-- -------------------------------DETAILS POSTS MODAL ---------------------------- -->
- <div class="mx-auto w-full sm:max-w-3xl md:max-w-full lg:max-w-screen-xl">
+ <div class="w-full mx-auto sm:max-w-3xl md:max-w-full lg:max-w-screen-xl">
  <div class="grid md:grid-cols-2">
  <div>
  <!-- ------------------------------DETAILS POSTS SLIDER----------------------------- -->
@@ -296,7 +335,7 @@
  </div>
  <pre
  class="font-sunbee  px-4 pt-2 pb-3 border-b border-gray-200 dark:border-gray-700 whitespace-normal text-sm text-[#000000] dark:text-gray-100"><?php echo \htmlentities($post->post_content??'', ENT_QUOTES, 'UTF-8', false); ?></pre>
- <!-- ---------------------------OPTIONS DETAILS POSTS---------------------------- -->
+ <!-- ---------------------------OPTIONS DETAIL POSTS---------------------------- -->
  <div class="absolute details__post-options top-3 right-10">
  <div class="dropdown dropdown-end">
  <label tabindex="<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>">
@@ -394,8 +433,8 @@
  </div>
 
  <!-- --------------------------------DETAILS POSTS COMMENTS---------------------- -->
- <section
- class="post__comments overflow-y-auto max-h-[220px] lg:max-h-[250px] hidden__scrollbar">
+ <section id="post__comments__<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class=" overflow-y-auto min-h-[100px] max-h-[220px] lg:max-h-[250px] hidden__scrollbar">
  <?php if($post->comment_count == 0): ?>
  <div
  class="flex flex-col items-center justify-center mx-auto mt-20 text-sm text-center text-gray-500 empty__comment dark:text-gray-400">
@@ -405,25 +444,116 @@
  <?php $__currentLoopData = $post->comments; $this->addLoop($__currentLoopData);$this->getFirstLoop();
  foreach($__currentLoopData as $comment): $loop = $this->incrementLoopIndices();  ?>
  <!-- ------------------------------COMMENTS------------------------- -->
- <div class="flex p-4 antialiased text-black">
+ <div id="comment__<?php echo \htmlentities($comment->comment_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="flex p-4 antialiased text-black relative">
+ <?php /* ----------------OPTIONS COMMENT------------ */ ?>
+ <div class="absolute comment-options top-0 right-5">
+ <div class="dropdown dropdown-end z-50">
+ <label tabindex="<?php echo \htmlentities($comment->comment_id??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+ viewBox="0 0 24 24" stroke-width="1.5"
+ stroke="currentColor"
+ class="w-6 h-6 text-gray-900 dark:text-white">
+ <path stroke-linecap="round" stroke-linejoin="round"
+ d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+ </svg>
+ </label>
+ <div tabindex="<?php echo \htmlentities($comment->comment_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="bg-white shadow dropdown-content dark:bg-base-100 rounded-xl">
+ <ul
+ class="w-fit whitespace-nowrap text-xs text-gray-500 bg-white border border-gray-100 dark:bg-base-100 rounded-xl dark:text-gray-100 dark:border-gray-700 p-2 font-normal">
+ <li>
+ <a href="#"
+ class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+ <svg xmlns="http://www.w3.org/2000/svg"
+ fill="none" viewBox="0 0 24 24"
+ stroke-width="1.5" stroke="currentColor"
+ class="w-4 h-4 text-gray-900 dark:text-white">
+ <path stroke-linecap="round"
+ stroke-linejoin="round"
+ d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+ </svg>
+
+ Chỉnh sửa bình luận
+ </a>
+ </li>
+
+ <li>
+ <a href="#"
+ class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+ <svg xmlns="http://www.w3.org/2000/svg"
+ fill="none" viewBox="0 0 24 24"
+ stroke-width="1.5" stroke="currentColor"
+ class="w-4 h-4 text-gray-900 dark:text-white">
+ <path stroke-linecap="round"
+ stroke-linejoin="round"
+ d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
+ </svg>
+ Báo cáo bình luận
+ </a>
+ </li>
+ <li>
+ <hr
+ class="my-1 border-gray-300 dark:border-gray-500" />
+ </li>
+ <li>
+ <button
+ data-comment-id="<?php echo \htmlentities($comment->comment_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ data-post-id="<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ data-user-id="<?php echo \htmlentities($comment->user_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="flex items-center gap-3 p-1 text-red-500 rounded-md hover:bg-red-100 hover:text-white dark:hover:bg-red-600 delete__comment">
+ <svg xmlns="http://www.w3.org/2000/svg"
+ fill="none" viewBox="0 0 24 24"
+ stroke-width="1.5" stroke="currentColor"
+ class="w-4 h-4 text-red-500">
+ <path stroke-linecap="round"
+ stroke-linejoin="round"
+ d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+ </svg>
+ Xóa bình luận
+ </button>
+ </li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ <?php /* ----------------END OPTIONS COMMENT------------ */ ?>
  <img class="w-8 h-8 mt-1 mr-2 rounded-full user__avatar"
- src="https://picsum.photos/id/1027/200/200" />
- <div>
- <div
- class="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 pt-2 pb-2.5">
+ src="<?php echo \htmlentities(empty($comment->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $comment->avatar??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ <div class="author_and_content">
  <a href="#"
  class="text-sm font-semibold leading-relaxed username dark:text-gray-100">
  <?php echo \htmlentities($comment->username??'', ENT_QUOTES, 'UTF-8', false); ?>
 
  </a>
+ <?php if($comment->comment_content): ?>
+ <div
+ class="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 pt-2 pb-2.5">
  <p
  class="text-xs leading-snug dark:text-gray-100 md:leading-normal">
  <?php echo \htmlentities($comment->comment_content??'', ENT_QUOTES, 'UTF-8', false); ?>
 
  </p>
  </div>
- <span class="text-xs mt-0.5 text-gray-500">
- <?php echo \htmlentities($comment->comment_date??'', ENT_QUOTES, 'UTF-8', false); ?>
+ <?php endif; ?>
+ <div
+ class="comment_media_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?> w-[65%] h-auto my-1 rounded-lg">
+ <?php if($comment->comment_media): ?>
+ <?php if(isImage($comment->comment_media)): ?>
+ <img class="w-full h-full rounded-lg"
+ src="<?php echo \htmlentities(COMMENT_MEDIA_PATH . $comment->comment_media??'', ENT_QUOTES, 'UTF-8', false); ?>" />
+ <?php else: ?>
+ <video class="w-full h-full rounded-lg" controls>
+ <source
+ src="<?php echo \htmlentities(COMMENT_MEDIA_PATH . $comment->comment_media??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ type="video/mp4">
+ Your browser does not support the video tag.
+ </video>
+ <?php endif; ?>
+ <?php endif; ?>
+ </div>
+ <span class="text-xs text-gray-500">
+ <?php echo \htmlentities(timeAgo($comment->comment_date)??'', ENT_QUOTES, 'UTF-8', false); ?>
 
  </span>
  </div>
@@ -468,16 +598,17 @@
  </svg>
  </div>
  <section class="my-2 text-[#000000] total-interact dark:text-white">
- <div class="text-sm pb-2 font-semibold like__post">
+ <div class="pb-2 text-sm font-semibold like__post">
  <span class="like__details-post-count">
  <?php echo \htmlentities(intval($post->like_count)??'', ENT_QUOTES, 'UTF-8', false); ?></span>
  lượt thích
  </div>
  <div id="add__comment_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
- class="relative flex items-center gap-2 pt-2  border-t border-gray-200 dark:border-gray-700">
- <label for="comment_media_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>">
- <input id="comment_media_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>" type="file"
- name="comment_media[]" class="sr-only comment_media"
+ class="relative flex items-center gap-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+ <label for="comment_media_upload_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <input data-post-id="<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ id="comment_media_upload_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>" type="file"
+ name="comment_media" class="sr-only comment_media_upload"
  accept="image/*,video/*" />
  <svg xmlns="http://www.w3.org/2000/svg" fill="none"
  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -488,14 +619,23 @@
  d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
  </svg>
  </label>
- <input id="comment_content_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>" type="text"
+ <input id="comment_content_input_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>" type="text"
  placeholder="Thêm bình luận..." name="comment_content"
  class="w-full pt-1 text-sm text-[#000000] bg-transparent border-none rounded outline-none dark:text-white " />
  <button data-post-id="<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
  data-user-id="<?php echo \htmlentities($_SESSION['auth']->id??'', ENT_QUOTES, 'UTF-8', false); ?>"
- class="add__comment-btn text-sm font-semibold text-blue-500 dark:text-white absolute right-0 ">
- Đăng
+ id="add__comment-btn_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="absolute right-0 text-sm font-semibold text-blue-500 add__comment-btn dark:text-white ">
+ <img id="comment__loading_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ src="<?php echo \htmlentities(IMG_PATH??'', ENT_QUOTES, 'UTF-8', false); ?>illustration/loading-bee-btn.gif"
+ class="hidden w-14">
+ <span
+ id="add__comment-btn-text_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>">Đăng</span>
  </button>
+
+ </div>
+ <div id="comment__media-preview_<?php echo \htmlentities($post->post_id??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ class="w-20 h-auto">
  </div>
  </section>
  </section>

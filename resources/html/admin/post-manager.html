@@ -331,7 +331,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     <!-- -------------------------------------Content------------------------------- -->
     <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
       <!-- ---------------------------------Header------------------------------- -->
-      <header class="sticky top-0 flex w-full bg-white z-999 drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+      <header class="sticky top-0  flex w-full bg-white z-999 drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
         <div class="flex items-center justify-between flex-grow px-4 py-4 shadow-2 md:px-6 2xl:px-11">
           <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
             <!------------------------- Hamburger Toggle BTN---------------- -->
@@ -812,7 +812,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                         class="w-full min-h-[200px] max-h-[200px] object-cover rounded-xl" />
                     </div>
                     <div class="w-full swiper-slide rounded-xl">
-                      <video class="w-full min-h-[200px] max-h-[200px] object-contain rounded-xl" controls autoplay>
+                      <video class="w-full min-h-[200px] max-h-[200px] object-contain rounded-xl" controls>
                         <source
                           src="../../../public/uploads/posts/Snaptik_7018492191874026778_cng-tin-v-722003-ngi-kh-6480dece4835a.mp4"
                           type="video/mp4" />
@@ -878,6 +878,19 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       </button>
+                      <div id="delete__comment-confirm_1"
+                        class="alert border-none outline-none md:max-w-[50%] glassmorphism__dark dark:bg-base-100 absolute z-50 md:left-[30%] top-[50%] animate-popup hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                          class="stroke-info shrink-0 w-6 h-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-white">Bạn có chắc muốn xóa bình luận này ?</span>
+                        <div>
+                          <span class="btn btn-sm cancel__delete-comment-btn">Hủy</span>
+                          <button class="btn btn-sm btn-error delete-commment-btn">Xóa</button>
+                        </div>
+                      </div>
                       <!-- -------------------------------DETAILS POSTS MODAL ---------------------------- -->
                       <div class="mx-auto w-fit sm:max-w-3xl md:max-w-full lg:max-w-screen-xl">
                         <div class="grid md:grid-cols-2">
@@ -893,7 +906,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                 <div class="flex p-2 w-fit swiper-slide glassmorphism rounded-xl">
                                   <video
                                     class="rounded-xl w-full flex-shrink-0 mx-auto h-full min-h-[320px] max-h-[320px] xs:min-h-[355px] xs:max-h-[355px] sm:min-h-[400px] sm:max-h-[400px] md:min-h-[500px] md:max-h-[500px]  object-contain"
-                                    controls autoplay>
+                                    controls>
                                     <source
                                       src="../../../public/uploads/posts/Snaptik_7018492191874026778_cng-tin-v-722003-ngi-kh-6480dece4835a.mp4"
                                       type="video/mp4" />
@@ -946,7 +959,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                       <ul class="space-y-1">
                                         <li>
                                           <a href="#"
-                                            class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+                                            class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                               stroke-width="1.5" stroke="currentColor"
                                               class="w-5 h-5 text-gray-900 dark:text-white">
@@ -959,7 +972,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                         </li>
                                         <li>
                                           <a href="#"
-                                            class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+                                            class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
                                             <svg class="w-5 h-5 fill-black dark:fill-white" viewBox="0 0 48 48">
                                               <path clip-rule="evenodd"
                                                 d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z"
@@ -970,7 +983,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                         </li>
                                         <li>
                                           <a href="#"
-                                            class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+                                            class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                               stroke-width="1.5" stroke="currentColor"
                                               class="w-5 h-5 text-gray-900 dark:text-white">
@@ -983,7 +996,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                         </li>
                                         <li>
                                           <a href="#"
-                                            class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+                                            class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                               stroke-width="1.5" stroke="currentColor"
                                               class="w-5 h-5 text-gray-900 dark:text-white">
@@ -1014,6 +1027,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                 </div>
                               </div>
 
+
                               <!-- --------------------------------DETAILS POSTS COMMENTS---------------------- -->
                               <section
                                 class="post__comments overflow-y-auto max-h-[220px] lg:max-h-[250px] hidden__scrollbar">
@@ -1021,81 +1035,87 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                   class="flex flex-col items-center justify-center mx-auto mt-20 text-sm text-center text-gray-500 empty__comment dark:text-gray-400">
                                   <span>Chưa có bình luận nào</span>
                                 </div> -->
+
                                 <!-- ------------------------------COMMENTS------------------------- -->
-                                <div class="flex p-4 antialiased text-black">
-                                  <img class="w-8 h-8 mt-1 mr-2 rounded-full user__avatar"
-                                    src="https://picsum.photos/id/1027/200/200" />
-                                  <div>
-                                    <div class="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 pt-2 pb-2.5">
-                                      <a href="#"
-                                        class="text-sm font-semibold leading-relaxed username dark:text-gray-100">
-                                        Sara Lauren
-                                      </a>
-                                      <div class="text-xs leading-snug dark:text-gray-100 md:leading-normal">
-                                        Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation
-                                        ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.
+                                <div class="flex p-4 antialiased text-black relative">
+                                  <div class="absolute comment-options top-0 right-5">
+                                    <div class="dropdown dropdown-end z-50">
+                                      <label tabindex="0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                          stroke-width="1.5" stroke="currentColor"
+                                          class="w-6 h-6 text-gray-900 dark:text-white">
+                                          <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                        </svg>
+                                      </label>
+                                      <div tabindex="0"
+                                        class="bg-white shadow dropdown-content dark:bg-base-100 rounded-xl">
+                                        <ul
+                                          class="w-fit whitespace-nowrap text-xs text-gray-500 bg-white border border-gray-100 dark:bg-base-100 rounded-xl dark:text-gray-100 dark:border-gray-700 p-2 font-normal">
+                                          <li>
+                                            <a href="#"
+                                              class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor"
+                                                class="w-4 h-4 text-gray-900 dark:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                              </svg>
+
+                                              Chỉnh sửa bình luận
+                                            </a>
+                                          </li>
+
+                                          <li>
+                                            <a href="#"
+                                              class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor"
+                                                class="w-4 h-4 text-gray-900 dark:text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
+                                              </svg>
+                                              Báo cáo bình luận
+                                            </a>
+                                          </li>
+                                          <li>
+                                            <hr class="my-1 border-gray-300 dark:border-gray-500" />
+                                          </li>
+                                          <li>
+                                            <button data-comment-id="1" data-post-id="1" data-user-id="1"
+                                              class="flex items-center gap-3 p-1 text-red-500 rounded-md hover:bg-red-100 hover:text-white dark:hover:bg-red-600 delete__comment">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-red-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                              </svg>
+                                              Xóa bình luận
+                                            </button>
+                                          </li>
+                                        </ul>
                                       </div>
-                                    </div>
-                                    <div class="text-xs mt-0.5 text-gray-500">
-                                      1 giờ trước
                                     </div>
                                   </div>
-                                </div>
-                                <!-- ------------------------------END COMMENTS------------------------- -->
-                                <!-- ------------------------------COMMENTS------------------------- -->
-                                <div class="flex p-4 antialiased text-black">
                                   <img class="w-8 h-8 mt-1 mr-2 rounded-full user__avatar"
                                     src="https://picsum.photos/id/1027/200/200" />
                                   <div>
-                                    <div class="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 pt-2 pb-2.5">
-                                      <a href="#"
-                                        class="text-sm font-semibold leading-relaxed username dark:text-gray-100">
-                                        Sara Lauren
-                                      </a>
-                                      <div class="text-xs leading-snug dark:text-gray-100 md:leading-normal">
-                                        Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation
-                                        ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.
-                                      </div>
+                                    <a href="#"
+                                      class="text-sm font-semibold leading-relaxed username dark:text-gray-100">
+                                      congtiendev
+                                    </a>
+
+                                    <div class="w-fit bg-gray-100 dark:bg-gray-800 rounded-lg px-4 pt-2 pb-2.5">
+                                      <p class="text-xs leading-snug dark:text-gray-100 md:leading-normal">
+
+                                      </p>
                                     </div>
-                                    <div class="text-xs mt-0.5 text-gray-500">
+                                    <div class="comment_media_{{ $post->post_id }} w-[65%] h-auto my-1 rounded-lg">
+                                      <img class="w-full h-full rounded-lg"
+                                        src="{{ COMMENT_MEDIA_PATH . $comment->comment_media }}" />
+                                    </div>
+                                    <span class="text-xs text-gray-500">
                                       1 giờ trước
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- ------------------------------END COMMENTS------------------------- -->
-                                <!-- ------------------------------COMMENTS------------------------- -->
-                                <div class="flex p-4 antialiased text-black">
-                                  <img class="w-8 h-8 mt-1 mr-2 rounded-full user__avatar"
-                                    src="https://picsum.photos/id/1027/200/200" />
-                                  <div>
-                                    <div class="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 pt-2 pb-2.5">
-                                      <a href="#"
-                                        class="text-sm font-semibold leading-relaxed username dark:text-gray-100">
-                                        Sara Lauren
-                                      </a>
-                                      <div class="text-xs leading-snug dark:text-gray-100 md:leading-normal">
-                                        Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit, sed do
-                                        eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua. Ut enim ad minim
-                                        veniam, quis nostrud exercitation
-                                        ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat.
-                                      </div>
-                                    </div>
-                                    <div class="text-xs mt-0.5 text-gray-500">
-                                      1 giờ trước
-                                    </div>
+                                    </span>
                                   </div>
                                 </div>
                                 <!-- ------------------------------END COMMENTS------------------------- -->
@@ -1137,9 +1157,9 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                 </div>
                                 <div id="add__comment_1"
                                   class="relative flex items-center gap-2 pt-2  border-t border-gray-200 dark:border-gray-700">
-                                  <label for="comment_media_1">
-                                    <input id="comment_media_1" type="file" name="comment_media"
-                                      class="sr-only comment_media" accept="image/*,video/*" />
+                                  <label for="comment_media_upload_1">
+                                    <input data-post-id="1" id="comment_media_upload_1" type="file" name="comment_media"
+                                      class="sr-only comment_media_upload" accept="image/*,video/*" />
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                       stroke-width="1.5" stroke="currentColor"
                                       class="w-7 h-7 text-[#000000] dark:text-white">
@@ -1149,13 +1169,18 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                                         d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
                                     </svg>
                                   </label>
-                                  <input id="comment_content_1" type="text" placeholder="Thêm bình luận..."
-                                    name="comment_content"
-                                    class="w-full pt-1 text-sm text-[#000000] bg-transparent border-none rounded outline-none dark:text-white " />
+
+                                  <input type="text" placeholder="Thêm bình luận..." name="comment_content"
+                                    class="w-full pt-1 text-sm text-[#000000] bg-transparent border-none rounded outline-none dark:text-white" />
                                   <button data-post-id="1" data-user-id="1"
                                     class="add__comment-btn text-sm font-semibold text-blue-500 dark:text-white absolute right-0 ">
-                                    Đăng
+                                    <img id="comment__loading" src="../../images/illustration/loading-bee-btn.gif"
+                                      alt="" class="w-14">
+                                    <span class="hidden" id="comment__text">Đăng</span>
                                   </button>
+
+                                </div>
+                                <div id="comment__media-preview_1" class="w-20 h-auto">
                                 </div>
                               </section>
                             </section>
@@ -1173,15 +1198,14 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
     </div>
   </div>
   <div id="loader-overlay">
-    <img
-      src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTFiNDBmNWM5ZWRmZmI4YjI4MWU3M2RhNDAyZjg0Zjc1ODFlMmFiMCZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PXM/i4yTcA8ihuOsgcj77T/giphy.gif"
-      alt="Loading..." />
+    <img src="../../images/illustration/loading-bee.gif" alt="">
   </div>
   <script defer src="../../js/jquery-3.3.1.min.js"></script>
   <script defer src="../../js/bundle.js"></script>
   <script defer src="../../js/beacon.min.js"></script>
   <script src="../../../node_modules/swiper/swiper-bundle.min.js"></script>
   <script src="../../../node_modules/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="../../../node_modules/pusher-js/dist/web/pusher.min.js"></script>
   <script type="module" defer src="../../js/base.js"></script>
   <script type="module" defer src="../../js/admin.js"></script>
 </body>

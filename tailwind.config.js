@@ -7,6 +7,9 @@ module.exports = {
     "./app/views/**/**/**/*.{html,js,php,blade.php}",
     "./app/views/**/**/*.{html,js,php,blade.php}",
     "./app/views/**/*.{html,js,php,blade.php}",
+    "./resources/**/**/**/*.{html,js}",
+    "./resources/**/**/*.{html,js}",
+    "./resources/**/*.{html,js}",
   ],
   theme: {
     extend: {

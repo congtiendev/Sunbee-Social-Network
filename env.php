@@ -12,6 +12,7 @@ const IMG_PATH = BASE_URL . "resources/images/";
 const AVATAR_PATH = BASE_URL . "public/uploads/avatars/";
 const COVER_PATH = BASE_URL . "public/uploads/covers/";
 const POST_MEDIA_PATH = BASE_URL . "public/uploads/posts/";
+const COMMENT_MEDIA_PATH = BASE_URL . "public/uploads/comments/";
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 function route($name): string
@@ -23,7 +24,7 @@ function isImage($image)
 {
 	$extension = pathinfo($image, PATHINFO_EXTENSION);
 	$extension = strtolower($extension);
-	$images = ['jpg', 'jpeg', 'png', 'gif'];
+	$images = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
 	if (in_array($extension, $images)) {
 		return true;
 	}
@@ -49,4 +50,34 @@ function redirect($key, $msg, $route)
 		header('location:' . BASE_URL . $route);
 	}
 	die;
+}
+
+
+function timeAgo($timestamp)
+{
+	$timestamp = strtotime($timestamp);
+	$current_time = time();
+	$diff = $current_time - $timestamp;
+
+	$minute = 60;
+	$hour = 60 * $minute;
+	$day = 24 * $hour;
+	$week = 7 * $day;
+	$month = 30 * $day;
+
+	if ($diff < $minute) {
+		$time_ago = 'Vừa xong';
+	} elseif ($diff < $hour) {
+		$time_ago = floor($diff / $minute) . ' phút trước';
+	} elseif ($diff < $day) {
+		$time_ago = floor($diff / $hour) . ' giờ trước';
+	} elseif ($diff < $week) {
+		$time_ago = floor($diff / $day) . ' ngày trước';
+	} elseif ($diff < $month) {
+		$time_ago = floor($diff / $week) . ' tuần trước';
+	} else {
+		$time_ago = floor($diff / $month) . ' tháng trước';
+	}
+
+	return $time_ago;
 }

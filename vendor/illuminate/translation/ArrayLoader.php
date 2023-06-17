@@ -4,7 +4,7 @@ namespace Illuminate\Translation;
 
 use Illuminate\Contracts\Translation\Loader;
 
-class ArrayLoader implements Loader, \Illuminate\Contracts\Translation\Translator
+class ArrayLoader implements Loader
 {
     /**
      * All of the translation messages.

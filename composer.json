@@ -10,7 +10,7 @@
     "phroute/phroute": "^2.2",
     "illuminate/translation": "^9.52",
     "illuminate/support": "^9.52",
-    "ext-http": "*"
+     "pusher/pusher-php-server": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest"

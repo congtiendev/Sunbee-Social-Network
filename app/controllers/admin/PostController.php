@@ -6,18 +6,30 @@ use App\Controllers\BaseController;
 use App\Controllers\RequestController;
 use App\Validation\Validator;
 use App\Models\Post;
+use Pusher;
 
 class PostController extends BaseController
 {
 	private $post;
 	private $request;
 	private $validator;
+	private $options = [
+		'cluster' => 'ap1',
+		'useTLS' => true
+	];
+	private $pusher;
 
 	public function __construct()
 	{
 		$this->post = new Post();
 		$this->request = new RequestController();
 		$this->validator = new Validator($this->request->all());
+		$this->pusher = new Pusher\Pusher(
+			'c3271ec62a7f5d395eb3',
+			'ff3d133f0970c64aff62',
+			'1618489',
+			$this->options
+		);
 	}
 
 	public function renderListPost($keyword = null, $column = null, $order = null)
@@ -87,9 +99,17 @@ class PostController extends BaseController
 		$post_id = $this->request->post('postID');
 		$user_id = $this->request->post('userID');
 		if ($this->post->isLiked($post_id, $user_id)) {
-			return $this->post->unLikePost($post_id, $user_id);
+			$this->post->unLikePost($post_id, $user_id);
+			$this->pusher->trigger('like-post', 'unlike', [
+				'post_id' => $post_id,
+				'user_id' => $user_id
+			]);
 		}
-		return $this->post->likePost($post_id, $user_id);
+		$this->post->likePost($post_id, $user_id);
+		$this->pusher->trigger('like-post', 'like', [
+			'post_id' => $post_id,
+			'user_id' => $user_id
+		]);
 	}
 
 	public function handleUnLikePost()
@@ -99,7 +119,11 @@ class PostController extends BaseController
 		}
 		$post_id = $this->request->post('postID');
 		$user_id = $this->request->post('userID');
-		return $this->post->unLikePost($post_id, $user_id);
+		$this->post->unLikePost($post_id, $user_id);
+		$this->pusher->trigger('like-post', 'unlike', [
+			'post_id' => $post_id,
+			'user_id' => $user_id
+		]);
 	}
 
 	public function handleSavePost()
@@ -129,13 +153,49 @@ class PostController extends BaseController
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			return redirect('', '', 'back');
 		}
-		$data = $this->request->all();
-		$comment_media = $this->request->file('comment_media');
+
+		$user = $_SESSION['auth'];
+		$data = $this->request->all(); //Lấy dữ liệu từ form
+		$comment_media = $this->request->file('comment_media'); //Lấy file từ form
+
 		if ($comment_media !== null && $comment_media['name'] !== '') {
-			$data['comment_media'] = $this->request->uploadFile($comment_media['name'], $comment_media['tmp_name'], "public/uploads/comments/");
+			$data['comment_media'] = $this->request->uploadFile($comment_media['name'], $comment_media['tmp_name'], "public/uploads/comments/"); //Upload file 
+			$media_path = COMMENT_MEDIA_PATH . $data['comment_media'];
 		} else {
 			$data['comment_media'] = "";
+			$media_path = "";
 		}
-		return $this->post->insertComment($data);
+
+		$this->post->insertComment($data);
+		$new_comment = $this->post->getLatestCommentByUserId($data['user_id'], $data['post_id']);
+		$comment_id = $new_comment->id;
+		$avatar_path = AVATAR_PATH . $user->avatar;
+		$comment_date = timeAgo($new_comment->created_at);
+
+		$payload = [
+			'user_id' => $data['user_id'],
+			'post_id' => $data['post_id'],
+			'comment_id' => $comment_id,
+			'avatar' => $avatar_path,
+			'username' => $user->username,
+			'comment_content' => $data['comment_content'],
+			'comment_media' => $media_path,
+			'comment_date' => $comment_date
+		];
+
+		$this->pusher->trigger('comments', 'new-comment', $payload);
+
+		header('Content-Type: application/json');
+		echo json_encode(['success' => true, 'message' => 'Comment added successfully']);
+		exit;
+	}
+
+	public function handleDeleteComment($post_id, $comment_id)
+	{
+		$this->post->deleteComment($post_id, $comment_id);
+		$this->pusher->trigger('comments', 'delete-comment', ['post_id' => $post_id, 'comment_id' => $comment_id]);
+		header('Content-Type: application/json');
+		echo json_encode(['success' => true, 'message' => 'Comment deleted successfully']);
+		exit;
 	}
 }

@@ -1,52 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
 
-    <style>
-      .large-font {
-        font-size: xxx-large;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
 
-      .like__post-btn.active {
-        animation: like_animation 0.5s 1;
-        fill: red;
-        stroke: none;
-      }
-      .like__post-btn {
-        fill: transparent;
-        stroke: black;
-        stroke-width: 30;
-        transition: all 0.5s;
-      }
+<body>
 
-      @-webkit-keyframes like_animation {
-        0% {
-          transform: scale(1);
-        }
-        90% {
-          transform: scale(1.2);
-        }
-        100% {
-          transform: scale(1.1);
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <form class="like__post-form">
-      <ion-icon class="like__post-btn large-font" name="heart">
-        <button type="submit" class="red-bg"></button>
-      </ion-icon>
-    </form>
-  </body>
-  <script>
-    let like_post_btn = document.querySelector(".like__post-btn");
-    like_post_btn.onclick = function () {
-      like_post_btn.classList.toggle("active");
-    };
-  </script>
+</body>
+<script>
+  let fileInputs = document.querySelectorAll(".file");
+  let images = document.querySelectorAll(".img");
+
+  fileInputs.forEach(function (fileInput, index) {
+    fileInput.addEventListener("change", function () {
+      let file = this.files[0];
+      let reader = new FileReader();
+      reader.addEventListener("load", function () {
+        images[index].src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    });
+  });
+
+</script>
+
 </html>

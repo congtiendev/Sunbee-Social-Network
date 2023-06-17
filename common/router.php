@@ -57,11 +57,12 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
 		//--------------------------------------Post------------------------------------------------//
 		$router->get('posts-manager', [App\Controllers\Admin\PostController::class, 'renderListPost']);
 		$router->post('posts/create', [App\Controllers\Admin\PostController::class, 'handleCreatePost']);
-		$router->post('post/like-post', [App\Controllers\Admin\PostController::class, 'handleLikePost']);
+		$router->post('posts/like-post', [App\Controllers\Admin\PostController::class, 'handleLikePost']);
 		$router->post('posts/unlike-post', [App\Controllers\Admin\PostController::class, 'handleUnlikePost']);
 		$router->post('posts/save-post', [App\Controllers\Admin\PostController::class, 'handleSavePost']);
 		$router->post('posts/unsave-post', [App\Controllers\Admin\PostController::class, 'handleUnSavePost']);
 		$router->post('posts/add-comment', [App\Controllers\Admin\PostController::class, 'handleAddComment']);
+		$router->get('posts/delete-comment/{post_id}/{comment_id}', [App\Controllers\Admin\PostController::class, 'handleDeleteComment']);
 	});
 });
 
