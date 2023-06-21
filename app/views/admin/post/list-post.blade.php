@@ -10,8 +10,10 @@
                         d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
             </span>
-            <input type="search" placeholder="Tìm kiếm bài viết..."
-                class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
+            <form method="get" id="search__post" action="{{ route('admin/posts/search-post') }}">
+                <input id="search__post-input" name="keyword" type="search" placeholder="Tìm kiếm bài viết..."
+                    class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" />
+            </form>
         </div>
         <label for="create__posts"
             class="flex items-center gap-2 px-3 py-2 text-xs font-medium text-white transition-all duration-300 bg-indigo-600 font-montserrat rounded-xl hover:bg-indigo-500"
@@ -60,7 +62,7 @@
                             placeholder="Bạn đang nghĩ gì thế ?"></textarea>
                     </div>
 
-                    <div id="post__media-preview" class="grid max-h-40 grid-cols-2 gap-1"></div>
+                    <div id="post__media-preview" class="grid grid-cols-2 gap-1 max-h-40"></div>
                     <div class="flex items-center justify-between mt-2 form-group">
                         <div
                             class="flex items-center gap-3 px-2 py-1 border border-gray-200 rounded-lg options-posts dark:border-gray-600">
@@ -89,7 +91,7 @@
             class="grid px-4 space-y-4 list-posts md:px-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-5 md:gap-6 md:space-y-0">
             @foreach ($posts as $post)
             <!-- --------------------------------posts------------------------------ -->
-            <section id="post_{{ $post->post_id }}"
+            <section id="post-{{ $post->post_id }}"
                 class="max-w-sm min-w-[250px] px-4 pt-4 pb-1 transition duration-500 transform bg-white shadow-lg posts-item dark:bg-boxdark rounded-xl hover:scale-105">
                 <section class="relative flex items-center gap-2 infor__user">
                     <!-- -------------------options posts------------------------- -->
@@ -107,7 +109,7 @@
                                         </svg></button></label>
                                 {{-- ------------------POST OPTIONS ---------------}}
                                 <ul tabindex="{{ $post->post_id }}"
-                                    class="bg-white shadow dropdown-content dark:bg-base-100 rounded-xl z-50">
+                                    class="z-50 bg-white shadow dropdown-content dark:bg-base-100 rounded-xl">
                                     <div
                                         class="w-48 p-2 text-sm text-gray-500 bg-white border border-gray-100 dark:bg-base-100 rounded-xl dark:text-gray-100 dark:border-gray-700">
                                         <ul class="space-y-1">
@@ -163,14 +165,16 @@
                                                 <hr class="my-2 -mx-2 border-gray-300 dark:border-gray-500" />
                                             </li>
                                             <li>
-                                                <a href="#"
-                                                    class="flex items-center gap-3 p-2 text-red-500 rounded-md hover:bg-red-100 hover:text-white dark:hover:bg-red-600">
+                                                <a href="#" data-post-id="{{ $post->post_id }}"
+                                                    data-user-id="{{ $post->user_id }}"
+                                                    class="flex items-center gap-3 p-2 text-red-500 rounded-md hover:bg-red-100 hover:text-white dark:hover:bg-red-600 delete__post-btn">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="w-6 h-6 text-red-500">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                     </svg>
+
                                                     Xóa bài viết
                                                 </a>
                                             </li>
@@ -216,7 +220,7 @@
                     </div>
                 </div>
 
-                <section id="post-action_{{ $post->post_id }}">
+                <section id="post__action-{{ $post->post_id }}">
                     <div class="flex items-center justify-between mt-3">
                         <div class="flex gap-5">
                             <svg data-post-id="{{ $post->post_id }}" data-user-id="{{ $_SESSION['auth']->id }}"
@@ -246,7 +250,7 @@
                         </svg>
                     </div>
                     <section class="my-2 text-[#000000] text-sm total-interact dark:text-white">
-                        <div class="font-semibold like__post"><span class="like__post-count">
+                        <div class="font-semibold like__post"><span class="like__post-count-{{ $post->post_id }}">
                                 {{ intval($post->like_count) }}</span> lượt thích
                         </div>
                         @if (!empty($post->post_content))
@@ -270,7 +274,7 @@
                     <!-- ------------------------------ DETAILS POST MODAL-------------------------------- -->
                     <dialog id="post__details_{{ $post->post_id }}" class="modal">
                         <form method="dialog"
-                            class="relative w-11/12 max-w-6xl p-0 bg-white modal-box dark:bg-base-100 hidden__scrollbar z-10">
+                            class="relative z-10 w-11/12 max-w-6xl p-0 bg-white modal-box dark:bg-base-100 hidden__scrollbar">
                             <button for="post__details_{{ $post->post_id }}"
                                 class="absolute z-40 border-none outline-none right-2 top-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -312,7 +316,7 @@
                                     <!-- -------------------------------DETAILS POSTS CONTENT---------------------------------- -->
                                     <section class="  flex flex-col max-h-[500px] details__posts justify-between">
                                         <!-- --------------------------------AUTHOR INFO--------------------------------- -->
-                                        <div class="relative flex flex-col">
+                                        <div class="flex flex-col">
                                             <div class="flex items-center gap-2 px-5 py-2 author">
                                                 <div class="avatar">
                                                     <div class="w-10 h-10 bg-gray-200 rounded-full">
@@ -331,102 +335,7 @@
                                             </div>
                                             <pre
                                                 class="font-sunbee  px-4 pt-2 pb-3 border-b border-gray-200 dark:border-gray-700 whitespace-normal text-sm text-[#000000] dark:text-gray-100">{{ $post->post_content }}</pre>
-                                            <!-- ---------------------------OPTIONS DETAIL POSTS---------------------------- -->
-                                            <div class="absolute details__post-options top-3 right-10">
-                                                <div class="dropdown dropdown-end">
-                                                    <label tabindex="{{ $post->post_id }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="w-6 h-6 text-gray-900 dark:text-white">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                                                        </svg>
-                                                    </label>
-                                                    <ul tabindex="{{ $post->post_id }}"
-                                                        class="bg-white shadow dropdown-content dark:bg-base-100 rounded-xl">
-                                                        <div
-                                                            class="w-48 p-2 text-sm text-gray-500 bg-white border border-gray-100 dark:bg-base-100 rounded-xl dark:text-gray-100 dark:border-gray-700">
-                                                            <ul class="space-y-1">
-                                                                <li>
-                                                                    <a href="#"
-                                                                        class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-5 h-5 text-gray-900 dark:text-white">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                                                                        </svg>
 
-                                                                        Chỉnh sửa bài viết
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="#"
-                                                                        class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
-                                                                        <svg class="w-5 h-5 fill-black dark:fill-white"
-                                                                            viewBox="0 0 48 48">
-                                                                            <path clip-rule="evenodd"
-                                                                                d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z"
-                                                                                fill-rule="evenodd"></path>
-                                                                        </svg>
-                                                                        Tắt bình luận
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="#"
-                                                                        class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-5 h-5 text-gray-900 dark:text-white">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                                                                        </svg>
-
-                                                                        Đi đến bài viết
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="#"
-                                                                        class="flex items-center gap-3 p-2 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-5 h-5 text-gray-900 dark:text-white">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
-                                                                        </svg>
-                                                                        Báo cáo bài viết
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <hr
-                                                                        class="my-2 -mx-2 border-gray-300 dark:border-gray-500" />
-                                                                </li>
-                                                                <li>
-                                                                    <a href="#"
-                                                                        class="flex items-center gap-3 p-2 text-red-500 rounded-md hover:bg-red-100 hover:text-white dark:hover:bg-red-600">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-6 h-6 text-red-500">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                                                        </svg>
-
-                                                                        Xóa bài viết
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </ul>
-                                                </div>
-                                            </div>
 
                                             <!-- --------------------------------DETAILS POSTS COMMENTS---------------------- -->
                                             <section id="post__comments__{{ $post->post_id }}"
@@ -440,10 +349,10 @@
                                                 @foreach ($post->comments as $comment)
                                                 <!-- ------------------------------COMMENTS------------------------- -->
                                                 <div id="comment__{{ $comment->comment_id }}"
-                                                    class="flex p-4 antialiased text-black relative">
+                                                    class="relative flex p-4 antialiased text-black">
                                                     {{-- ----------------OPTIONS COMMENT------------ --}}
-                                                    <div class="absolute comment-options top-0 right-5">
-                                                        <div class="dropdown dropdown-end z-50">
+                                                    <div class="absolute top-0 comment-options right-5">
+                                                        <div class="z-50 dropdown dropdown-end">
                                                             <label tabindex="{{ $comment->comment_id }}">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
@@ -456,7 +365,7 @@
                                                             <div tabindex="{{ $comment->comment_id }}"
                                                                 class="bg-white shadow dropdown-content dark:bg-base-100 rounded-xl">
                                                                 <ul
-                                                                    class="w-fit whitespace-nowrap text-xs text-gray-500 bg-white border border-gray-100 dark:bg-base-100 rounded-xl dark:text-gray-100 dark:border-gray-700 p-2 font-normal">
+                                                                    class="p-2 text-xs font-normal text-gray-500 bg-white border border-gray-100 w-fit whitespace-nowrap dark:bg-base-100 rounded-xl dark:text-gray-100 dark:border-gray-700">
                                                                     <li>
                                                                         <a href="#"
                                                                             class="flex items-center gap-3 p-1 rounded-md hover:bg-gray-100 text-[#000000] dark:text-white dark:hover:bg-gray-800">
@@ -495,7 +404,6 @@
                                                                         <button
                                                                             data-comment-id="{{ $comment->comment_id }}"
                                                                             data-post-id="{{ $post->post_id }}"
-                                                                            data-user-id="{{ $comment->user_id }}"
                                                                             class="flex items-center gap-3 p-1 text-red-500 rounded-md hover:bg-red-100 hover:text-white dark:hover:bg-red-600 delete__comment">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 fill="none" viewBox="0 0 24 24"
@@ -561,7 +469,7 @@
                                                 <div class="flex gap-5">
                                                     <svg data-post-id="{{ $post->post_id }}"
                                                         data-user-id="{{ $_SESSION['auth']->id }}"
-                                                        class="w-6 h-6 fill-black dark:fill-white like__details-post-btn @if ($post->is_liked) active @endif"
+                                                        class="w-6 h-6 fill-black dark:fill-white like__post-btn @if ($post->is_liked) active @endif"
                                                         height="24" viewBox="0 0 48 48" width="24">
                                                         <path
                                                             d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
@@ -582,7 +490,7 @@
                                                 </div>
                                                 <svg data-post-id="{{ $post->post_id }}"
                                                     data-user-id="{{ $_SESSION['auth']->id }}"
-                                                    class="save__details-post-btn w-6 h-6 fill-black dark:fill-white @if ($post->is_saved) active @endif"
+                                                    class="save__post-btn w-6 h-6 fill-black dark:fill-white @if ($post->is_saved) active @endif"
                                                     viewBox="0 0 48 48">
                                                     <path
                                                         d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z">
@@ -591,7 +499,7 @@
                                             </div>
                                             <section class="my-2 text-[#000000] total-interact dark:text-white">
                                                 <div class="pb-2 text-sm font-semibold like__post">
-                                                    <span class="like__details-post-count">
+                                                    <span class="like__post-count-{{ $post->post_id }}">
                                                         {{ intval($post->like_count) }}</span>
                                                     lượt thích
                                                 </div>

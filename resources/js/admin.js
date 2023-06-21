@@ -1,5 +1,4 @@
 
-
 /*----------------------------------------Confirm delete account---------------------------*/
 
 $(document).ready(function () {

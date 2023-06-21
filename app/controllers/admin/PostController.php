@@ -32,7 +32,7 @@ class PostController extends BaseController
 		);
 	}
 
-	public function renderListPost($keyword = null, $column = null, $order = null)
+	public function renderListPost($keyword = null, $column = null, $order = null): void
 	{
 		$title = "Danh sách bài đăng";
 		$user = $_SESSION['auth'];
@@ -98,18 +98,24 @@ class PostController extends BaseController
 		}
 		$post_id = $this->request->post('postID');
 		$user_id = $this->request->post('userID');
+
 		if ($this->post->isLiked($post_id, $user_id)) {
 			$this->post->unLikePost($post_id, $user_id);
+			$like_count = $this->post->getLikeCount($post_id)->like_count;
 			$this->pusher->trigger('like-post', 'unlike', [
 				'post_id' => $post_id,
-				'user_id' => $user_id
+				'user_id' => $user_id,
+				'like_count' => $like_count
+			]);
+		} else {
+			$this->post->likePost($post_id, $user_id);
+			$like_count = $this->post->getLikeCount($post_id)->like_count;
+			$this->pusher->trigger('like-post', 'like', [
+				'post_id' => $post_id,
+				'user_id' => $user_id,
+				'like_count' => $like_count
 			]);
 		}
-		$this->post->likePost($post_id, $user_id);
-		$this->pusher->trigger('like-post', 'like', [
-			'post_id' => $post_id,
-			'user_id' => $user_id
-		]);
 	}
 
 	public function handleUnLikePost()
@@ -120,9 +126,11 @@ class PostController extends BaseController
 		$post_id = $this->request->post('postID');
 		$user_id = $this->request->post('userID');
 		$this->post->unLikePost($post_id, $user_id);
+		$like_count = $this->post->getLikeCount($post_id)->like_count;
 		$this->pusher->trigger('like-post', 'unlike', [
 			'post_id' => $post_id,
-			'user_id' => $user_id
+			'user_id' => $user_id,
+			'like_count' => $like_count
 		]);
 	}
 
@@ -147,7 +155,19 @@ class PostController extends BaseController
 		$user_id = $this->request->post('userID');
 		return $this->post->unSavePost($post_id, $user_id);
 	}
-
+	public function handleDeletePost($post_id)
+	{
+		$post_media = $this->post->getPostMedia($post_id);
+		if ($post_media) {
+			foreach ($post_media as $media) {
+				unlink("public/uploads/posts/" . $media->post_media);
+			}
+		}
+		$this->post->deletePost($post_id);
+		$this->pusher->trigger('posts', 'delete-post', [
+			'post_id' => $post_id
+		]);
+	}
 	public function handleAddComment()
 	{
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -192,10 +212,23 @@ class PostController extends BaseController
 
 	public function handleDeleteComment($post_id, $comment_id)
 	{
+		$comment_media = $this->post->getCommentMedia($comment_id);
+		foreach ($comment_media as $media) {
+			unlink("public/uploads/comments/" . $media->comment_media);
+		}
 		$this->post->deleteComment($post_id, $comment_id);
 		$this->pusher->trigger('comments', 'delete-comment', ['post_id' => $post_id, 'comment_id' => $comment_id]);
 		header('Content-Type: application/json');
 		echo json_encode(['success' => true, 'message' => 'Comment deleted successfully']);
 		exit;
+	}
+
+	public function searchPost()
+	{
+		$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : null;
+		if ($keyword === null) {
+			return redirect('', '', 'back');
+		}
+		$this->renderListPost($keyword);
 	}
 }

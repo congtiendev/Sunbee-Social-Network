@@ -39,7 +39,7 @@ class Post extends BaseModel
         LEFT JOIN {$this->users} user ON post.user_id = user.id WHERE 1";
 
 		if ($keyword !== null) {
-			$sql .= " AND (post.content LIKE '%$keyword%')";
+			$sql .= " AND (post.post_content LIKE '%$keyword%')";
 		}
 
 		if ($column !== null && $order !== null) {
@@ -52,6 +52,17 @@ class Post extends BaseModel
 				$sql .= " OFFSET $offset";
 			}
 		}
+		$this->setQuery($sql);
+		return $this->loadAllRows();
+	}
+
+	public function searchPost($keyword)
+	{
+		$sql = "SELECT post.*, user.*, post.id AS post_id, post.created_at AS post_date, user.id AS user_id
+		FROM {$this->posts} post
+		LEFT JOIN {$this->users} user ON post.user_id = user.id
+		WHERE post.post_content LIKE '%$keyword%' OR user.username LIKE '%$keyword%' 
+		GROUP BY post.id";
 		$this->setQuery($sql);
 		return $this->loadAllRows();
 	}
@@ -75,10 +86,13 @@ class Post extends BaseModel
 	public function deletePost($id)
 	{
 		$this->deleteLike($id);
+		$this->deleteMedia($id);
 		$comment = "DELETE FROM $this->comments WHERE post_id = ?";
 		$this->setQuery($comment);
 		$this->execute([$id]);
-		$this->deleteMedia($id);
+		$savePost = "DELETE FROM $this->save_posts WHERE post_id = ?";
+		$this->setQuery($savePost);
+		$this->execute([$id]);
 		$post = "DELETE FROM $this->posts WHERE id = ?";
 		$this->setQuery($post);
 		$this->execute([$id]);
@@ -180,9 +194,16 @@ class Post extends BaseModel
 	}
 	public function getPostBy($column, $value)
 	{
-		$sql = "SELECT * FROM $this->posts WHERE $column = '$value'";
+		$sql = "SELECT * FROM $this->posts WHERE $column = ?";
 		$this->setQuery($sql);
-		return $this->loadAllRows();
+		return $this->loadAllRows([$value]);
+	}
+
+	public function getLikeCount($post_id)
+	{
+		$sql = "SELECT like_count FROM $this->posts WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->loadRow([$post_id]);
 	}
 
 	public function getLatestPostByUserId($user_id)
@@ -214,6 +235,12 @@ class Post extends BaseModel
 		$sql = "SELECT * FROM $this->comments WHERE $column = '$value'";
 		$this->setQuery($sql);
 		return $this->loadAllRows();
+	}
+	public function getCommentMedia($comment_id)
+	{
+		$sql = "SELECT comment_media FROM $this->comments WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->loadAllRows([$comment_id]);
 	}
 	public function getLatestCommentByUserId($user_id, $post)
 	{

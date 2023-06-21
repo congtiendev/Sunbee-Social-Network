@@ -49,6 +49,13 @@ class RequestController
 		return $newFileName;
 	}
 
+	public function deleteFile($fileName, $path)
+	{
+		if (file_exists($path . $fileName)) {
+			unlink($path . $fileName);
+		}
+	}
+
 
 	public function has($key)
 	{

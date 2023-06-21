@@ -822,11 +822,12 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 </div>
               </section>
 
-              <section class="post__actions">
+              <section class="post__actions_1">
                 <div class="flex items-center justify-between mt-3">
                   <div class="flex gap-5">
-                    <svg data-post-id="1" data-user-id="1" class="w-6 h-6 fill-black dark:fill-white like__post-btn"
-                      height="24" viewBox="0 0 48 48" width="24">
+                    <svg data-post-id="1" data-user-id="1" data-like-count="1"
+                      class="w-6 h-6 fill-black dark:fill-white like__post-btn" height="24" viewBox="0 0 48 48"
+                      width="24">
                       <path
                         d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
                       </path>
@@ -851,7 +852,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                 </div>
                 <section class="my-2 text-[#000000] total-interact dark:text-white">
                   <div class="text-sm font-semibold like__post">
-                    <span class="like__post-count"> 1</span>
+                    <span class="like__post-count-1">1</span>
                     lượt thích
                   </div>
                   <div class="my-1 text-sm text-[#000000] dark:text-white">
@@ -1125,7 +1126,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                             <section class="p-4 details__posts-actions">
                               <div class="flex items-center justify-between">
                                 <div class="flex gap-5">
-                                  <svg data-post-id="1" data-user-id="1"
+                                  <svg data-post-id="1" data-user-id="1" data-like-count="1"
                                     class="w-6 h-6 fill-black dark:fill-white like__post-btn" height="24"
                                     viewBox="0 0 48 48" width="24">
                                     <path
@@ -1152,7 +1153,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
                               </div>
                               <section class="my-2 text-[#000000] total-interact dark:text-white">
                                 <div class="text-sm pb-2  font-semibold like__post">
-                                  <span class="like__post-count"> 1</span>
+                                  <span class="like__post-count-1">1</span>
                                   lượt thích
                                 </div>
                                 <div id="add__comment_1"
@@ -1206,7 +1207,7 @@ $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(valu
   <script src="../../../node_modules/swiper/swiper-bundle.min.js"></script>
   <script src="../../../node_modules/sweetalert/dist/sweetalert.min.js"></script>
   <script src="../../../node_modules/pusher-js/dist/web/pusher.min.js"></script>
-  <script type="module" defer src="../../js/base.js"></script>
+  <script type="module" defer src="../../js/posts.js"></script>
   <script type="module" defer src="../../js/admin.js"></script>
 </body>
 
