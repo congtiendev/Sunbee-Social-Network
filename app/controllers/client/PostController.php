@@ -14,8 +14,15 @@ class PostController extends BaseController
     private $request;
     private $validator;
     private $options = [
-        'cluster' => 'ap1',
-        'useTLS' => true
+        'cluster' => PUSHER_APP_CLUSTER,
+        'host' => PUSHER_HOST,
+        'port' => PUSHER_PORT,
+        'useTLS' => PUSHER_USE_TLS,
+        'encrypted' => PUSHER_ENCRYPTED,
+        'scheme' => PUSHER_SCHEME,
+        'debug' => PUSHER_DEBUG,
+        'timeout' => PUSHER_TIMEOUT,
+        'curl_options' => PUSHER_CURL_OPTIONS,
     ];
     private $pusher;
 
@@ -25,9 +32,9 @@ class PostController extends BaseController
         $this->request = new RequestController();
         $this->validator = new Validator($this->request->all());
         $this->pusher = new Pusher\Pusher(
-            'c3271ec62a7f5d395eb3',
-            'ff3d133f0970c64aff62',
-            '1618489',
+            PUSHER_APP_KEY,
+            PUSHER_APP_SECRET,
+            PUSHER_APP_ID,
             $this->options
         );
     }
@@ -65,5 +72,27 @@ class PostController extends BaseController
             'current_page' => $page,
             'total_pages' => $totalPages,
         ];
+    }
+
+    public function handleCreatePost()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+        $data = $this->request->all();
+        $this->post->insertPost($data);
+        $post_id = $this->post->getLatestPostByUserId($data['user_id']);
+        $medias = $this->request->file('post_media');
+        if (!empty($medias['name']) && is_array($medias['name'])) {
+            foreach ($medias['name'] as $key => $media) {
+                $mediaName = $this->request->uploadFile($medias['name'][$key], $medias['tmp_name'][$key], "public/uploads/posts/");
+                $dataMedia = [
+                    'post_id' => $post_id->id,
+                    'post_media' => $mediaName
+                ];
+                $mediaName = [];
+                $this->post->insertPostMedia($dataMedia);
+            }
+        }
     }
 }

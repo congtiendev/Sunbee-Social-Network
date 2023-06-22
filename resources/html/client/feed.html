@@ -927,7 +927,7 @@
         <!-- Craete post modal -->
         <div id="create-post-modal" class="create-post is-story" uk-modal>
             <div id="create-post"
-                class="relative p-0 rounded-lg shadow-2xl uk-modal-dialog uk-modal-body uk-margin-auto-vertical lg:w-5/12 uk-animation-slide-bottom-small">
+                class="relative p-0 rounded-lg shadow-2xl uk-modal-dialog uk-modal-body uk-margin-auto-vertical lg:w-5/12 uk-animation-slide-bottom-small loading-overlay">
 
                 <div class="py-3 text-center border-b">
                     <h3 class="text-lg font-semibold"> Tạo bài viết</h3>
@@ -1001,11 +1001,19 @@
                     <button class="px-5 w-full font-medium text-white bg-yellow-500 rounded-md h-9">
                         Chia sẻ </button>
                 </div>
+                <div class="loading-create-post">
+                    <img src="../../../public/images/illustration/loading-bee.gif" alt="Loading..." />
+                </div>
             </div>
-        </div>
-    </div>
 
+        </div>
+
+    </div>
+    <div id="loading-all">
+        <img src="../../../public/images/illustration/loading-bee.gif" alt="Loading..." />
+    </div>
     <script defer src="../../js/jquery-3.6.0.min.js"></script>
+    <script defer src="../../js/app.js"></script>
     <script defer src="../../../node_modules/pusher-js/dist/web/pusher.min.js"></script>
     <script defer src="../../js/tippy.all.min.js"></script>
     <script defer src="../../js/uikit.js"></script>

@@ -35,7 +35,7 @@
             </div>
         </footer>
     </div>
-    <div id="loader-overlay">
+    <div id="loading-all">
         <img src="{{ IMG_PATH }}illustration/loading-bee.gif" alt="Loading..." />
     </div>
     @include('auth.scripts')

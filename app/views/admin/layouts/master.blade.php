@@ -28,7 +28,7 @@
         </div>
     </div>
     @include('admin.layouts.scripts')
-    <div id="loader-overlay">
+    <div id="loading-all">
         <img src="{{ IMG_PATH }}illustration/loading-bee.gif" alt="Loading..." />
     </div>
 </body>

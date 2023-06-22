@@ -2,206 +2,78 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../../../public/images/logo/favicon.png" rel="icon" type="image/png">
-    <title>Sunbee</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Sunbee social network">
-    <link rel="stylesheet" href="assets/css/uikit.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="../../css/tailwind.css" rel="stylesheet">
+    <meta charset="utf-8" />
+    <title>Swiper demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="../../../node_modules/swiper/swiper-bundle.css">
+
+    <!-- Demo styles -->
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="wrapper">
-        <!-- ----------------------Story---------------- -->
-        <div class="relative grid grid-cols-3 gap-2 user_story md:grid-cols-5 lg:-mx-20">
-            <!-- ----------------------Story 1---------------- -->
-            <a data-story-id="1" data-user-id="1" class="story" href="assets/images/avatars/avatar-6.jpg"
-                uk-toggle="target: body ; cls: story-active">
-                <div class="single_story">
-                    <img class="story-img" src="assets/images/avatars/avatar-6.jpg" alt="">
-                    <div class="story-avatar">
-                        <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                    </div>
-                    <div class="story-content">
-                        <h4>Erica Jones</h4>
-                    </div>
-                </div>
-            </a>
-            <!-- ----------------------Story 2---------------- -->
-            <a data-story-id="2" data-user-id="2" class="story" href="assets/images/avatars/avatar-7.jpg"
-                uk-toggle="target: body ; cls: story-active">
-                <div class="single_story story-2">
-                    <img class="story-img" src="assets/images/avatars/avatar-7.jpg" alt="">
-                    <div class="story-avatar">
-                        <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                    </div>
-                    <div class="story-content">
-                        <h4>Erica Jones</h4>
-                    </div>
-                </div>
-            </a>
-            <!-- ----------------------Story 3---------------- -->
-            <a data-story-id="3" data-user-id="3" class="story" href="assets/images/avatars/avatar-1.jpg"
-                uk-toggle="target: body ; cls: story-active">
-                <div class="single_story story-2">
-                    <img class="story-img" src="assets/images/avatars/avatar-1.jpg" alt="">
-                    <div class="story-avatar">
-                        <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                    </div>
-                    <div class="story-content">
-                        <h4>Erica Jones</h4>
-                    </div>
-                </div>
-            </a>
-            <span
-                class="absolute z-10 items-center justify-center hidden p-2 -mr-4 text-xl bg-white rounded-full shadow-md lg:flex w-9 uk-position-center-right"
-                uk-toggle="target: body ; cls: story-active">
-                <i class="icon-feather-chevron-right"></i>
-            </span>
+    <!-- Swiper -->
+    <div class="swiper postMedia">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+            </div>
+            <div class="swiper-slide">
+                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+            </div>
+            <div class="swiper-slide">
+                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+            </div>
+            <div class="swiper-slide">
+                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+            </div>
         </div>
-
+        <div class="swiper-pagination"></div>
     </div>
 
-    <!-- story-preview -->
-    <div class="story-prev">
-        <div class="story-sidebar uk-animation-slide-left-medium">
-            <div class="items-center justify-between hidden py-2 md:flex">
-                <h3 class="text-2xl font-semibold"> Tất cả tin</h3>
-                <a href="#" class="text-blue-600"> Cài đặt</a>
-            </div>
+    <!-- Swiper JS -->
+    <script src="../../../node_modules/swiper/swiper-bundle.js"></script>
 
-            <div class="story-sidebar-scrollbar " data-simplebar>
-                <h3 class="text-lg font-medium hidden md:block"> Tin của bạn </h3>
-
-                <a class="hidden md:flex items-center py-2 space-x-4 rounded-lg hover:bg-gray-100 md:my-2 hover:text-gray-700"
-                    href="#">
-                    <svg class="w-12 h-12 p-3 ml-1 text-blue-500 bg-gray-200 rounded-full" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                    </svg>
-                    <div class="flex-1">
-                        <div class="text-lg font-semibold"> Tạo tin mới</div>
-                    </div>
-                </a>
-
-                <h3 class="mt-1 text-lg font-medium lg:mt-3 hidden md:block"> Tin của bạn bè</h3>
-
-                <div class="story-users-list"
-                    uk-switcher="connect: #story_slider ; toggle: >  ; animation: uk-animation-slide-right-medium, uk-animation-slide-left-medium ">
-                    <!-- ------------------User story-1 -------------------- -->
-                    <a class="story-user-1 story-user" data-story-id="1" data-user-id="1"
-                        href="assets/images/avatars/avatar-6.jpg">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-6.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Dennis Han</div>
-                            <p> <span class="story-count"> 2 new </span> <span class="story-time">
-                                    4Mn ago</span> </p>
-                        </div>
-                    </a>
-                    <!-- ------------------User story-2 -------------------- -->
-                    <a class="story-user-2 story-user" data-story-id="2" data-user-id="2"
-                        href="assets/images/avatars/avatar-7.jpg">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-7.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani</div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time">
-                                    1hr ago</span> </p>
-                        </div>
-                    </a>
-                    <!-- ------------------User story-3 -------------------- -->
-                    <a class="story-user-3 story-user" data-story-id="3" data-user-id="3"
-                        href="assets/images/avatars/avatar-1.jpg">
-                        <div class="story-media">
-                            <img src="assets/images/avatars/avatar-1.jpg" alt="">
-                        </div>
-                        <div class="story-text">
-                            <div class="story-username"> Adrian Mohani</div>
-                            <p> <span class="story-count"> 1 new </span> <span class="story-time">
-                                    1hr ago</span> </p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-        <!-- -------------------Story content--------------------- -->
-        <div class="story-content">
-            <ul class="uk-switcher" id="story_slider">
-                <li id="story-content-1" data-story-id="1" data-user-id="1" class="relative">
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-6.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-6.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-                </li>
-
-                <!-- --------------content story-2 --------------- -->
-
-                <li id="story-content-2" data-story-id="2" data-user-id="2" class="relative">
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-7.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-7.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-                </li>
-
-                <li id="story-content-3" data-story-id="3" data-user-id="3" class="relative">
-                    <div uk-lightbox>
-                        <a href="assets/images/avatars/avatar-1.jpg" data-alt="Image">
-                            <img src="assets/images/avatars/avatar-1.jpg" class="story-slider-image" data-alt="Image">
-                        </a>
-                    </div>
-
-                </li>
-            </ul>
-
-        </div>
-
-        <!-- story colose button-->
-        <span class="story-btn-close" uk-toggle="target: body ; cls: story-active"
-            uk-tooltip="title:Close story ; pos: left">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </span>
-
-    </div>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/uikit.js"></script>
+    <!-- Initialize Swiper -->
     <script>
-        $(document).ready(function () {
-            $('.story').click(function () {
-                const userID = $(this).data('user-id');
-                const storyID = $(this).data('story-id');
-                const storyUser = $(`.story-user[data-story-id=${storyID}][data-user-id=${userID}]`);
-                $('.story-users-list').removeClass('uk-active');
-                storyUser.addClass('uk-active').siblings().removeClass('uk-active');
-                const storyContent = $(`#story-content-${storyID}`);
-                storyContent.prependTo('#story_slider');
-                UIkit.switcher('#story_slider').show(storyContent);
-            });
-
-            $('.story-user').click(function () {
-                const userID = $(this).data('user-id');
-                const storyID = $(this).data('story-id');
-                const storyUser = $(`.story-user[data-story-id=${storyID}][data-user-id=${userID}]`);
-                $('.story-users-list').removeClass('uk-active');
-                storyUser.addClass('uk-active').siblings().removeClass('uk-active');
-                const storyContent = $(`#story-content-${storyID}`);
-                storyContent.prependTo('#story_slider');
-                UIkit.switcher('#story_slider').show(storyContent);
-            });
-
+        const swiper = new Swiper(".postMedia", {
+            spaceBetween: 30,
+            effect: "fade",
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
         });
     </script>
 </body>

@@ -67,29 +67,32 @@
                         </div>
                     </div>
                 </div>
-
+                @foreach ($posts as $post)
                 <!-------------------------- Post ---------------------------->
-                <div class="bg-white shadow rounded-lg mb-6">
+                <section id="post-{{$post->post_id  }}" class="bg-white shadow rounded-lg mb-6">
                     <div class="flex justify-between">
                         <div class="flex flex-row px-2 py-3 mx-3">
 
                             <div class="w-auto h-auto rounded-full">
                                 <img class="w-12 h-12 object-cover rounded-full shadow cursor-pointer" alt="User avatar"
-                                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2000&amp;q=80">
+                                    src="{{ empty($post->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $post->avatar }}"
+                                    alt="profile">
                             </div>
                             <div class="flex  flex-col mb-2 ml-4 mt-1">
-                                <div class="text-gray-600 text-sm font-semibold">Lê Công Tiến</div>
+                                <a href="#" class="text-gray-600 text-sm font-semibold">
+                                    {{ $post->first_name . ' ' . $post->last_name }}
+                                </a>
                                 <div class="flex w-full mt-1">
-                                    <div class="text-blue-700 font-base text-xs mr-1 cursor-pointer">
-                                        congtiendev
-                                    </div>
-                                    <div class="text-gray-400 font-thin text-xs">
-                                        • 30 phút trước
-                                    </div>
+                                    <span class="text-blue-700 font-base text-xs mr-1 cursor-pointer">
+                                        {{ $post->username }}
+                                    </span>
+                                    <span class="text-gray-400 font-thin text-xs">
+                                        • {{ timeAgo($post->post_date) }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2">
+                        <div class="p-2 options-post">
                             <a href="#"> <i
                                     class="p-2 -mr-1 text-2xl transition rounded-full icon-feather-more-horizontal hover:bg-gray-200 dark:hover:bg-gray-700"></i>
                             </a>
@@ -100,34 +103,23 @@
                                     <li>
                                         <a href="#"
                                             class="flex items-center px-3 py-2 rounded-md hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800">
-                                            <i class="mr-1 uil-share-alt"></i> Share
+                                            <i class="mr-1 uil-edit-alt"></i> Chỉnh sửa bài viết
                                         </a>
                                     </li>
                                     <li>
                                         <a href="#"
                                             class="flex items-center px-3 py-2 rounded-md hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800">
-                                            <i class="mr-1 uil-edit-alt"></i> Edit Post
+                                            <i class="mr-1 uil-comment-slash"></i> Tắt bình luận
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center px-3 py-2 rounded-md hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800">
-                                            <i class="mr-1 uil-comment-slash"></i> Disable comments
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center px-3 py-2 rounded-md hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800">
-                                            <i class="mr-1 uil-favorite"></i> Add favorites
-                                        </a>
-                                    </li>
+
                                     <li>
                                         <hr class="my-2 -mx-2 dark:border-gray-800">
                                     </li>
                                     <li>
                                         <a href="#"
                                             class="flex items-center px-3 py-2 text-red-500 rounded-md hover:bg-red-100 hover:text-red-500 dark:hover:bg-red-600">
-                                            <i class="mr-1 uil-trash-alt"></i> Delete
+                                            <i class="mr-1 uil-trash-alt"></i> Xóa bài viết
                                         </a>
                                     </li>
                                 </ul>
@@ -136,42 +128,41 @@
                         </div>
                     </div>
                     <div class="border-b border-gray-100"></div>
-                    <div class="text-gray-400 font-medium text-sm mb-7 mt-6 mx-3 px-2">
+                    @if (count($post->medias) > 0)
+                    <div class="text-gray-400 font-medium text-sm  mx-3 px-2 pt-3 ">
                         <div uk-lightbox>
-                            <div class="swiper mySwiper ">
+                            <div class="swiper postMedia">
                                 <div class="swiper-wrapper">
+                                    @foreach ($post->medias as $media)
+                                    @if (isImage($media->post_media))
                                     <div class="swiper-slide rounded-md">
-                                        <a href="{{ IMG_PATH }}avatars/340745011_3320815954895351_7942880981791125154_n.jpg"
-                                            class="col-span-2">
-                                            <img src="{{ IMG_PATH }}avatars/340745011_3320815954895351_7942880981791125154_n.jpg"
-                                                alt=""
+                                        <a href="{{ POST_MEDIA_PATH . $media->post_media }}" class="col-span-2">
+                                            <img src="{{ POST_MEDIA_PATH . $media->post_media }}" alt=""
                                                 class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px]">
                                         </a>
                                     </div>
+                                    @else
                                     <div class="swiper-slide rounded-md">
-                                        <a href="{{ IMG_PATH }}post/img-2.jpg">
-                                            <img src="{{ IMG_PATH }}post/img-2.jpg" alt=""
-                                                class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px] max-h-[300px] min-h-[300px]">
-                                        </a>
+                                        <video
+                                            class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px]"
+                                            controls>
+                                            <source src="{{ POST_MEDIA_PATH . $media->post_media }}" type="video/mp4">
+                                        </video>
                                     </div>
-                                    <div class="swiper-slide rounded-md">
-                                        <a href="{{ IMG_PATH }}avatars/retouch_2021121617152921.jpg" class="relative">
-                                            <img src="{{ IMG_PATH }}avatars/retouch_2021121617152921.jpg" alt=""
-                                                class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px] max-h-[300px] min-h-[300px]">
-                                        </a>
-                                    </div>
+                                    @endif
+                                    @endforeach
                                 </div>
                                 <div class="swiper-pagination"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="text-gray-500 text-sm mb-6 mx-3 px-2">
-                        Tôi là tùng 25 tuổi đang bị chú đầu trọc săn đuổi chú ấy cầm cái baton chú ấy xin miếng
-                        da non
-                    </div>
+                    @endif
+                    <pre class="text-gray-500 text-sm  px-3 pt-3 max-w-full font-sunbee">
+                        {{ $post->post_content }}
+                    </pre>
                     <div class="flex justify-between items-center px-5 py-3 border-t border-gray-100">
                         <div class="flex gap-5">
-                            <svg data-post-id="1" data-user-id="1" data-like-count="1"
+                            <svg data-user-id="{{ $user->id }}" data-like-count="1"
                                 class="w-6 h-6 fill-black dark:fill-white like__post-btn" viewBox="0 0 48 48">
                                 <path
                                     d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
@@ -188,8 +179,8 @@
                                 </path>
                             </svg>
                         </div>
-                        <svg data-post-id="1" data-user-id="1" class="w-6 h-6 save__post-btn fill-black dark:fill-white"
-                            viewBox="0 0 48 48">
+                        <svg data-post-id="{{ $post->post_id }}"
+                            class="w-6 h-6 save__post-btn fill-black dark:fill-white" viewBox="0 0 48 48">
                             <path
                                 d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z">
                             </path>
@@ -198,17 +189,18 @@
                     <div class="flex w-full border-t border-gray-100">
                         <div class="mt-3 mx-5 w-full flex text-xs">
                             <div class=" font-semibold like__post">
-                                <span class="like__post-count-1">1</span>
-                                lượt thích
+                                <span class="like__post-count-{{ $post->post_id }}">
+                                    {{ intval($post->like_count) }}</span> lượt thích
                             </div>
                         </div>
                         <div class="mt-3 mx-5 flex flex-row text-xs whitespace-nowrap">
-                            <div class=" font-semibold like__post">
-                                <span class="like__post-count-1">1</span>
-                                lượt chia sẻ
+                            <div class=" font-semibold share__post">
+                                <span class="like__post-count-{{ $post->post_id }}">
+                                    {{ intval($post->share_count) }}</span> lượt chia sẻ
                             </div>
                         </div>
                     </div>
+                    @if($post->comment_count > 0)
                     <div class="text-black  dark:text-white p-4 antialiased flex">
                         <img class="rounded-full h-8 w-8 mr-2 mt-1 " src="https://picsum.photos/id/1027/200/200">
                         <div>
@@ -226,33 +218,43 @@
 
                     </div>
                     <div class="mb-0.5 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
-                        Xem
-                        <span class="comment__post-count">1</span>
-                        bình luận
+                        <a href="#">
+                            Xem <span class="comment__post-count-{{ $post->post_id }}">{{
+                                intval($post->comment_count) }}</span>
+                            bình luận
+                        </a>
                     </div>
-                    <div
-                        class="relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
+                    @else
+                    <div class="mt-2 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
+                        <span class="no__comment-{{ $post->post_id }}">Chưa có bình luận</span>
+                    </div>
+                    @endif
+                    <form method="post" enctype="multipart/form-data" data-user-id="{{ $user->id }}"
+                        data-post-id="{{ $post->post_id }}"
+                        class="add-comment relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
                         <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" alt="User avatar"
-                            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2000&amp;q=80">
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-6">
-                            <button type="submit" class="p-1 focus:outline-none focus:shadow-none hover:text-blue-500">
-                                <svg class="w-6 h-6 transition ease-out duration-300 hover:text-blue-500 text-gray-400"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                            src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
+                            alt="profile" alt="profile" />
+                        <div class="absolute inset-y-0 right-5 flex items-center gap-5">
+                            <label for="comment__media-{{ $post->post_id }}">
+                                <input multiple type="file" name="comment_media"
+                                    id="comment__media-{{ $post->post_id }}" class="sr-only" />
+                                <img src="{{ IMG_PATH }}icon/camera-icon.png" class="w-6 h-auto">
+                            </label>
+                            <button type="submit" class="pb-1"><svg class="w-5 h-5 fill-blue-500 dark:fill-blue-400"
+                                    viewBox="0 0 48 48">
+                                    <path
+                                        d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
                                     </path>
-                                </svg>
-
-                            </button>
-                        </span>
-                        <input type="search"
+                                </svg></button>
+                        </div>
+                        <input type="search" id="comment__content-{{ $post->post_id }}"
                             class="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"
                             style="border-radius: 25px" placeholder="Nhập bình luận ..." autocomplete="off">
-                    </div>
-                </div>
+                    </form>
+                </section>
                 <!--------------------------End Post ---------------------------->
-
+                @endforeach
 
             </div>
 
@@ -368,7 +370,7 @@
                 class="bg-gray-200 border border-white rounded-full w-11 h-11 object-cover">
             <div class="flex-1 pt-2">
                 <textarea id="post_content"
-                    class="text-lg md:text-sm font-medium text-black shadow-none resize-none uk-textare focus:shadow-none"
+                    class="text-lg md:text-sm font-medium text-black dark:text-white shadow-none resize-none uk-textare focus:shadow-none"
                     rows="5" name="post_content"
                     placeholder="{{ $user->last_name }} ơi, bạn đang nghĩ gì thế  ?"></textarea>
             </div>
@@ -378,8 +380,8 @@
             <div class="flex items-center p-2 border border-purple-100 shadow-sm bg-gray-50 rounded-2xl">
                 <span class="ml-1 text-sm">Thêm vào bài viết </span>
                 <div class="flex items-center flex-1 space-x-2 justify-end">
-                    <label for="posts__media-uploads">
-                        <input multiple type="file" name="media[]" id="posts__media-uploads" class="sr-only" />
+                    <label for="posts_media">
+                        <input multiple type="file" name="media[]" id="posts_media" class="sr-only" />
                         <img src="{{ IMG_PATH }}icon/post-icon.png" class="w-10 h-auto">
                     </label>
                     <div class="dropdown dropdown-top dropdown-end">
@@ -424,8 +426,12 @@
             </div>
         </div>
         <div class="flex items-center justify-end w-full p-3 border-t whitespace-nowrap">
-            <button type="submit" class="px-5 w-full font-medium text-white bg-yellow-500 rounded-md h-9">
+            <button id="create__post-btn" type="submit" data-user-id="{{ $user->id }}"
+                class="px-5 w-full font-medium text-white bg-yellow-500 rounded-md h-9">
                 Chia sẻ </button>
+        </div>
+        <div class="loading-create-post hidden">
+            <img src="{{ IMG_PATH }}illustration/loading-bee.gif" alt="Loading..." />
         </div>
     </form>
 </div>

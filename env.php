@@ -2,11 +2,29 @@
 
 use JetBrains\PhpStorm\NoReturn;
 
+
 const DBNAME = "sunbee-social-network";
 const DBUSER = "root";
 const DBPASS = "";
 const DBCHARSET = "utf8";
 const DBHOST = "127.0.0.1";
+
+const PUSHER_APP_ID = '1618489';
+const PUSHER_APP_KEY = 'c3271ec62a7f5d395eb3';
+const PUSHER_APP_SECRET = 'ff3d133f0970c64aff62';
+const PUSHER_APP_CLUSTER = 'ap1';
+const PUSHER_HOST = 'localhost';
+const PUSHER_PORT = 88;
+const PUSHER_USE_TLS = false;
+const PUSHER_ENCRYPTED = false;
+const PUSHER_SCHEME = 'http';
+const PUSHER_DEBUG = true;
+const PUSHER_TIMEOUT = 30;
+const PUSHER_CURL_OPTIONS = [
+	CURLOPT_SSL_VERIFYHOST => 0,
+	CURLOPT_SSL_VERIFYPEER => 0,
+];
+
 const BASE_URL = "http://localhost:88/Sunbee-Social-Network/";
 const IMG_PATH = BASE_URL . "public/images/";
 const AVATAR_PATH = BASE_URL . "public/uploads/avatars/";

@@ -267,7 +267,7 @@
                                 bình luận
                             </a>
                             @else
-                            <span id="no__comment_{{ $post->post_id }}">Chưa có bình luận</span>
+                            <span class="no__comment_{{ $post->post_id }}">Chưa có bình luận</span>
                             @endif
                         </div>
                     </section>

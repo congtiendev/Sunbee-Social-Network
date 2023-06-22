@@ -30,6 +30,7 @@ $router->get('401', [App\Controllers\ErrorController::class, 'error401']);
 
 $router->group(['before' => 'auth'], function () use ($router) {
 	$router->get('/', [App\Controllers\Client\PostController::class, 'renderListPost']);
+	$router->post('post/create', [App\Controllers\Client\PostController::class, 'handleCreatePost']);
 });
 $router->group(
 	['prefix' => 'admin'],

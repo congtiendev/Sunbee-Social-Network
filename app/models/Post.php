@@ -36,7 +36,10 @@ class Post extends BaseModel
 	{
 		$sql = "SELECT post.*, user.*, post.id AS post_id, post.created_at AS post_date, user.id AS user_id
         FROM {$this->posts} post
-        LEFT JOIN {$this->users} user ON post.user_id = user.id WHERE 1";
+        LEFT JOIN {$this->users} user ON post.user_id = user.id 
+        WHERE 1
+        ORDER BY post.created_at DESC";
+
 
 		if ($keyword !== null) {
 			$sql .= " AND (post.post_content LIKE '%$keyword%')";

@@ -4669,6 +4669,11 @@ details.collapse summary::-webkit-details-marker {
   margin-right: -0.5rem;
 }
 
+.my-6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 .mx-5 {
   margin-left: 1.25rem;
   margin-right: 1.25rem;
@@ -4747,11 +4752,6 @@ details.collapse summary::-webkit-details-marker {
 .-mx-5 {
   margin-left: -1.25rem;
   margin-right: -1.25rem;
-}
-
-.my-6 {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
 }
 
 .mb-0 {
@@ -5302,6 +5302,11 @@ details.collapse summary::-webkit-details-marker {
   height: 3rem;
 }
 
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
 .h-11 {
   height: 2.75rem;
 }
@@ -5312,11 +5317,6 @@ details.collapse summary::-webkit-details-marker {
 
 .h-2 {
   height: 0.5rem;
-}
-
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
 }
 
 .h-32 {
@@ -5403,10 +5403,6 @@ details.collapse summary::-webkit-details-marker {
   max-height: calc(100% - 64px);
 }
 
-.max-h-\[300px\] {
-  max-height: 300px;
-}
-
 .max-h-\[160px\] {
   max-height: 160px;
 }
@@ -5459,6 +5455,10 @@ details.collapse summary::-webkit-details-marker {
   max-height: 24rem;
 }
 
+.max-h-\[300px\] {
+  max-height: 300px;
+}
+
 .max-h-11 {
   max-height: 2.75rem;
 }
@@ -5475,10 +5475,6 @@ details.collapse summary::-webkit-details-marker {
   min-height: auto;
 }
 
-.min-h-\[300px\] {
-  min-height: 300px;
-}
-
 .min-h-\[200px\] {
   min-height: 200px;
 }
@@ -5493,6 +5489,10 @@ details.collapse summary::-webkit-details-marker {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-\[300px\] {
+  min-height: 300px;
 }
 
 .w-0 {
@@ -7793,6 +7793,10 @@ details.collapse summary::-webkit-details-marker {
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
 
+.bg-inherit {
+  background-color: inherit;
+}
+
 .bg-opacity-\[15\%\] {
   --tw-bg-opacity: 15%;
 }
@@ -7984,6 +7988,10 @@ details.collapse summary::-webkit-details-marker {
 
 .fill-danger {
   fill: #DC4C64;
+}
+
+.fill-blue-500 {
+  fill: #3b82f6;
 }
 
 .stroke-primary {
@@ -9955,6 +9963,11 @@ details.collapse summary::-webkit-details-marker {
   color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 
+.hover\:text-blue-300:hover {
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity));
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -10900,6 +10913,10 @@ details.collapse summary::-webkit-details-marker {
   fill: #fff;
 }
 
+.dark .dark\:fill-blue-400 {
+  fill: #60a5fa;
+}
+
 .dark .dark\:stroke-white {
   stroke: #fff;
 }
@@ -10962,6 +10979,11 @@ details.collapse summary::-webkit-details-marker {
 .dark .dark\:text-\[\#EA4E2C\] {
   --tw-text-opacity: 1;
   color: rgb(234 78 44 / var(--tw-text-opacity));
+}
+
+.dark .dark\:text-blue-400 {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
 }
 
 .dark .dark\:shadow-none {
