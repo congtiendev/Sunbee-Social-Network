@@ -15,14 +15,10 @@ class PostController extends BaseController
 	private $validator;
 	private $options = [
 		'cluster' => PUSHER_APP_CLUSTER,
-		'host' => PUSHER_HOST,
-		'port' => PUSHER_PORT,
 		'useTLS' => PUSHER_USE_TLS,
 		'encrypted' => PUSHER_ENCRYPTED,
 		'scheme' => PUSHER_SCHEME,
-		'debug' => PUSHER_DEBUG,
 		'timeout' => PUSHER_TIMEOUT,
-		'curl_options' => PUSHER_CURL_OPTIONS,
 	];
 	private $pusher;
 

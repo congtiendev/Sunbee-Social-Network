@@ -5,7 +5,7 @@
 
         <!--  Feeds  -->
         <div class="lg:flex lg:space-x-10">
-            <div class="lg:w-3/4 lg:px-20 space-y-7">
+            <div class="lg:w-3/4 sm:px-24 md:px-32 lg:px-20 space-y-7">
 
                 <!-- ----------------------Story---------------- -->
                 <div class="relative grid grid-cols-3 gap-2 user_story md:grid-cols-5 lg:-mx-20">
@@ -67,195 +67,199 @@
                         </div>
                     </div>
                 </div>
-                @foreach ($posts as $post)
-                <!-------------------------- Post ---------------------------->
-                <section id="post-{{$post->post_id  }}" class="bg-white shadow rounded-lg mb-6">
-                    <div class="flex justify-between">
-                        <div class="flex flex-row px-2 py-3 mx-3">
+                <section id="list__posts">
+                    @foreach ($posts as $post)
+                    <!-------------------------- Post ---------------------------->
+                    <section id="post-{{$post->post_id }}" class="bg-white shadow rounded-lg mb-6">
+                        <div class="flex justify-between">
+                            <div class="flex flex-row px-2 py-3 mx-3">
 
-                            <div class="w-auto h-auto rounded-full">
-                                <img class="w-12 h-12 object-cover rounded-full shadow cursor-pointer" alt="User avatar"
-                                    src="{{ empty($post->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $post->avatar }}"
-                                    alt="profile">
+                                <div class="w-auto h-auto rounded-full">
+                                    <img class="w-12 h-12 object-cover rounded-full shadow cursor-pointer"
+                                        alt="User avatar"
+                                        src="{{ empty($post->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $post->avatar }}"
+                                        alt="profile">
+                                </div>
+                                <div class="flex  flex-col mb-2 ml-4 mt-1">
+                                    <a href="#" class="text-gray-600 text-sm font-semibold">
+                                        {{ $post->first_name . ' ' . $post->last_name }}
+                                    </a>
+                                    <div class="flex w-full mt-1">
+                                        <span class="text-blue-700 font-base text-xs mr-1 cursor-pointer">
+                                            {{ $post->username }}
+                                        </span>
+                                        <span class="text-gray-400 font-thin text-xs">
+                                            • {{ timeAgo($post->post_date) }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex  flex-col mb-2 ml-4 mt-1">
-                                <a href="#" class="text-gray-600 text-sm font-semibold">
-                                    {{ $post->first_name . ' ' . $post->last_name }}
+                            <div class="p-2 options-post">
+                                <a href="#"> <i
+                                        class="p-2 -mr-1 text-2xl transition rounded-full icon-feather-more-horizontal hover:bg-gray-200 dark:hover:bg-gray-700"></i>
                                 </a>
-                                <div class="flex w-full mt-1">
-                                    <span class="text-blue-700 font-base text-xs mr-1 cursor-pointer">
-                                        {{ $post->username }}
-                                    </span>
-                                    <span class="text-gray-400 font-thin text-xs">
-                                        • {{ timeAgo($post->post_date) }}
-                                    </span>
+                                <div class="hidden w-56 p-2 mx-auto mt-12 text-base text-gray-500 bg-white border border-gray-100 rounded-md shadow-md dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
+                                    uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
+
+                                    <ul class="space-y-1">
+                                        <li>
+                                            <a href="#"
+                                                class="flex items-center px-3 py-2 rounded-md hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800">
+                                                <i class="mr-1 uil-edit-alt"></i> Chỉnh sửa bài viết
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                class="flex items-center px-3 py-2 rounded-md hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800">
+                                                <i class="mr-1 uil-comment-slash"></i> Tắt bình luận
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <hr class="my-2 -mx-2 dark:border-gray-800">
+                                        </li>
+                                        <li>
+                                            <a href="#"
+                                                class="flex items-center px-3 py-2 text-red-500 rounded-md hover:bg-red-100 hover:text-red-500 dark:hover:bg-red-600">
+                                                <i class="mr-1 uil-trash-alt"></i> Xóa bài viết
+                                            </a>
+                                        </li>
+                                    </ul>
+
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2 options-post">
-                            <a href="#"> <i
-                                    class="p-2 -mr-1 text-2xl transition rounded-full icon-feather-more-horizontal hover:bg-gray-200 dark:hover:bg-gray-700"></i>
-                            </a>
-                            <div class="hidden w-56 p-2 mx-auto mt-12 text-base text-gray-500 bg-white border border-gray-100 rounded-md shadow-md dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700"
-                                uk-drop="mode: click;pos: bottom-right;animation: uk-animation-slide-bottom-small">
-
-                                <ul class="space-y-1">
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center px-3 py-2 rounded-md hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800">
-                                            <i class="mr-1 uil-edit-alt"></i> Chỉnh sửa bài viết
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center px-3 py-2 rounded-md hover:bg-gray-200 hover:text-gray-800 dark:hover:bg-gray-800">
-                                            <i class="mr-1 uil-comment-slash"></i> Tắt bình luận
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <hr class="my-2 -mx-2 dark:border-gray-800">
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="flex items-center px-3 py-2 text-red-500 rounded-md hover:bg-red-100 hover:text-red-500 dark:hover:bg-red-600">
-                                            <i class="mr-1 uil-trash-alt"></i> Xóa bài viết
-                                        </a>
-                                    </li>
-                                </ul>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="border-b border-gray-100"></div>
-                    @if (count($post->medias) > 0)
-                    <div class="text-gray-400 font-medium text-sm  mx-3 px-2 pt-3 ">
-                        <div uk-lightbox>
-                            <div class="swiper postMedia">
-                                <div class="swiper-wrapper">
-                                    @foreach ($post->medias as $media)
-                                    @if (isImage($media->post_media))
-                                    <div class="swiper-slide rounded-md">
-                                        <a href="{{ POST_MEDIA_PATH . $media->post_media }}" class="col-span-2">
-                                            <img src="{{ POST_MEDIA_PATH . $media->post_media }}" alt=""
-                                                class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px]">
-                                        </a>
+                        <div class="border-b border-gray-100"></div>
+                        @if (count($post->medias) > 0)
+                        <div class="text-gray-400 font-medium text-sm ">
+                            <div uk-lightbox>
+                                <div class="swiper postMedia">
+                                    <div class="swiper-wrapper postMedia-{{ $post->post_id }}">
+                                        @foreach ($post->medias as $media)
+                                        @if (isImage($media->post_media))
+                                        <div class="swiper-slide">
+                                            <a href="{{ POST_MEDIA_PATH . $media->post_media }}" class="col-span-2">
+                                                <img src="{{ POST_MEDIA_PATH . $media->post_media }}" alt=""
+                                                    class="w-full h-full ">
+                                            </a>
+                                        </div>
+                                        @else
+                                        <div class="swiper-slide ">
+                                            <video class="w-full h-full" controls>
+                                                <source src="{{ POST_MEDIA_PATH . $media->post_media }}"
+                                                    type="video/mp4">
+                                            </video>
+                                        </div>
+                                        @endif
+                                        @endforeach
                                     </div>
-                                    @else
-                                    <div class="swiper-slide rounded-md">
-                                        <video
-                                            class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px]"
-                                            controls>
-                                            <source src="{{ POST_MEDIA_PATH . $media->post_media }}" type="video/mp4">
-                                        </video>
-                                    </div>
-                                    @endif
-                                    @endforeach
+                                    <div class="swiper-pagination"></div>
                                 </div>
-                                <div class="swiper-pagination"></div>
                             </div>
                         </div>
-                    </div>
-                    @endif
-                    <pre class="text-gray-500 text-sm  px-3 pt-3 max-w-full font-sunbee">
+                        @endif
+                        @if(!empty($post->post_content))
+                        <pre class="text-gray-500 text-sm  px-3 pt-3 max-w-full font-sunbee">
                         {{ $post->post_content }}
                     </pre>
-                    <div class="flex justify-between items-center px-5 py-3 border-t border-gray-100">
-                        <div class="flex gap-5">
-                            <svg data-user-id="{{ $user->id }}" data-like-count="1"
-                                class="w-6 h-6 fill-black dark:fill-white like__post-btn" viewBox="0 0 48 48">
-                                <path
-                                    d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
-                                </path>
-                            </svg>
-                            <svg class="w-6 h-6 fill-black dark:fill-white" viewBox="0 0 48 48">
-                                <path clip-rule="evenodd"
-                                    d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z"
-                                    fill-rule="evenodd"></path>
-                            </svg>
-                            <svg class="w-6 h-6 fill-black dark:fill-white" viewBox="0 0 48 48">
-                                <path
-                                    d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
-                                </path>
-                            </svg>
-                        </div>
-                        <svg data-post-id="{{ $post->post_id }}"
-                            class="w-6 h-6 save__post-btn fill-black dark:fill-white" viewBox="0 0 48 48">
-                            <path
-                                d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z">
-                            </path>
-                        </svg>
-                    </div>
-                    <div class="flex w-full border-t border-gray-100">
-                        <div class="mt-3 mx-5 w-full flex text-xs">
-                            <div class=" font-semibold like__post">
-                                <span class="like__post-count-{{ $post->post_id }}">
-                                    {{ intval($post->like_count) }}</span> lượt thích
-                            </div>
-                        </div>
-                        <div class="mt-3 mx-5 flex flex-row text-xs whitespace-nowrap">
-                            <div class=" font-semibold share__post">
-                                <span class="like__post-count-{{ $post->post_id }}">
-                                    {{ intval($post->share_count) }}</span> lượt chia sẻ
-                            </div>
-                        </div>
-                    </div>
-                    @if($post->comment_count > 0)
-                    <div class="text-black  dark:text-white p-4 antialiased flex">
-                        <img class="rounded-full h-8 w-8 mr-2 mt-1 " src="https://picsum.photos/id/1027/200/200">
-                        <div>
-                            <div class="bg-gray-100 border rounded-xl px-4 pt-2 pb-2.5">
-                                <div class="font-medium  leading-relaxed">Sara Lauren</div>
-                                <div class="text-xs leading-snug md:leading-normal">Lorem ipsum dolor sit amet,
-                                    consectetur adipiscing
-                                    elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                    enim ad minim veniam,
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat.</div>
-                            </div>
-                            <div class="text-xs  mt-0.5 text-gray-500">14 giờ</div>
-                        </div>
-
-                    </div>
-                    <div class="mb-0.5 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
-                        <a href="#">
-                            Xem <span class="comment__post-count-{{ $post->post_id }}">{{
-                                intval($post->comment_count) }}</span>
-                            bình luận
-                        </a>
-                    </div>
-                    @else
-                    <div class="mt-2 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
-                        <span class="no__comment-{{ $post->post_id }}">Chưa có bình luận</span>
-                    </div>
-                    @endif
-                    <form method="post" enctype="multipart/form-data" data-user-id="{{ $user->id }}"
-                        data-post-id="{{ $post->post_id }}"
-                        class="add-comment relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
-                        <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer" alt="User avatar"
-                            src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
-                            alt="profile" alt="profile" />
-                        <div class="absolute inset-y-0 right-5 flex items-center gap-5">
-                            <label for="comment__media-{{ $post->post_id }}">
-                                <input multiple type="file" name="comment_media"
-                                    id="comment__media-{{ $post->post_id }}" class="sr-only" />
-                                <img src="{{ IMG_PATH }}icon/camera-icon.png" class="w-6 h-auto">
-                            </label>
-                            <button type="submit" class="pb-1"><svg class="w-5 h-5 fill-blue-500 dark:fill-blue-400"
-                                    viewBox="0 0 48 48">
+                        @endif
+                        <div class="flex justify-between items-center px-5 py-3 border-t border-gray-100">
+                            <div class="flex gap-5">
+                                <svg data-user-id="{{ $user->id }}" data-like-count="1"
+                                    class="w-6 h-6 fill-black dark:fill-white like__post-btn" viewBox="0 0 48 48">
+                                    <path
+                                        d="M34.6 6.1c5.7 0 10.4 5.2 10.4 11.5 0 6.8-5.9 11-11.5 16S25 41.3 24 41.9c-1.1-.7-4.7-4-9.5-8.3-5.7-5-11.5-9.2-11.5-16C3 11.3 7.7 6.1 13.4 6.1c4.2 0 6.5 2 8.1 4.3 1.9 2.6 2.2 3.9 2.5 3.9.3 0 .6-1.3 2.5-3.9 1.6-2.3 3.9-4.3 8.1-4.3m0-3c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5.6 0 1.1-.2 1.6-.5 1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z">
+                                    </path>
+                                </svg>
+                                <svg class="w-6 h-6 fill-black dark:fill-white" viewBox="0 0 48 48">
+                                    <path clip-rule="evenodd"
+                                        d="M47.5 46.1l-2.8-11c1.8-3.3 2.8-7.1 2.8-11.1C47.5 11 37 .5 24 .5S.5 11 .5 24 11 47.5 24 47.5c4 0 7.8-1 11.1-2.8l11 2.8c.8.2 1.6-.6 1.4-1.4zm-3-22.1c0 4-1 7-2.6 10-.2.4-.3.9-.2 1.4l2.1 8.4-8.3-2.1c-.5-.1-1-.1-1.4.2-1.8 1-5.2 2.6-10 2.6-11.4 0-20.6-9.2-20.6-20.5S12.7 3.5 24 3.5 44.5 12.7 44.5 24z"
+                                        fill-rule="evenodd"></path>
+                                </svg>
+                                <svg class="w-6 h-6 fill-black dark:fill-white" viewBox="0 0 48 48">
                                     <path
                                         d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
                                     </path>
-                                </svg></button>
+                                </svg>
+                            </div>
+                            <svg data-post-id="{{ $post->post_id }}"
+                                class="w-6 h-6 save__post-btn fill-black dark:fill-white" viewBox="0 0 48 48">
+                                <path
+                                    d="M43.5 48c-.4 0-.8-.2-1.1-.4L24 29 5.6 47.6c-.4.4-1.1.6-1.6.3-.6-.2-1-.8-1-1.4v-45C3 .7 3.7 0 4.5 0h39c.8 0 1.5.7 1.5 1.5v45c0 .6-.4 1.2-.9 1.4-.2.1-.4.1-.6.1zM24 26c.8 0 1.6.3 2.2.9l15.8 16V3H6v39.9l15.8-16c.6-.6 1.4-.9 2.2-.9z">
+                                </path>
+                            </svg>
                         </div>
-                        <input type="search" id="comment__content-{{ $post->post_id }}"
-                            class="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"
-                            style="border-radius: 25px" placeholder="Nhập bình luận ..." autocomplete="off">
-                    </form>
-                </section>
-                <!--------------------------End Post ---------------------------->
-                @endforeach
+                        <div class="flex w-full border-t border-gray-100">
+                            <div class="mt-3 mx-5 w-full flex text-xs">
+                                <div class=" font-semibold like__post">
+                                    <span class="like__post-count-{{ $post->post_id }}">
+                                        {{ intval($post->like_count) }}</span> lượt thích
+                                </div>
+                            </div>
+                            <div class="mt-3 mx-5 flex flex-row text-xs whitespace-nowrap">
+                                <div class=" font-semibold share__post">
+                                    <span class="like__post-count-{{ $post->post_id }}">
+                                        {{ intval($post->share_count) }}</span> lượt chia sẻ
+                                </div>
+                            </div>
+                        </div>
+                        @if($post->comment_count > 0)
+                        <div class="text-black  dark:text-white p-4 antialiased flex">
+                            <img class="rounded-full h-8 w-8 mr-2 mt-1 " src="https://picsum.photos/id/1027/200/200">
+                            <div>
+                                <div class="bg-gray-100 border rounded-xl px-4 pt-2 pb-2.5">
+                                    <div class="font-medium  leading-relaxed">Sara Lauren</div>
+                                    <div class="text-xs leading-snug md:leading-normal">Lorem ipsum dolor sit amet,
+                                        consectetur adipiscing
+                                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                                        enim ad minim veniam,
+                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                        consequat.</div>
+                                </div>
+                                <div class="text-xs  mt-0.5 text-gray-500">14 giờ</div>
+                            </div>
 
+                        </div>
+                        <div class="mb-0.5 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
+                            <a href="#">
+                                Xem <span class="comment__post-count-{{ $post->post_id }}">{{
+                                    intval($post->comment_count) }}</span>
+                                bình luận
+                            </a>
+                        </div>
+                        @else
+                        <div class="mt-2 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
+                            <span class="no__comment-{{ $post->post_id }}">Chưa có bình luận</span>
+                        </div>
+                        @endif
+                        <form method="post" enctype="multipart/form-data" data-user-id="{{ $user->id }}"
+                            data-post-id="{{ $post->post_id }}"
+                            class="add-comment relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
+                            <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer"
+                                alt="User avatar"
+                                src="{{ empty($user->avatar) ? AVATAR_PATH . 'default-avatar.jpg' : AVATAR_PATH . $user->avatar }}"
+                                alt="profile" alt="profile" />
+                            <div class="absolute inset-y-0 right-5 flex items-center gap-5">
+                                <label for="comment__media-{{ $post->post_id }}">
+                                    <input multiple type="file" name="comment_media"
+                                        id="comment__media-{{ $post->post_id }}" class="sr-only" />
+                                    <img src="{{ IMG_PATH }}icon/camera-icon.png" class="w-6 h-auto">
+                                </label>
+                                <button type="submit" class="pb-1"><svg class="w-5 h-5 fill-blue-500 dark:fill-blue-400"
+                                        viewBox="0 0 48 48">
+                                        <path
+                                            d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
+                                        </path>
+                                    </svg></button>
+                            </div>
+                            <input type="search" id="comment__content-{{ $post->post_id }}"
+                                class="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"
+                                style="border-radius: 25px" placeholder="Nhập bình luận ..." autocomplete="off">
+                        </form>
+                    </section>
+                    <!--------------------------End Post ---------------------------->
+                    @endforeach
+                </section>
             </div>
 
             <!-- -------------Right sidebar------------ -->

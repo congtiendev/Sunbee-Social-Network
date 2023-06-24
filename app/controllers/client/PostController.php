@@ -15,14 +15,10 @@ class PostController extends BaseController
     private $validator;
     private $options = [
         'cluster' => PUSHER_APP_CLUSTER,
-        'host' => PUSHER_HOST,
-        'port' => PUSHER_PORT,
         'useTLS' => PUSHER_USE_TLS,
         'encrypted' => PUSHER_ENCRYPTED,
         'scheme' => PUSHER_SCHEME,
-        'debug' => PUSHER_DEBUG,
         'timeout' => PUSHER_TIMEOUT,
-        'curl_options' => PUSHER_CURL_OPTIONS,
     ];
     private $pusher;
 
@@ -80,19 +76,40 @@ class PostController extends BaseController
             return redirect('', '', 'back');
         }
         $data = $this->request->all();
+        $user = $_SESSION['auth'];
+        $avatar = $user->avatar ? $user->avatar : 'default-avatar.jpg';
         $this->post->insertPost($data);
-        $post_id = $this->post->getLatestPostByUserId($data['user_id']);
+        $new_post = $this->post->getLatestPostByUserId($data['user_id']);
         $medias = $this->request->file('post_media');
         if (!empty($medias['name']) && is_array($medias['name'])) {
             foreach ($medias['name'] as $key => $media) {
                 $mediaName = $this->request->uploadFile($medias['name'][$key], $medias['tmp_name'][$key], "public/uploads/posts/");
+                $mediaPaths[] = $mediaName;
                 $dataMedia = [
-                    'post_id' => $post_id->id,
+                    'post_id' => $new_post->id,
                     'post_media' => $mediaName
                 ];
-                $mediaName = [];
                 $this->post->insertPostMedia($dataMedia);
             }
         }
+
+        $payload = [
+            'user_id' => $user->id,
+            'avatar' => AVATAR_PATH . $avatar,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'username' => $user->username,
+            'post_id' => $new_post->id,
+            'post_content' => $data['post_content'],
+            'post_media' => $mediaPaths ?? "",
+            'post_date' => timeAgo($new_post->created_at),
+            'like_count' => $new_post->like_count,
+            'comment_count' => $new_post->comment_count,
+            'share_count' => $new_post->share_count,
+        ];
+        $this->pusher->trigger('post-channel', 'post-event', $payload);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'message' => 'Đăng bài thành công']);
+        exit;
     }
 }

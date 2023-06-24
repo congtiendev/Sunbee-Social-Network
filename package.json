@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "aos": "^2.3.4",
+    "handlebars": "^4.7.7",
     "pusher-js": "^8.1.0",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.12",

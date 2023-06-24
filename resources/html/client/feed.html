@@ -511,42 +511,21 @@
                                 </div>
                             </div>
                             <div class="border-b border-gray-100"></div>
-                            <div class="text-gray-400 font-medium text-sm mb-7 mt-6 mx-3 px-2">
+                            <div class="text-gray-400 font-medium text-sm">
                                 <div uk-lightbox>
-                                    <div class="swiper mySwiper ">
+                                    <div class="swiper postMedia">
                                         <div class="swiper-wrapper">
-                                            <div class="swiper-slide rounded-md">
+                                            <div class="swiper-slide rounded-md glass">
                                                 <a href="../../../public/images/avatars/340745011_3320815954895351_7942880981791125154_n.jpg"
                                                     class="col-span-2">
                                                     <img src="../../../public/images/avatars/340745011_3320815954895351_7942880981791125154_n.jpg"
-                                                        alt=""
-                                                        class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px]">
+                                                        alt="" class="w-full h-fit ">
                                                 </a>
                                             </div>
-                                            <div class="swiper-slide rounded-md">
+                                            <div class="swiper-slide flex justify-center items-center glassmorphism">
                                                 <a href="../../../public/images/post/img-2.jpg">
                                                     <img src="../../../public/images/post/img-2.jpg" alt=""
-                                                        class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px] max-h-[300px] min-h-[300px]">
-                                                </a>
-                                            </div>
-                                            <div class="swiper-slide rounded-md">
-                                                <a href="../../../public/uploads/posts/202112301000.mp4"
-                                                    class="relative">
-                                                    <video
-                                                        class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-contain sm:min-h-[350px] md:min-h-[450px] max-h-[300px] min-h-[300px]"
-                                                        controls>
-                                                        <source src="../../../public/uploads/posts/202112301000.mp4"
-                                                            type="video/mp4">
-                                                        Your browser does not support the video tag.
-                                                    </video>
-                                                </a>
-                                            </div>
-                                            <div class="swiper-slide rounded-md">
-                                                <a href="../../../public/images/avatars/retouch_2021121617152921.jpg"
-                                                    class="relative">
-                                                    <img src="../../../public/images/avatars/retouch_2021121617152921.jpg"
-                                                        alt=""
-                                                        class="w-full h-full rounded-md  sm:max-h-[350px] md:max-h-[450px] object-cover sm:min-h-[350px] md:min-h-[450px] max-h-[300px] min-h-[300px]">
+                                                        class="w-full h-full  ">
                                                 </a>
                                             </div>
                                         </div>
@@ -554,6 +533,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="text-gray-500 text-sm mb-6 mx-3 px-2">
                                 Tôi là tùng 25 tuổi đang bị chú đầu trọc săn đuổi chú ấy cầm cái baton chú ấy xin miếng
                                 da non
@@ -615,11 +595,12 @@
                                 </div>
 
                             </div>
-                            <div class="mb-0.5 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
+                            <a href="#post-modal" uk-toggle
+                                class="mb-0.5 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
                                 Xem
                                 <span class="comment__post-count">1</span>
                                 bình luận
-                            </div>
+                            </a>
                             <div
                                 class="relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
                                 <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer"
@@ -643,6 +624,138 @@
                                     style="border-radius: 25px" placeholder="Nhập bình luận ..." autocomplete="off">
                             </div>
                         </div>
+
+                        <!-- ---------------------------Post modal------------------------------ -->
+                        <div id="post-modal" class="uk-modal-container" uk-modal>
+                            <div class="uk-modal-dialog post-modal">
+                                <button
+                                    class="uk-modal-close-default lg:-mt-9 lg:-mr-9 -mt-5 -mr-5 shadow-lg bg-white rounded-full p-4 transition dark:bg-gray-600 dark:text-white"
+                                    type="button" uk-close></button>
+
+                                <div class="post-modal-media">
+                                    <div uk-lightbox>
+                                        <div class="swiper postMedia">
+                                            <div class="swiper-wrapper">
+                                                <div class="swiper-slide rounded-md glass">
+                                                    <a href="../../../public/images/avatars/340745011_3320815954895351_7942880981791125154_n.jpg"
+                                                        class="col-span-2">
+                                                        <img src="../../../public/images/avatars/340745011_3320815954895351_7942880981791125154_n.jpg"
+                                                            alt="" class="w-full h-fit ">
+                                                    </a>
+                                                </div>
+                                                <div
+                                                    class="swiper-slide flex justify-center items-center glassmorphism">
+                                                    <a href="../../../public/images/post/img-2.jpg">
+                                                        <img src="../../../public/images/post/img-2.jpg" alt=""
+                                                            class="w-full h-full  ">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-pagination"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-1 bg-white dark:bg-gray-900 dark:text-gray-100">
+
+                                    <!-- post header-->
+                                    <div
+                                        class="border-b flex items-center justify-between px-5 py-3 dark:border-gray-600">
+                                        <div class="flex flex-1 items-center space-x-4">
+                                            <a href="#">
+                                                <div
+                                                    class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">
+                                                    <img src="assets/images/avatars/avatar-2.jpg"
+                                                        class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                                </div>
+                                            </a>
+                                            <span class="block text-lg font-semibold"> Johnson smith </span>
+                                        </div>
+                                        <a href="#">
+                                            <i
+                                                class="icon-feather-more-horizontal text-2xl rounded-full p-2 transition -mr-1"></i>
+                                        </a>
+                                    </div>
+                                    <div class="post-content p-4" data-simplebar>
+
+                                        <p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+                                            nibh euismod
+                                            tincidunt ut laoreet dolore magna aliquam erat volutpat. </p>
+
+                                        <div class="py-4 ">
+                                            <div class="flex justify-around">
+                                                <a href="#" class="flex items-center space-x-3">
+                                                    <div class="flex font-bold items-baseline"> <i
+                                                            class="uil-heart mr-1"> </i> Like</div>
+                                                </a>
+                                                <a href="#" class="flex items-center space-x-3">
+                                                    <div class="flex font-bold items-baseline"> <i
+                                                            class="uil-heart mr-1"> </i> Comment
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="flex items-center space-x-3">
+                                                    <div class="flex font-bold items-baseline"> <i
+                                                            class="uil-heart mr-1"> </i> Share</div>
+                                                </a>
+                                            </div>
+                                            <hr class="-mx-4 my-3">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="flex items-center">
+                                                    <img src="assets/images/avatars/avatar-1.jpg" alt=""
+                                                        class="w-6 h-6 rounded-full border-2 border-white">
+                                                    <img src="assets/images/avatars/avatar-4.jpg" alt=""
+                                                        class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                                                    <img src="assets/images/avatars/avatar-2.jpg" alt=""
+                                                        class="w-6 h-6 rounded-full border-2 border-white -ml-2">
+                                                </div>
+                                                <div>
+                                                    Liked <strong> Johnson</strong> and <strong> 209 Others </strong>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="-mt-1 space-y-1">
+                                            <div class="flex flex-1 items-center space-x-2">
+                                                <img src="assets/images/avatars/avatar-2.jpg"
+                                                    class="rounded-full w-8 h-8">
+                                                <div class="flex-1 p-2">
+                                                    consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                                                </div>
+                                            </div>
+
+                                            <div class="flex flex-1 items-center space-x-2">
+                                                <img src="assets/images/avatars/avatar-4.jpg"
+                                                    class="rounded-full w-8 h-8">
+                                                <div class="flex-1 p-2">
+                                                    consectetuer adipiscing elit
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="p-3 border-t dark:border-gray-600">
+                                        <div class="bg-gray-200 dark:bg-gray-700 rounded-full rounded-md relative">
+                                            <input type="text" placeholder="Add your Comment.."
+                                                class="bg-transparent max-h-8 shadow-none">
+                                            <div
+                                                class="absolute bottom-0 flex h-full items-center right-0 right-3 text-xl space-x-2">
+                                                <a href="#"> <i class="uil-image"></i></a>
+                                                <a href="#"> <i class="uil-video"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <!-- ---------------------------End post modal------------------------------ -->
+
+
                         <!--------------------------End Post ---------------------------->
 
 
@@ -1014,14 +1127,28 @@
     </div>
     <script defer src="../../js/jquery-3.6.0.min.js"></script>
     <script defer src="../../js/app.js"></script>
-    <script defer src="../../../node_modules/pusher-js/dist/web/pusher.min.js"></script>
     <script defer src="../../js/tippy.all.min.js"></script>
     <script defer src="../../js/uikit.js"></script>
     <script defer src="../../js/simplebar.js"></script>
     <script defer src="../../js/bootstrap-select.min.js"></script>
-    <script defer src="../../../node_modules/swiper/swiper-bundle.min.js"></script>
     <script defer src="../../js/client/client.js"></script>
-    <script defer src="../../js/client/post.js"></script>
+    <script src="../../../node_modules/swiper/swiper-bundle.js"></script>
+    <script defer src="../../js/app.js"></script>
+    <script>
+        let swiper = "";
+        function loadSwiper() {
+            const swiper = new Swiper(".swiper", {
+                autoHeight: true,
+                spaceBetween: 20,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+            });
+        }
+        loadSwiper();
+    </script>
+
 
 </body>
 

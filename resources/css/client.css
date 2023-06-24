@@ -9941,3 +9941,38 @@ html.dark,
     color: #f1f1f1 !important;
   }
 }
+
+.post-modal {
+  max-width: 990px !important;
+  min-height: 87vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.post-modal .post-modal-media {
+  max-width: 660px;
+}
+
+.post-modal .post-content {
+  height: 70vh;
+}
+
+@media (max-width: 1024px) {
+  .post-modal {
+    min-height: 100vh;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100% !important;
+  }
+  .post-modal .post-modal-media {
+    max-width: 660px;
+    min-height: 420px;
+    position: relative;
+  }
+  .post-modal .post-modal-media img {
+    position: absolute;
+  }
+}
