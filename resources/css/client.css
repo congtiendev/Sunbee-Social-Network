@@ -9943,19 +9943,20 @@ html.dark,
 }
 
 .post-modal {
-  max-width: 990px !important;
-  min-height: 87vh;
+  width: 90vw;
+  height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
 .post-modal .post-modal-media {
-  max-width: 660px;
+  margin: auto;
+  height: fit-content;
 }
 
 .post-modal .post-content {
-  height: 70vh;
+  height: auto;
 }
 
 @media (max-width: 1024px) {
@@ -9966,13 +9967,5 @@ html.dark,
     -ms-flex-direction: column;
     flex-direction: column;
     width: 100% !important;
-  }
-  .post-modal .post-modal-media {
-    max-width: 660px;
-    min-height: 420px;
-    position: relative;
-  }
-  .post-modal .post-modal-media img {
-    position: absolute;
   }
 }
