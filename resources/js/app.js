@@ -1,3 +1,5 @@
 $(window).on("load", function () {
-  $("#loading-all").fadeOut("slow");
+  setTimeout(function () {
+    $("#loading-all").fadeOut("slow");
+  }, 200);
 });

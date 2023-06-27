@@ -30,7 +30,22 @@
     <div id="loading-all">
         <img src="{{ IMG_PATH }}illustration/loading-bee.gif" alt="Loading..." />
     </div>
+    <script>
+        if (
+            localStorage.theme === "dark" ||
+            (!("theme" in localStorage) &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+            document.documentElement.classList.add("dark");
+            } else {
+            document.documentElement.classList.remove("dark");
+            }
+            localStorage.theme = "light";
+            localStorage.theme = "dark";
+            localStorage.removeItem("theme");
+    </script>
     @include('client.layouts.scripts')
+
 </body>
 
 </html>

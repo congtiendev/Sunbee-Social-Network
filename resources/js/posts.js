@@ -163,12 +163,12 @@ $(document).ready(function () {
 
   /* ---------------------------------Slider Post Media--------------------------------- */
 
-  if (document.querySelector(".sliderPosts")) {
-    const swiper = new Swiper(".sliderPosts", {
-      effect: "cards",
-      grabCursor: true,
-    });
-  }
+  // if (document.querySelector(".sliderPosts")) {
+  //   const swiper = new Swiper(".sliderPosts", {
+  //     effect: "cards",
+  //     grabCursor: true,
+  //   });
+  // }
 
   /* ---------------------------------Like post------------------------------------------*/
 

@@ -80,49 +80,60 @@ export function postTemplate(data) {
                                 </div>
                             </div>
                         </div>
-                        <div class="border-b border-gray-100"></div>
-
-                        <div class="text-gray-400 font-medium text-sm">
-                            <div uk-lightbox>
-                                <div class="swiper postMedia">
-                                    <div class="swiper-wrapper postMedia-${
-                                      data.post_id
-                                    }">
-                                    ${data.post_media
+                    ${
+                      data.post_content
+                        ? `
+                      <p class="text-gray-500 text-sm  px-3 pt-2 pb-4 max-w-full font-sunbee">
+                       ${data.post_content}</p>`
+                        : ""
+                    }
+                       
+                      <div class="text-gray-400 font-medium text-sm">
+                        <div uk-lightbox>
+                          <div class="swiper postMedia">
+                            <div class="swiper-wrapper postMedia-${
+                              data.post_id
+                            }">
+                              ${
+                                Array.isArray(data.post_media)
+                                  ? data.post_media
                                       .map((media) => {
                                         if (isImageUrl(media)) {
                                           return `
-                  <div class="swiper-slide">
-                    <img src="${
-                      POST_MEDIA_PATH + media
-                    }" alt="Post image" class="w-full h-full" />
-                  </div>
-                `;
+                                            <div class="swiper-slide">
+                                              <a href="${
+                                                POST_MEDIA_PATH + media
+                                              }">
+                                                <img src="${
+                                                  POST_MEDIA_PATH + media
+                                                }" alt="Post image" class="w-full h-full" />
+                                              </a>
+                                            </div>
+                                          `;
                                         } else {
                                           return `
-                  <div class="swiper-slide">
-                    <video src="${
-                      POST_MEDIA_PATH + media
-                    }" controls class="w-full h-full"></video>
-                  </div>
-                `;
+                                            <div class="swiper-slide">
+                                              <a href="${
+                                                POST_MEDIA_PATH + media
+                                              }">
+                                                <video src="${
+                                                  POST_MEDIA_PATH + media
+                                                }" controls class="w-full h-full"></video>
+                                              </a>
+                                            </div>
+                                          `;
                                         }
                                       })
-                                      .join("")}
-                                    </div>
-                                    <div class="swiper-pagination"></div>
-                                </div>
+                                      .join("")
+                                  : ""
+                              }
                             </div>
+                            <div class="swiper-pagination"></div>
+                          </div>
                         </div>
-${
-  data.post_content
-    ? `
-                          <p class="text-gray-500 text-sm  px-3 pt-2 pb-4 max-w-full font-sunbee">
-                            ${data.post_content}
-                    </p>
-`
-    : ""
-}
+                      </div>
+
+
                         <div class="flex justify-between items-center px-5 py-3 border-t border-gray-100">
                             <div class="flex gap-5">
                                 <svg data-user-id="${
@@ -199,35 +210,53 @@ ${
                         </div>
                         `
                  }
-                        <form method="post" enctype="multipart/form-data" data-user-id="{{ $user->id }}"
-                            data-post-id="${data.post_id}"
-                            class="add-comment relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
-                            <img class="w-10 h-10 object-cover rounded-full shadow mr-2 cursor-pointer"
-                                alt="User avatar"
-                                src="${data.avatar}"
-                                alt="profile" alt="profile" />
-                            <div class="absolute inset-y-0 right-5 flex items-center gap-5">
-                                <label for="comment__media-${data.post_id}">
-                                    <input multiple type="file" name="comment_media"
-                                        id="comment__media-${
-                                          data.post_id
-                                        }" class="sr-only" />
-                                    <img src="{{ IMG_PATH }}icon/camera-icon.png" class="w-6 h-auto">
-                                </label>
-                                <button type="submit" class="pb-1"><svg class="w-5 h-5 fill-blue-500 dark:fill-blue-400"
-                                        viewBox="0 0 48 48">
-                                        <path
-                                            d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
-                                        </path>
-                                    </svg></button>
-                            </div>
-                            <input type="search" id="comment__content-${
-                              data.post_id
-                            }"
-                                class="w-full py-2 pl-4 pr-10 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"
-                                style="border-radius: 25px" placeholder="Nhập bình luận ..." autocomplete="off">
-                        </form>
-                    </section>`;
+
+              <form method="post" id="add__comment-${
+                data.post_id
+              }" enctype="multipart/form-data"
+								class="relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
+								<img class="object-cover w-10 h-10 mr-2 rounded-full shadow cursor-pointer"
+									alt="User avatar"
+									src="${data.avatar}">
+								<span class="absolute inset-y-0 right-0 flex items-center gap-2 pr-7 md:gap-3">
+									<svg class="w-6 h-6 text-gray-400 transition duration-300 ease-out hover:text-yellow-500"
+										xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+										stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+											d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+										</path>
+									</svg>
+
+
+									<label for="comment__media-${data.post_id}" class="mt-1.5">
+										<input id="comment__media-${data.post_id}" type="file" name="comment_media"
+											class="sr-only comment__media" accept="image/*,video/*" />
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+											stroke-width="1.5" stroke="currentColor"
+											class="w-6 h-6 text-gray-400 transition duration-300 ease-out hover:text-yellow-500">
+											<path stroke-linecap="round" stroke-linejoin="round"
+												d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+											<path stroke-linecap="round" stroke-linejoin="round"
+												d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+										</svg>
+									</label>
+									<button type="submit" data-post-id="${data.post_id}" data-user-id="${
+    data.user_id
+  }"  class="focus:outline-none focus:shadow-none btn__add-comment">
+										<svg class="w-5 h-5 transition duration-300 ease-out fill-gray-400 hover:fill-yellow-500"
+											viewBox="0 0 48 48">
+											<path
+												d="M47.8 3.8c-.3-.5-.8-.8-1.3-.8h-45C.9 3.1.3 3.5.1 4S0 5.2.4 5.7l15.9 15.6 5.5 22.6c.1.6.6 1 1.2 1.1h.2c.5 0 1-.3 1.3-.7l23.2-39c.4-.4.4-1 .1-1.5zM5.2 6.1h35.5L18 18.7 5.2 6.1zm18.7 33.6l-4.4-18.4L42.4 8.6 23.9 39.7z">
+											</path>
+										</svg>
+									</button>
+								</span>
+								<input type="search"
+                  name="comment_content"
+									class="w-full py-2 pl-4 pr-10 text-sm placeholder-gray-400 border border-transparent appearance-none rounded-xl comment__content"
+									placeholder="Nhập bình luận ..." autocomplete="off">
+							</form>
+            </section>`;
 }
 
 //---------------------------------Preview media------------------------------------//
