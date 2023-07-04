@@ -91,7 +91,7 @@
 .like__details-post-btn,
 .save__post-btn,
 .save__details-post-btn {
-  transition: all 0.5s;
+  transition: all 0.5s ease-in-out;
 }
 
 @keyframes like_animation {
@@ -137,4 +137,24 @@
 
 .loading-create-post img {
   width: 100px;
+}
+
+@keyframes skeleton-loading-animation {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.dark .skeleton {
+  background-color: #374151 !important;
+  color: #374151 !important;
+  border-radius: 10px;
+  padding: 2px;
+  animation: skeleton-loading-animation 1s ease-in-out infinite;
 }

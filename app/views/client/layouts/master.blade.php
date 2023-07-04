@@ -11,6 +11,30 @@
     <title>{{ $title }}</title>
     <link rel="icon" href="{{ IMG_PATH }}logo/favicon.png" />
     @include('client.layouts.styles')
+    <script>
+        if (
+            localStorage.theme === "dark" ||
+            (!("theme" in localStorage) &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+        localStorage.theme = "light";
+        localStorage.theme = "dark";
+        localStorage.removeItem("theme");
+
+        window.addEventListener("load", function() {
+            setTimeout(function() {
+                var elements = document.querySelectorAll(".skeleton");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].classList.remove("skeleton");
+                }
+            }, 2000);
+        });
+
+    </script>
 </head>
 
 <body>
@@ -27,25 +51,7 @@
 
     <!-- -----------------open chat box------------------- -->
     @include('client.components.chat-box')
-    <div id="loading-all">
-        <img src="{{ IMG_PATH }}illustration/loading-bee.gif" alt="Loading..." />
-    </div>
-    <script>
-        if (
-            localStorage.theme === "dark" ||
-            (!("theme" in localStorage) &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches)
-            ) {
-            document.documentElement.classList.add("dark");
-            } else {
-            document.documentElement.classList.remove("dark");
-            }
-            localStorage.theme = "light";
-            localStorage.theme = "dark";
-            localStorage.removeItem("theme");
-    </script>
     @include('client.layouts.scripts')
-
 </body>
 
 </html>

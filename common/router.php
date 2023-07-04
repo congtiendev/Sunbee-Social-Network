@@ -30,8 +30,15 @@ $router->get('401', [App\Controllers\ErrorController::class, 'error401']);
 
 $router->group(['before' => 'auth'], function () use ($router) {
 	$router->get('/', [App\Controllers\Client\PostController::class, 'renderListPost']);
-	$router->post('post/create', [App\Controllers\Client\PostController::class, 'handleCreatePost']);
+	$router->post('posts/create', [App\Controllers\Client\PostController::class, 'handleCreatePost']);
+	$router->post('posts/like-post', [App\Controllers\Client\PostController::class, 'handleLikePost']);
+	$router->post('posts/unlike-post', [App\Controllers\Client\PostController::class, 'handleUnlikePost']);
+	$router->post('posts/save-post', [App\Controllers\Client\PostController::class, 'handleSavePost']);
+	$router->post('posts/unsave-post', [App\Controllers\Client\PostController::class, 'handleUnSavePost']);
+	$router->get('posts/delete/{post_id}', [App\Controllers\Client\PostController::class, 'handleDeletePost']);
 });
+
+
 $router->group(
 	['prefix' => 'admin'],
 	function () use ($router) {

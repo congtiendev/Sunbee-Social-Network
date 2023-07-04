@@ -92,7 +92,6 @@ class PostController extends BaseController
                 $this->post->insertPostMedia($dataMedia);
             }
         }
-
         $payload = [
             'user_id' => $user->id,
             'avatar' => AVATAR_PATH . $avatar,
@@ -111,5 +110,85 @@ class PostController extends BaseController
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'message' => 'Đăng bài thành công']);
         exit;
+    }
+
+    public function handleLikePost()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+        $post_id = $this->request->post('postID');
+        $user_id = $this->request->post('userID');
+
+        if ($this->post->isLiked($post_id, $user_id)) {
+            $this->post->unLikePost($post_id, $user_id);
+            $like_count = $this->post->getLikeCount($post_id)->like_count;
+            $this->pusher->trigger('like-post', 'unlike', [
+                'post_id' => $post_id,
+                'user_id' => $user_id,
+                'like_count' => $like_count
+            ]);
+        } else {
+            $this->post->likePost($post_id, $user_id);
+            $like_count = $this->post->getLikeCount($post_id)->like_count;
+            $this->pusher->trigger('like-post', 'like', [
+                'post_id' => $post_id,
+                'user_id' => $user_id,
+                'like_count' => $like_count
+            ]);
+        }
+    }
+
+    public function handleUnLikePost()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+        $post_id = $this->request->post('postID');
+        $user_id = $this->request->post('userID');
+        $this->post->unLikePost($post_id, $user_id);
+        $like_count = $this->post->getLikeCount($post_id)->like_count;
+        $this->pusher->trigger('like-post', 'unlike', [
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'like_count' => $like_count
+        ]);
+    }
+
+    public function handleSavePost()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+        $post_id = $this->request->post('postID');
+        $user_id = $this->request->post('userID');
+        if ($this->post->isSaved($post_id, $user_id)) {
+            return $this->post->unSavePost($post_id, $user_id);
+        }
+        return $this->post->savePost($post_id, $user_id);
+    }
+    public function handleUnSavePost()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+        $post_id = $this->request->post('postID');
+        $user_id = $this->request->post('userID');
+        return $this->post->unSavePost($post_id, $user_id);
+    }
+
+
+    public function handleDeletePost($post_id)
+    {
+        $post_media = $this->post->getPostMedia($post_id);
+        if ($post_media) {
+            foreach ($post_media as $media) {
+                unlink("public/uploads/posts/" . $media->post_media);
+            }
+        }
+        $this->post->deletePost($post_id);
+        $this->pusher->trigger('delete-posts', 'delete', [
+            'post_id' => $post_id
+        ]);
     }
 }

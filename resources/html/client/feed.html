@@ -15,7 +15,20 @@
 	<link href="../../css/tailwind.css" rel="stylesheet">
 	<link href="../../css/custom.css" rel="stylesheet">
 	<link rel="stylesheet" href="../../../node_modules/swiper/swiper-bundle.css">
-
+	<script>
+		if (
+			localStorage.theme === "dark" ||
+			(!("theme" in localStorage) &&
+				window.matchMedia("(prefers-color-scheme: dark)").matches)
+		) {
+			document.documentElement.classList.add("dark");
+		} else {
+			document.documentElement.classList.remove("dark");
+		}
+		localStorage.theme = "light";
+		localStorage.theme = "dark";
+		localStorage.removeItem("theme");
+	</script>
 </head>
 
 <body>
@@ -32,7 +45,7 @@
 						</span>
 
 						<div id="logo">
-							<a href="feed.html">
+							<a href="feed.html" class="skeleton ">
 								<img src="../../../public/images/logo/logo.png" alt="">
 								<img src="../../../public/images/logo/logo.png" class="logo_mobile" alt="">
 							</a>
@@ -51,7 +64,7 @@
 									<a href="#">
 										<img src="../../../public/images/avatars/avatar-1.jpg" alt=""
 											class="list-avatar">
-										<div class="list-name"> Nguyễn Gia Thái</div>
+										<div class="list-name "> Nguyễn Gia Thái</div>
 									</a>
 								</li>
 							</ul>
@@ -447,18 +460,21 @@
 							<div class="flex justify-between">
 								<div class="flex flex-row px-2 py-3 mx-3">
 
-									<div class="w-auto h-auto rounded-full">
+									<div class="w-auto h-auto rounded-full ">
 										<img class="object-cover w-12 h-12 rounded-full shadow cursor-pointer"
 											alt="User avatar"
 											src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2000&amp;q=80">
 									</div>
 									<div class="flex flex-col mt-1 mb-2 ml-4">
-										<div class="text-sm font-semibold text-gray-600">Lê Công Tiến</div>
-										<div class="flex w-full mt-1">
-											<div class="mr-1 text-xs text-blue-700 cursor-pointer font-base">
+										<div class="text-sm font-semibold text-gray-900 dark:text-white skeleton">
+											Lê
+											Công
+											Tiến</div>
+										<div class="flex w-full mt-1 ">
+											<div class="mr-1 text-xs text-blue-700 cursor-pointer skeleton font-base">
 												congtiendev
 											</div>
-											<div class="text-xs font-thin text-gray-400">
+											<div class="text-xs font-thin text-gray-400 skeleton">
 												• 30 phút trước
 											</div>
 										</div>
@@ -513,9 +529,9 @@
 							<div class="border-b border-gray-100"></div>
 							<div class="text-sm font-medium text-gray-400">
 								<div uk-lightbox>
-									<div class="swiper postMedia">
+									<div class="swiper postMedia skeleton">
 										<div class="swiper-wrapper">
-											<div class="rounded-md swiper-slide glass">
+											<div class="rounded-md swiper-slide">
 												<a href="../../../public/images/avatars/340745011_3320815954895351_7942880981791125154_n.jpg"
 													class="col-span-2">
 													<img src="../../../public/images/avatars/340745011_3320815954895351_7942880981791125154_n.jpg"
@@ -1043,9 +1059,10 @@
 
 						<h3 class="text-xl font-semibold"> Người liên hệ</h3>
 						<div class="" uk-sticky="offset:80">
-							<nav class="mb-2 -mt-2 border-b responsive-nav extanded">
+							<nav class="mb-2 -mt-2 border-b responsive-nav extanded ">
 								<ul>
-									<li class="text-left uk-active"><a class="active" href="#0">Bạn bè<span>
+									<li class="text-left uk-active hidden__scrollbar"><a class="active" href="#0">Bạn
+											bè<span>
 												310</span> </a>
 									</li>
 								</ul>
@@ -1388,9 +1405,6 @@
 		</div>
 
 	</div>
-	<div id="loading-all">
-		<img src="../../../public/images/illustration/loading-bee.gif" alt="Loading..." />
-	</div>
 	<script defer src="../../js/jquery-3.6.0.min.js"></script>
 	<script defer src="../../js/client/client.js"></script>
 	<script defer src="../../js/app.js"></script>
@@ -1412,7 +1426,16 @@
 			});
 		}
 		loadSwiper();
+		window.addEventListener("load", function () {
+			setTimeout(function () {
+				var elements = document.querySelectorAll(".skeleton");
+				for (var i = 0; i < elements.length; i++) {
+					elements[i].classList.remove("skeleton");
+				}
+			}, 2000);
+		});
 	</script>
+
 </body>
 
 </html>

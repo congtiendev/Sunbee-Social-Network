@@ -5,78 +5,65 @@
     <meta charset="utf-8" />
     <title>Swiper demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-    <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="../../../node_modules/swiper/swiper-bundle.css">
-
+    <style>
+        .preview-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Swiper -->
     <div class="container">
-        <div class="swiper postMedia">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                </div>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>
+        <div class="flex flex-wrap" id="preview-container"></div>
+        <input type="file" id="image-input" multiple>
     </div>
-    <button id="slide">OK</button>
-
-    <script defer src="../../js/jquery-3.6.0.min.js"></script>
-    <script src="../../../node_modules/swiper/swiper-bundle.js"></script>
-    <script defer src="../../js/app.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        let swiper = "";
-        function loadSwiper() {
-            const swiper = new Swiper(".postMedia", {
-                spaceBetween: 30,
-                effect: "fade",
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-            });
-        }
-        loadSwiper();
+        $(document).ready(function () {
+            function previewImages() {
+                var previewContainer = $('#preview-container');
+                var imageInput = $('#image-input')[0];
+                previewContainer.empty();
+                for (var i = 0; i < imageInput.files.length; i++) {
+                    var file = imageInput.files[i];
+                    var reader = new FileReader();
+                    reader.onload = (function (file) {
+                        return function (event) {
+                            var img = $('<img>').attr('src', event.target.result).addClass('preview-image');
+                            var deleteButton = $('<button>').html('Xóa').addClass('delete-button');
+                            deleteButton.click(function () {
+                                deleteImage(img);
+                            });
+                            var imageContainer = $('<div>').addClass('image-container');
+                            imageContainer.append(img, deleteButton);
+                            previewContainer.append(imageContainer);
+                        };
+                    })(file);
+                    reader.readAsDataURL(file);
+                }
+            }
 
-        const slide = document.getElementById('slide');
-        const container = document.querySelector('.container');
-        slide.addEventListener('click', () => {
-            container.innerHTML += `
-             <div class="swiper postMedia">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                </div>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>`;
-            loadSwiper();
+            function deleteImage(img) {
+                var imageContainer = img.parent();
+                imageContainer.remove();
+                var inputElement = $('#image-input');
+                inputElement.wrap('<form>').closest('form').get(0).reset();
+                inputElement.unwrap();
+            }
+
+            $('#image-input').on('change', previewImages);
         });
 
 
+
     </script>
+
+
+
 </body>
 
 </html>

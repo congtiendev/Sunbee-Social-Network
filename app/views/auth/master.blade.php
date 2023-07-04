@@ -35,9 +35,7 @@
             </div>
         </footer>
     </div>
-    <div id="loading-all">
-        <img src="{{ IMG_PATH }}illustration/loading-bee.gif" alt="Loading..." />
-    </div>
+
     @include('auth.scripts')
 </body>
 
