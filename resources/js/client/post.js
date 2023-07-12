@@ -2,6 +2,7 @@ import {
   isImageUrl,
   previewMultiple,
   postTemplate,
+  commentTemplate,
   loadSwiper,
 } from "./components.js";
 
@@ -13,14 +14,50 @@ const pusher = new Pusher("c3271ec62a7f5d395eb3", {
 });
 loadSwiper();
 $(document).ready(function () {
+  //---------------------------------Get auth------------------------------------//
+  // function isAuthor(id) {
+  //   $.ajax({
+  //     url: API_URL + "is-author/" + id,
+  //     method: "GET",
+  //     success: function (response) {
+  //       console.log(response);
+  //       if (response) {
+  //         console.log("Bạn không phải là tác giả của bài viết này");
+  //       } else {
+  //         console.log("Bạn là tác giả của bài viết này");
+  //       }
+  //     },
+  //     error: function (xhr, status, error) {
+  //       console.log(error);
+  //     },
+  //   });
+  // }
+  // isAuthor(1);
+
   //---------------------------------Create post------------------------------------//
 
   const postChannel = pusher.subscribe("post-channel");
   postChannel.bind("post-event", function (data) {
-    console.log(data);
-    const post = postTemplate(data);
-    $("#list__posts").prepend(post);
-    loadSwiper();
+    $.ajax({
+      url: API_URL + "is-author",
+      method: "POST",
+      data: {
+        author_id: data.user_id,
+      },
+      success: function (response) {
+        if (response == "true") {
+          data.isAuthor = true;
+        } else {
+          data.isAuthor = false;
+        }
+        const post = postTemplate(data);
+        $("#list__posts").prepend(post);
+        loadSwiper();
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
   });
 
   const uploadedFiles = [];
@@ -43,7 +80,7 @@ $(document).ready(function () {
   const createPost = $("#create-post");
   createPost.on("submit", function (event) {
     event.preventDefault();
-    const user_id = $(this).data("user-id");
+    const user_id = parseInt($(this).data("user-id"));
     const post_content = $("#post_content").val();
     const post_media = $("#post_media").prop("files");
 
@@ -101,7 +138,7 @@ likeChannel.bind("unlike", function (data) {
   likeCount.text(data.like_count);
 });
 
-$(".like__post-btn").on("click", function () {
+$(document).on("click", ".like__post-btn", function () {
   const postID = $(this).data("post-id");
   const userID = $(this).data("user-id");
   const likePostBtn = $(`.like__post-btn-${postID}`);
@@ -132,10 +169,111 @@ function handleLikePost(postID, userID, url) {
 }
 
 /* ---------------------------------Comment post------------------------------------------*/
+const commentChannel = pusher.subscribe("comments");
+commentChannel.bind("new-comment", function (data) {
+  $.ajax({
+    url: API_URL + "is-author",
+    method: "POST",
+    data: {
+      author_id: data.user_id,
+    },
+    success: function (response) {
+      if (response == "true") {
+        data.isAuthor = true;
+      } else {
+        data.isAuthor = false;
+      }
+      const listComment = $(`.post__list-comments-${data.post_id}`);
+      const comment = commentTemplate(data);
+      const commentCount = $(`.post__comment-count-${data.post_id}`);
+      let count = parseInt(commentCount.text());
+      count += 1;
+      commentCount.text(count);
+      listComment.append(comment);
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+});
+$(document).on("click", ".add__comment-btn", function (event) {
+  event.preventDefault();
+  const user_id = $(this).data("user-id");
+  const post_id = $(this).data("post-id");
+  const comment_content = $(`#comment_content-${post_id}`).val();
+  const comment_media = $(`#comment_media-${post_id}`)[0].files;
+  const noComment = $(`.no__comment-${post_id}`);
+
+  if (!comment_content && comment_media.length === 0) {
+    return;
+  }
+
+  const form_data = new FormData();
+  form_data.append("post_id", post_id);
+  form_data.append("user_id", user_id);
+  form_data.append("comment_content", comment_content);
+  for (let i = 0; i < comment_media.length; i++) {
+    form_data.append("comment_media", comment_media[i]);
+  }
+
+  $.ajax({
+    url: API_URL + "posts/comment/add",
+    type: "POST",
+    data: form_data,
+    contentType: false,
+    processData: false,
+    beforeSend: function () {
+      $(`#comment_content-${post_id}`).val("");
+      $(`#comment_media-${post_id}`).val("");
+      $(`#comment__media-preview-${post_id}`).html("");
+      noComment.remove();
+    },
+    success: function (response) {
+      console.log(response);
+      commentChannel.trigger("client-new-comment", response);
+    },
+    error: function (error) {
+      console.log(error);
+    },
+    complete: function () {},
+  });
+});
+
+/* ---------------------------------Delete comment------------------------------------------*/
+$(document).on("click", ".delete__comment-btn", function (event) {
+  event.preventDefault();
+  const comment_id = $(this).data("comment-id");
+  const post_id = $(this).data("post-id");
+  console.log(comment_id, post_id);
+  deleteComment(post_id, comment_id);
+});
+
+function deleteComment(post_id, comment_id) {
+  $.ajax({
+    url: API_URL + "posts/comment/delete/" + post_id + "/" + comment_id,
+    type: "GET",
+    success: function (response) {
+      console.log(response);
+      commentChannel.trigger("client-delete-comment", response);
+    },
+    error: function (error) {
+      console.error("Error deleting comment:", error);
+    },
+  });
+}
+commentChannel.bind("delete-comment", function (data) {
+  console.log(data);
+  const commentElement = $(`#post__comment-${data.comment_id}`);
+  const commentCount = $(`.post__comment-count-${data.post_id}`);
+  let count = parseInt(commentCount.text());
+  count--;
+  commentCount.text(count);
+  commentElement.remove();
+});
 
 /* ---------------------------------Save post--------------------------------------------*/
 let savePostHandle = false;
-$(".save__post-btn").on("click", function () {
+$(document).on("click", ".save__post-btn", function () {
   if (savePostHandle) {
     return;
   }
@@ -179,8 +317,8 @@ function handleSavePost(postID, userID, url) {
 }
 
 /* ---------------------------------Delete post------------------------------------------*/
-const deletePostChanel = pusher.subscribe("delete-posts");
-$(".delete__post-btn").on("click", function (event) {
+const deletePostChannel = pusher.subscribe("delete-posts");
+$(document).on("click", ".delete__post-btn", function (event) {
   event.preventDefault();
   const post_id = $(this).data("post-id");
   swal({
@@ -210,7 +348,7 @@ function handleDeletePost(postID, url) {
     },
     success: function (response) {
       console.log(response);
-      deletePostChanel.trigger("client-delete", response);
+      deletePostChannel.trigger("client-delete", response);
     },
     error: function (error) {
       console.log(error);
@@ -218,7 +356,7 @@ function handleDeletePost(postID, url) {
   });
 }
 
-deletePostChanel.bind("delete", function (data) {
+deletePostChannel.bind("delete", function (data) {
   console.log(data);
   const postID = data.post_id;
   const post = $(`#posts-${postID}`);

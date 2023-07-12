@@ -94,7 +94,10 @@ class PostController extends BaseController
         }
         $payload = [
             'user_id' => $user->id,
+            'author_id' => $new_post->user_id,
+            'role' => $user->role,
             'avatar' => AVATAR_PATH . $avatar,
+            'auth_avatar' => $user->avatar,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'username' => $user->username,
@@ -177,6 +180,64 @@ class PostController extends BaseController
         return $this->post->unSavePost($post_id, $user_id);
     }
 
+    public function handleAddComment()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+
+        $user = $_SESSION['auth'];
+        $data = $this->request->all(); //Lấy dữ liệu từ form
+        $comment_media = $this->request->file('comment_media'); //Lấy file từ form
+
+        if ($comment_media !== null && $comment_media['name'] !== '') {
+            $data['comment_media'] = $this->request->uploadFile($comment_media['name'], $comment_media['tmp_name'], "public/uploads/comments/"); //Upload file 
+            $media_path = COMMENT_MEDIA_PATH . $data['comment_media'];
+        } else {
+            $data['comment_media'] = "";
+            $media_path = "";
+        }
+
+        $this->post->insertComment($data);
+        $new_comment = $this->post->getLatestCommentByUserId($data['user_id'], $data['post_id']);
+        $comment_id = $new_comment->id;
+        $avatar_path = $user->avatar ? AVATAR_PATH . $user->avatar : AVATAR_PATH . 'default-avatar.jpg';
+        $comment_date = timeAgo($new_comment->created_at);
+
+        $payload = [
+            'user_id' => $data['user_id'],
+            'auth_id' => $user->id,
+            'role' => $user->role,
+            'post_id' => $data['post_id'],
+            'comment_id' => $comment_id,
+            'avatar' => $avatar_path,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'comment_content' => $data['comment_content'],
+            'comment_media' => $media_path,
+            'comment_time' => $comment_date
+        ];
+
+        $this->pusher->trigger('comments', 'new-comment', $payload);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'message' => 'Comment added successfully']);
+        exit;
+    }
+
+    public function handleDeleteComment($post_id, $comment_id)
+    {
+        $comment_media = $this->post->getCommentMedia($comment_id);
+        if (count($comment_media) > 0) {
+            foreach ($comment_media as $media) {
+                unlink("public/uploads/comments/" . $media->comment_media);
+            }
+        }
+        $this->post->deleteComment($post_id, $comment_id);
+        $this->pusher->trigger('comments', 'delete-comment', ['post_id' => $post_id, 'comment_id' => $comment_id]);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'message' => 'Comment deleted successfully']);
+        exit;
+    }
 
     public function handleDeletePost($post_id)
     {

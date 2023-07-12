@@ -24,6 +24,7 @@ $router->post('login/verify', [App\Controllers\AuthController::class, 'handleLog
 $router->get('logout', [App\Controllers\AuthController::class, 'logout']);
 $router->get('register', [App\Controllers\AuthController::class, 'renderRegister']);
 $router->post('register/handle', [App\Controllers\AuthController::class, 'handleRegister']);
+$router->post('is-author', [App\Controllers\AuthController::class, 'isAuthor']);
 $router->get('404', [App\Controllers\ErrorController::class, 'error404']);
 $router->get('405', [App\Controllers\ErrorController::class, 'error405']);
 $router->get('401', [App\Controllers\ErrorController::class, 'error401']);
@@ -36,6 +37,8 @@ $router->group(['before' => 'auth'], function () use ($router) {
 	$router->post('posts/save-post', [App\Controllers\Client\PostController::class, 'handleSavePost']);
 	$router->post('posts/unsave-post', [App\Controllers\Client\PostController::class, 'handleUnSavePost']);
 	$router->get('posts/delete/{post_id}', [App\Controllers\Client\PostController::class, 'handleDeletePost']);
+	$router->post('posts/comment/add', [App\Controllers\Client\PostController::class, 'handleAddComment']);
+	$router->get('posts/comment/delete/{post_id}/{comment_id}', [App\Controllers\Client\PostController::class, 'handleDeleteComment']);
 });
 
 

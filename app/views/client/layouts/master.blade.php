@@ -26,12 +26,10 @@
         localStorage.removeItem("theme");
 
         window.addEventListener("load", function() {
-            setTimeout(function() {
-                var elements = document.querySelectorAll(".skeleton");
-                for (var i = 0; i < elements.length; i++) {
-                    elements[i].classList.remove("skeleton");
-                }
-            }, 2000);
+            var elements = document.querySelectorAll(".skeleton");
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].classList.remove("skeleton");
+            }
         });
 
     </script>

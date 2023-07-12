@@ -10,12 +10,9 @@
     @include('admin.layouts.styles')
 </head>
 
-<body
-    x-data="{ page: 'signin', 'loaded': true, 'darkMode': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
-    x-init="
+<body x-data="{ page: 'signin', 'loaded': true, 'darkMode': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }" x-init="
           darkMode = JSON.parse(localStorage.getItem('darkMode'));
-          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
-    :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
+          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
     <div class="flex h-screen overflow-hidden font-sunbee">
         <!-- --------------------------Sidebar--------------------------- -->
         @include('admin.layouts.sidebar')
@@ -28,9 +25,7 @@
         </div>
     </div>
     @include('admin.layouts.scripts')
-    <div id="loading-all">
-        <img src="{{ IMG_PATH }}illustration/loading-bee.gif" alt="Loading..." />
-    </div>
+
 </body>
 
 </html>

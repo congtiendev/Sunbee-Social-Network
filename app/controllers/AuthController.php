@@ -20,6 +20,18 @@ class AuthController extends BaseController
         $this->request = new RequestController();
         $this->validator = new Validator($this->request->all());
     }
+
+    //Lấy thông tin người dùng trong session
+    public function isAuthor()
+    {
+        $user = $_SESSION['auth'];
+        if ($user->id == $this->request->post('author_id') || $user->role == 1) {
+            echo json_encode(true);
+        } else {
+            echo json_encode(false);
+        }
+    }
+
     public function isLoggedIn()
     {
         return isset($_SESSION['auth']) && !empty($_SESSION['auth']);
