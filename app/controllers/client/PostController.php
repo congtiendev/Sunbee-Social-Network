@@ -223,7 +223,62 @@ class PostController extends BaseController
         echo json_encode(['success' => true, 'message' => 'Comment added successfully']);
         exit;
     }
+    public function handleLikeComment()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+        $comment_id = $this->request->post('comment_id');
+        $user_id = $this->request->post('user_id');
 
+        if ($this->post->isLikedComment($comment_id, $user_id)) {
+            $this->post->unLikeComment($comment_id, $user_id);
+            $like_count = $this->post->getLikeCommentCount($comment_id)->like_count;
+            $this->pusher->trigger('comments', 'unlike', [
+                'comment_id' => $comment_id,
+                'user_id' => $user_id,
+                'like_count' => $like_count
+            ]);
+        } else {
+            $this->post->likeComment($comment_id, $user_id);
+            $like_count = $this->post->getLikeCommentCount($comment_id)->like_count;
+            $this->pusher->trigger('comments', 'like', [
+                'comment_id' => $comment_id,
+                'user_id' => $user_id,
+                'like_count' => $like_count
+            ]);
+        }
+    }
+
+    public function isLikedComment()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+        $comment_id = $this->request->post('comment_id');
+        $user_id = $this->request->post('user_id');
+        if ($this->post->isLikedComment($comment_id, $user_id)) {
+            echo json_encode(true);
+        } else {
+            echo json_encode(false);
+        }
+    }
+
+    public function handleUnLikeComment()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return redirect('', '', 'back');
+        }
+        $comment_id = $this->request->post('comment_id');
+        $user_id = $this->request->post('user_id');
+        $this->post->unLikeComment($comment_id, $user_id);
+        $like_count = $this->post->getLikeCommentCount($comment_id)->like_count;
+        $this->pusher->trigger('comments', 'unlike', [
+            'comment_id' => $comment_id,
+            'user_id' => $user_id,
+            'like_count' => $like_count
+        ]);
+    }
     public function handleDeleteComment($post_id, $comment_id)
     {
         $comment_media = $this->post->getCommentMedia($comment_id);

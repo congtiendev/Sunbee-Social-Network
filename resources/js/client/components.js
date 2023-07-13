@@ -23,7 +23,6 @@ export function isImageUrl(url) {
 
 export function previewMultiple(file, previewElementId, callback) {
   const uploadedFiles = [];
-  const postMediaUpload = $("#post_media");
   const files = postMediaUpload.get(0).files;
   for (let i = 0; i < files.length; i++) {
     uploadedFiles.push(files[i]);
@@ -51,6 +50,8 @@ export function previewMultiple(file, previewElementId, callback) {
       );
       removeButton.on("click", function () {
         const index = uploadedFiles.indexOf(file);
+        //Xóa giá trị file tải lên khỏi input
+
         if (index !== -1) {
           uploadedFiles.splice(index, 1);
         }
@@ -634,9 +635,9 @@ video / mp4 " />
 
 
                 <label for="comment_media-${data.post_id}" class="mt-1.5">
-                      <input id="comment_media-${
-                        data.post_id
-                      }" type="file" name="comment_media" class="sr-only" accept="image/*,video/*" />
+                      <input data-post-id="${data.post_id}" id="comment_media-${
+    data.post_id
+  }" type="file" name="comment_media" class="sr-only comment__media-upload" accept=" image/*,video/*" />
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400 transition duration-300 ease-out hover:text-yellow-500">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                           <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
@@ -657,6 +658,10 @@ video / mp4 " />
                 data.post_id
               }" class="w-full py-2 pl-4 pr-10 text-sm placeholder-gray-400 border border-transparent appearance-none rounded-tg" style="border-radius: 25px" placeholder="Nhập bình luận ..." autocomplete="off">
           </form>
+          <div id="comment__media-preview-${
+            data.post_id
+          }" class="hidden w-20 h-auto ml-3 mb-3">
+                                    </div>
               </section>
             </div>
           </div>
@@ -794,7 +799,11 @@ export function commentTemplate(comment) {
                                                         : ""
                                                     }
                                                     <div class="flex items-center mt-2  space-x-3 text-xs">
-                                                        <span class="hover:text-yellow-500 like__comment-btn">Thích</span>
+                                                        <span data-comment-id="${
+                                                          comment.comment_id
+                                                        }" data-user-id="${
+    comment.user_id
+  }" class="hover:text-yellow-500 like__comment-btn ">Thích</span>
                                                         <span class="hover:text-yellow-500"> Phản hồi </span>
                                                         <span class="hover:text-yellow-500"> ${
                                                           comment.comment_time

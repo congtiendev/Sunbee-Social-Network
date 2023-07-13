@@ -79,18 +79,15 @@
 }
 
 .like__post-btn.active,
-.like__details-post-btn.active,
-.save__post-btn.active,
-.save__details-post-btn.active {
+.save__post-btn.active {
   animation: like_animation 0.5s 1;
   fill: red;
   stroke: none;
 }
 
 .like__post-btn,
-.like__details-post-btn,
 .save__post-btn,
-.save__details-post-btn {
+.like__comment-btn {
   transition: all 0.5s ease-in-out;
 }
 

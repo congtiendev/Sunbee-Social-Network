@@ -8,6 +8,7 @@ class Post extends BaseModel
 	private $posts = 'posts';
 	private $media = 'media';
 	private $likes = 'likes';
+	private $likes_comment = 'likes_comment';
 	private $comments = 'comments';
 	private $save_posts = 'save_posts';
 	private $hashtags = 'hashtags';
@@ -185,6 +186,46 @@ class Post extends BaseModel
 		return $this->execute([$post_id]);
 	}
 
+
+
+	public function isLikedComment($comment_id, $user_id)
+	{
+		$sql = "SELECT * FROM $this->likes_comment WHERE comment_id = ? AND user_id = ?";
+		$this->setQuery($sql);
+		return $this->loadRow([$comment_id, $user_id]);
+	}
+	public function likeComment($comment_id, $user_id)
+	{
+		$likeSQL = "INSERT INTO $this->likes_comment (comment_id, user_id) VALUES (?, ?)";
+		$this->setQuery($likeSQL);
+		$this->execute([$comment_id, $user_id]);
+
+		$updateLikeSQL = "UPDATE $this->comments SET like_count = like_count + 1 WHERE id = ?";
+		$this->setQuery($updateLikeSQL);
+		$this->execute([$comment_id]);
+
+		return true;
+	}
+
+	public function unLikeComment($comment_id, $user_id)
+	{
+		$unlikeSQL = "DELETE FROM $this->likes_comment WHERE comment_id = ? AND user_id = ?";
+		$this->setQuery($unlikeSQL);
+		$this->execute([$comment_id, $user_id]);
+
+		$updateLikeSQL = "UPDATE $this->comments SET like_count = like_count - 1 WHERE id = ? AND like_count > 0";
+		$this->setQuery($updateLikeSQL);
+		$this->execute([$comment_id]);
+
+		return true;
+	}
+
+	public function deleteLikeComment($id)
+	{
+		$sql = "DELETE FROM $this->likes_comment WHERE comment_id = ?";
+		$this->setQuery($sql);
+		return $this->execute([$id]);
+	}
 	public function deleteComment($post_id, $comment_id)
 	{
 		$commentSQL = "DELETE FROM $this->comments WHERE id = ?";
@@ -195,6 +236,8 @@ class Post extends BaseModel
 		$this->execute([$post_id]);
 		return true;
 	}
+
+
 	public function getPostBy($column, $value)
 	{
 		$sql = "SELECT * FROM $this->posts WHERE $column = ?";
@@ -208,7 +251,12 @@ class Post extends BaseModel
 		$this->setQuery($sql);
 		return $this->loadRow([$post_id]);
 	}
-
+	public function getLikeCommentCount($comment_id)
+	{
+		$sql = "SELECT like_count FROM $this->comments WHERE id = ?";
+		$this->setQuery($sql);
+		return $this->loadRow([$comment_id]);
+	}
 	public function getLatestPostByUserId($user_id)
 	{
 		$sql = "SELECT * FROM $this->posts WHERE user_id = ? ORDER BY created_at DESC LIMIT 1";

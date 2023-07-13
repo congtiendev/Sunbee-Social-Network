@@ -38,7 +38,9 @@ $router->group(['before' => 'auth'], function () use ($router) {
 	$router->post('posts/unsave-post', [App\Controllers\Client\PostController::class, 'handleUnSavePost']);
 	$router->get('posts/delete/{post_id}', [App\Controllers\Client\PostController::class, 'handleDeletePost']);
 	$router->post('posts/comment/add', [App\Controllers\Client\PostController::class, 'handleAddComment']);
-	$router->get('posts/comment/delete/{post_id}/{comment_id}', [App\Controllers\Client\PostController::class, 'handleDeleteComment']);
+	$router->post('posts/comment/like', [App\Controllers\Client\PostController::class, 'handleLikeComment']);
+	$router->post('posts/comment/unlike', [App\Controllers\Client\PostController::class, 'handleUnlikeComment']);
+	$router->post('posts/comment/is-liked', [App\Controllers\Client\PostController::class, 'isLikedComment']);
 });
 
 

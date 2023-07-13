@@ -14,26 +14,6 @@ const pusher = new Pusher("c3271ec62a7f5d395eb3", {
 });
 loadSwiper();
 $(document).ready(function () {
-  //---------------------------------Get auth------------------------------------//
-  // function isAuthor(id) {
-  //   $.ajax({
-  //     url: API_URL + "is-author/" + id,
-  //     method: "GET",
-  //     success: function (response) {
-  //       console.log(response);
-  //       if (response) {
-  //         console.log("Bạn không phải là tác giả của bài viết này");
-  //       } else {
-  //         console.log("Bạn là tác giả của bài viết này");
-  //       }
-  //     },
-  //     error: function (xhr, status, error) {
-  //       console.log(error);
-  //     },
-  //   });
-  // }
-  // isAuthor(1);
-
   //---------------------------------Create post------------------------------------//
 
   const postChannel = pusher.subscribe("post-channel");
@@ -169,6 +149,25 @@ function handleLikePost(postID, userID, url) {
 }
 
 /* ---------------------------------Comment post------------------------------------------*/
+
+const commentMediaUpload = document.querySelectorAll(".comment__media-upload");
+console.log(commentMediaUpload);
+if (commentMediaUpload) {
+  commentMediaUpload.forEach((commentMedia, index) => {
+    commentMedia.addEventListener("change", function () {
+      let file = this.files[0];
+      const post_id = $(this).data("post-id");
+      let previewMedia = document.querySelector(
+        `#comment__media-preview-${post_id}`
+      );
+      if (file) {
+        previewMedia.classList.remove("hidden");
+        previewMultiple(file, previewMedia);
+      }
+    });
+  });
+}
+
 const commentChannel = pusher.subscribe("comments");
 commentChannel.bind("new-comment", function (data) {
   $.ajax({
@@ -238,6 +237,67 @@ $(document).on("click", ".add__comment-btn", function (event) {
     complete: function () {},
   });
 });
+
+/* ---------------------------------Like comment------------------------------------------*/
+
+commentChannel.bind("like", function (data) {
+  const likeCount = $(`.like__comment-count-${data.comment_id}`);
+  likeCount.text(data.like_count);
+});
+commentChannel.bind("unlike", function (data) {
+  const likeCount = $(`.like__comment-count-${data.comment_id}`);
+  likeCount.text(data.like_count);
+});
+
+$(".like__comment-btn").each(function () {
+  const comment_id = $(this).data("comment-id");
+  const user_id = $(this).data("user-id");
+  $.ajax({
+    url: API_URL + "posts/comment/is-liked",
+    type: "POST",
+    data: {
+      user_id: user_id,
+      comment_id: comment_id,
+    },
+    success: function (response) {
+      if (response == "true") {
+        $(`.like__comment-btn-${comment_id}`).addClass("text-red-500");
+      }
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+});
+
+$(document).on("click", ".like__comment-btn", function (e) {
+  e.preventDefault();
+  const comment_id = $(this).data("comment-id");
+  const user_id = $(this).data("user-id");
+  if ($(this).hasClass("text-red-500")) {
+    $(this).removeClass("text-red-500");
+    handleLikeComment(user_id, comment_id, "posts/comment/unlike");
+  } else {
+    $(this).addClass("text-red-500");
+    handleLikeComment(user_id, comment_id, "posts/comment/like");
+  }
+});
+function handleLikeComment(user_id, comment_id, url) {
+  $.ajax({
+    url: API_URL + url,
+    type: "POST",
+    data: {
+      user_id: user_id,
+      comment_id: comment_id,
+    },
+    success: function (response) {
+      console.log(response);
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+}
 
 /* ---------------------------------Delete comment------------------------------------------*/
 $(document).on("click", ".delete__comment-btn", function (event) {
