@@ -20,14 +20,8 @@ export function isImageUrl(url) {
 }
 
 //---------------------------------Preview media------------------------------------//
-
+const uploadedFiles = [];
 export function previewMultiple(file, previewElementId, callback) {
-  const uploadedFiles = [];
-  const files = postMediaUpload.get(0).files;
-  for (let i = 0; i < files.length; i++) {
-    uploadedFiles.push(files[i]);
-  }
-
   const previewElement = $(previewElementId);
   const previewContainer = $("<div>").addClass("preview-container relative");
   if (file) {
@@ -61,7 +55,6 @@ export function previewMultiple(file, previewElementId, callback) {
       previewContainer.append(removeButton);
       previewElement.append(previewContainer);
 
-      // Thêm tệp vào mảng uploadedFiles
       uploadedFiles.push(file);
 
       if (callback) {
@@ -268,43 +261,16 @@ w - full h - full "></video>
           </div>
         </div>
       </div>
-      ${
-        data.comment_count > 0
-          ? `
-      ${data.comments
-        .map((comment) => {
-          return `
-      <div class="text-black  dark:text-white p-4 antialiased flex">
-        <img class="rounded-full h-8 w-8 mr-2 mt-1 " src="https://picsum.photos/id/1027/200/200">
-        <div>
-          <div class="bg-gray-100 border rounded-xl px-4 pt-2 pb-2.5">
-            <div class="font-medium  leading-relaxed">Sara Lauren</div>
-            <div class="text-xs leading-snug md:leading-normal">
-              Nội dung bình luận
-            </div>
-          </div>
-          <div class="text-xs  mt-0.5 text-gray-500">14 giờ</div>
-        </div>
-        `;
-        })
-        .join("")}
-      </div>
-      <div class="pb-2 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
-        <a href="#">
+   
+    
+      <div class="mt-2 pb-2 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
+        <a href="#post__detail-${data.post_id}" uk-toggle >
           Xem <span class="comment__post-count-${data.post_id}">${
-              data.comment_count
-            }</span> bình luận
+    data.comment_count
+  }</span> bình luận
         </a>
       </div>
-      `
-          : `
-      <div class="no__comment-${data.post_id} pb-2 text-sm text-[#737373] dark:text-gray-400 comment__post px-5">
-        <span class="no__comment-${data.post_id}">Chưa có bình luận</span>
-      </div>
-      `
-      }
-
-  
+    
 
       <!-- ---------------------------POSTS DETAIL------------------------------ -->
       <div id="post__detail-${
@@ -771,7 +737,11 @@ export function commentTemplate(comment) {
                                                         </p>
                                                         <div class="react__comment absolute right-2 flex items-center  gap-1 pr-1 bg-gray-100 dark:bg-gray-700 rounded-lg">
                                                             <img class="w-3.5 h-3.5 rounded-full object-contain " src="${ICON_PATH}tym-icon.png" alt="">
-                                                            <span class="text-xs font-medium">0</span>
+                                                            <span class="like__comment-count-${
+                                                              comment.comment_id
+                                                            } text-xs font-medium">${
+    comment.like_count
+  }</span>
                                                         </div>
                                                     </div>
                                                     ${
@@ -799,11 +769,13 @@ export function commentTemplate(comment) {
                                                         : ""
                                                     }
                                                     <div class="flex items-center mt-2  space-x-3 text-xs">
-                                                        <span data-comment-id="${
+                                                        <a href="#" data-comment-id="${
                                                           comment.comment_id
                                                         }" data-user-id="${
     comment.user_id
-  }" class="hover:text-yellow-500 like__comment-btn ">Thích</span>
+  }" class="hover:text-red-500 like__comment-btn like__comment-btn-${
+    comment.comment_id
+  }">Thích</a>
                                                         <span class="hover:text-yellow-500"> Phản hồi </span>
                                                         <span class="hover:text-yellow-500"> ${
                                                           comment.comment_time

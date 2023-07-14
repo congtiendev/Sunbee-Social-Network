@@ -194,9 +194,9 @@
                             </svg>
                         </div>
                         <div class="flex w-full text-gray-900 border-t border-gray-100 dark:text-gray-100">
-                            <div class="flex w-full mx-5 mt-3 text-xs">
+                            <div class="flex w-full mx-5 mt-3 text-xs skeleton">
                                 <div class="font-semibold like__post">
-                                    <span class="like__post-count-{{ $post->post_id }} skeleton">
+                                    <span class="like__post-count-{{ $post->post_id }} ">
                                         {{ intval($post->like_count) }}</span> lượt thích
                                 </div>
                             </div>
@@ -207,18 +207,12 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($post->comment_count > 0)
-                        <div class="pb-2 text-xs text-[#737373] dark:text-gray-400 comment__post px-5 ">
-                            <a href="#post__detail-{{ $post->post_id }}" class="skeleton">
+                        <div class="mt-2 pb-3 text-xs text-[#737373] dark:text-gray-400 comment__post px-5 ">
+                            <a href="#post__detail-{{ $post->post_id }}" uk-toggle class="skeleton">
                                 Xem <span class="post__comment-count-{{ $post->post_id }}">{{ intval($post->comment_count) }}</span>
                                 bình luận
                             </a>
                         </div>
-                        @else
-                        <div class="pb-2 no__comment-{{ $post->post_id }}  text-xs text-[#737373] dark:text-gray-400 comment__post px-5">
-                            <span class="no__comment-{{ $post->post_id }} skeleton">Chưa có bình luận</span>
-                        </div>
-                        @endif
 
                         <!-- ---------------------------POSTS DETAIL------------------------------ -->
                         <div id="post__detail-{{ $post->post_id }}" class="uk-modal-container glassmorphism__dark" uk-modal>
@@ -518,9 +512,10 @@
                                         </span>
                                         <input type="search" id="comment_content-{{ $post->post_id }}" class="w-full py-2 pl-4 pr-10 text-sm placeholder-gray-400 border border-transparent appearance-none rounded-tg" style="border-radius: 25px" placeholder="Nhập bình luận ..." autocomplete="off">
                                     </form>
-                                    <div id="comment__media-preview-{{ $post->post_id }}" class="hidden w-20 h-auto ml-3 mb-3">
+                                    <div id="comment__media-preview-{{ $post->post_id }}" class="hidden w-20 h-auto mb-3 ml-3">
                                     </div>
                     </section>
+                </section>
             </div>
         </div>
     </div>

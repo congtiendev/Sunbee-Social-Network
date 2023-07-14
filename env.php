@@ -28,7 +28,7 @@ const PUSHER_CURL_OPTIONS = [
 const BASE_URL = "http://localhost:88/Sunbee-Social-Network/";
 const IMG_PATH = BASE_URL . "public/images/";
 const AVATAR_PATH = BASE_URL . "public/uploads/avatars/";
-const COVER_PATH = BASE_URL . "public/uploads/covers/";
+const COVER_PATH = BASE_URL . "public/uploads/cover-photos/";
 const POST_MEDIA_PATH = BASE_URL . "public/uploads/posts/";
 const COMMENT_MEDIA_PATH = BASE_URL . "public/uploads/comments/";
 date_default_timezone_set('Asia/Ho_Chi_Minh');

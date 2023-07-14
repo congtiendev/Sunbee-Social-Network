@@ -2,5 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 .skeleton {
-  @apply bg-gray-200 text-gray-200   rounded-lg animate-pulse p-0.5;
+  @apply bg-gray-200 text-gray-200  rounded-lg animate-pulse my-0.5;
 }

@@ -36,9 +36,9 @@ class User extends BaseModel
 	}
 
 
-	public function getUserBy(string $table, string $column, int $id = null, string $value)
+	public function getUserBy(string $column, int $id = null, string $value)
 	{
-		$sql = "SELECT * FROM $table";
+		$sql = "SELECT * FROM $this->table";
 		if ($id !== null) {
 			$sql .= " WHERE $column = ? AND id != $id";
 		} else {
@@ -127,5 +127,4 @@ class User extends BaseModel
 		$this->setQuery($sql);
 		return $this->execute(array($request['first_name'], $request['last_name'], $request['gender'], $request['birthday'], $request['address'], $request['bio'], $request['avatar'], $id));
 	}
-
 }

@@ -91,6 +91,7 @@ class Post extends BaseModel
 	{
 		$this->deleteLike($id);
 		$this->deleteMedia($id);
+		$this->deleteLikeCommentByPostID($id);
 		$comment = "DELETE FROM $this->comments WHERE post_id = ?";
 		$this->setQuery($comment);
 		$this->execute([$id]);
@@ -228,6 +229,9 @@ class Post extends BaseModel
 	}
 	public function deleteComment($post_id, $comment_id)
 	{
+		$likeSQL = "DELETE FROM $this->likes_comment WHERE comment_id = ?";
+		$this->setQuery($likeSQL);
+		$this->execute([$comment_id]);
 		$commentSQL = "DELETE FROM $this->comments WHERE id = ?";
 		$this->setQuery($commentSQL);
 		$this->execute([$comment_id]);
@@ -236,11 +240,20 @@ class Post extends BaseModel
 		$this->execute([$post_id]);
 		return true;
 	}
-
+	public function deleteLikeCommentByPostID($post_id)
+	{
+		$sql = "DELETE FROM $this->likes_comment WHERE comment_id IN (SELECT id FROM $this->comments WHERE post_id = ?)";
+		$this->setQuery($sql);
+		return $this->execute([$post_id]);
+	}
 
 	public function getPostBy($column, $value)
 	{
-		$sql = "SELECT * FROM $this->posts WHERE $column = ?";
+		$sql = "SELECT post.*, user.*, post.id AS post_id, post.created_at AS post_date, user.id AS user_id
+        FROM {$this->posts} post
+        LEFT JOIN {$this->users} user ON post.user_id = user.id 
+        WHERE post.{$column} = ?
+        ORDER BY post.created_at DESC";
 		$this->setQuery($sql);
 		return $this->loadAllRows([$value]);
 	}
@@ -271,6 +284,14 @@ class Post extends BaseModel
 		$sql = "SELECT post_media FROM $this->media WHERE post_id = ?";
 		$this->setQuery($sql);
 		return $this->loadAllRows([$post_id]);
+	}
+
+	//Lấy toàn bộ media của bài viết theo user_id
+	public function getPostMediaByUserId($user_id)
+	{
+		$sql = "SELECT post_media FROM $this->media WHERE post_id IN (SELECT id FROM $this->posts WHERE user_id = ?)";
+		$this->setQuery($sql);
+		return $this->loadAllRows([$user_id]);
 	}
 
 	public function getPostComment($post_id)

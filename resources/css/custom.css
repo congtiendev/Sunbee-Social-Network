@@ -152,6 +152,6 @@
   background-color: #374151 !important;
   color: #374151 !important;
   border-radius: 10px;
-  padding: 2px;
   animation: skeleton-loading-animation 1s ease-in-out infinite;
+  margin: 1px;
 }

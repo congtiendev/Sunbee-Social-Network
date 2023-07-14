@@ -151,7 +151,6 @@ function handleLikePost(postID, userID, url) {
 /* ---------------------------------Comment post------------------------------------------*/
 
 const commentMediaUpload = document.querySelectorAll(".comment__media-upload");
-console.log(commentMediaUpload);
 if (commentMediaUpload) {
   commentMediaUpload.forEach((commentMedia, index) => {
     commentMedia.addEventListener("change", function () {
@@ -261,7 +260,9 @@ $(".like__comment-btn").each(function () {
     },
     success: function (response) {
       if (response == "true") {
-        $(`.like__comment-btn-${comment_id}`).addClass("text-red-500");
+        $(`.like__comment-btn-${comment_id}`).addClass(
+          "text-red-500 font-bold"
+        );
       }
     },
     error: function (error) {
@@ -274,11 +275,11 @@ $(document).on("click", ".like__comment-btn", function (e) {
   e.preventDefault();
   const comment_id = $(this).data("comment-id");
   const user_id = $(this).data("user-id");
-  if ($(this).hasClass("text-red-500")) {
-    $(this).removeClass("text-red-500");
+  if ($(this).hasClass("text-red-500 font-bold")) {
+    $(this).removeClass("text-red-500 font-bold");
     handleLikeComment(user_id, comment_id, "posts/comment/unlike");
   } else {
-    $(this).addClass("text-red-500");
+    $(this).addClass("text-red-500 font-bold");
     handleLikeComment(user_id, comment_id, "posts/comment/like");
   }
 });
@@ -290,9 +291,7 @@ function handleLikeComment(user_id, comment_id, url) {
       user_id: user_id,
       comment_id: comment_id,
     },
-    success: function (response) {
-      console.log(response);
-    },
+    success: function (response) {},
     error: function (error) {
       console.log(error);
     },
@@ -304,7 +303,6 @@ $(document).on("click", ".delete__comment-btn", function (event) {
   event.preventDefault();
   const comment_id = $(this).data("comment-id");
   const post_id = $(this).data("post-id");
-  console.log(comment_id, post_id);
   deleteComment(post_id, comment_id);
 });
 
@@ -322,7 +320,6 @@ function deleteComment(post_id, comment_id) {
   });
 }
 commentChannel.bind("delete-comment", function (data) {
-  console.log(data);
   const commentElement = $(`#post__comment-${data.comment_id}`);
   const commentCount = $(`.post__comment-count-${data.post_id}`);
   let count = parseInt(commentCount.text());
@@ -407,7 +404,6 @@ function handleDeletePost(postID, url) {
       postID: postID,
     },
     success: function (response) {
-      console.log(response);
       deletePostChannel.trigger("client-delete", response);
     },
     error: function (error) {
@@ -417,7 +413,6 @@ function handleDeletePost(postID, url) {
 }
 
 deletePostChannel.bind("delete", function (data) {
-  console.log(data);
   const postID = data.post_id;
   const post = $(`#posts-${postID}`);
   post.remove();

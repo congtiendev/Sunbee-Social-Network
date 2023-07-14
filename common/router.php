@@ -41,6 +41,10 @@ $router->group(['before' => 'auth'], function () use ($router) {
 	$router->post('posts/comment/like', [App\Controllers\Client\PostController::class, 'handleLikeComment']);
 	$router->post('posts/comment/unlike', [App\Controllers\Client\PostController::class, 'handleUnlikeComment']);
 	$router->post('posts/comment/is-liked', [App\Controllers\Client\PostController::class, 'isLikedComment']);
+	$router->get('posts/comment/delete/{post_id}/{comment_id}', [App\Controllers\Client\PostController::class, 'handleDeleteComment']);
+	// -------------------------------Friend--------------------------------//
+	$router->get('profile/{username}', [App\Controllers\Client\UserController::class, 'renderProfile']);
+	$router->get('friends', [App\Controllers\Client\FriendController::class, 'listFriends']);
 });
 
 

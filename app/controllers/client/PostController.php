@@ -45,6 +45,7 @@ class PostController extends BaseController
         $posts = $this->post->getPost($keyword, $limit, $offset, $column, $order);
         foreach ($posts as $post) {
             $postID = $post->post_id;
+            
             $post->medias = $this->post->getPostMedia($postID);
             $post->comments = $this->post->getPostComment($postID);
             $post->is_liked = $this->post->isLiked($postID, $user->id);
@@ -215,7 +216,8 @@ class PostController extends BaseController
             'last_name' => $user->last_name,
             'comment_content' => $data['comment_content'],
             'comment_media' => $media_path,
-            'comment_time' => $comment_date
+            'comment_time' => $comment_date,
+            'like_count' => 0,
         ];
 
         $this->pusher->trigger('comments', 'new-comment', $payload);
